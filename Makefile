@@ -1,16 +1,28 @@
 ### Variables
-# Commands
+
+## Commands
+# Pandoc
 PANDOC=pandoc --from=markdown --to=latex
 
-# Input files
-THESIS_PATH=thesis
-THESIS_FILES_RAW=metadata.md,abstract.md,ack.md,contents/intro.md
-THESIS_FILES:=$(shell echo ${THESIS_PATH}/{${THESIS_FILES_RAW}})
-THESIS_CONCAT=thesis.md
+## Input files
+# Folder the thesis sources are contained in
+THESIS=thesis
 
-# Output files
-OUT_PATH=out
-OUT_THESIS=thesis.pdf
+# Comma-separated list of files to use, in order to be included
+THESIS_FILES_RAW=metadata.md,abstract.md,ack.md,contents/intro.md
+
+# This variable processes the previous one into a list usable by the bash commands
+THESIS_FILES:=$(shell echo ${THESIS}/{${THESIS_FILES_RAW}})
+
+## Output files
+# Folder to write the output to
+OUT=out
+
+# The final PDF file
+OUT_THESIS=$(OUT)/thesis.pdf
+
+# Intermediate markdown file with all the sources concatenated
+OUT_CONCAT=$(OUT)/thesis.md
 
 
 ### Tasks
@@ -21,20 +33,20 @@ OUT_THESIS=thesis.pdf
 all: thesis
 
 # Build the whole thesis
-thesis: $(OUT_PATH)/$(OUT_THESIS)
+thesis: $(OUT_THESIS)
 
 # Output folder
-$(OUT_PATH):
-	mkdir -p $(OUT_PATH)
+$(OUT):
+	mkdir -p $(OUT)
 
-# Concatenate all the source files appropriately
-$(OUT_PATH)/$(THESIS_CONCAT): $(THESIS_FILES) $(OUT_PATH)
-	for i in $(THESIS_FILES); do cat "$$i"; echo '\n\n'; done > $(OUT_PATH)/$(THESIS_CONCAT)
+# Concatenate all the source files inserting two new lines in between each for proper markdown
+$(OUT_CONCAT): $(THESIS_FILES) $(OUT)
+	for i in $(THESIS_FILES); do cat "$$i"; echo '\n\n'; done > $(OUT_CONCAT)
 
 # Build the thesis PDF file
-$(OUT_PATH)/$(OUT_THESIS): $(OUT_PATH)/$(THESIS_CONCAT) $(OUT_PATH)
-	$(PANDOC) --output=$(OUT_PATH)/$(OUT_THESIS) $(OUT_PATH)/$(THESIS_CONCAT)
+$(OUT_THESIS): $(OUT_CONCAT) $(OUT)
+	$(PANDOC) --output=$(OUT_THESIS) $(OUT_CONCAT)
 
 # Clean generated files. Should be the right inverse of `all`
 clean:
-	rm -rf $(OUT_PATH)
+	rm -rf $(OUT)
