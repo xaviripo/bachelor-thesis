@@ -8,11 +8,11 @@ PANDOC=pandoc --from=markdown --to=latex
 # Folder the thesis sources are contained in
 THESIS=thesis
 
-# Comma-separated list of files to use, in order to be included
-THESIS_FILES_RAW=metadata.md,abstract.md,ack.md,contents/intro.md
+# Space-separated list of files to use, in order to be included
+THESIS_FILES_RAW=metadata.md abstract.md ack.md contents/intro.md
 
 # This variable processes the previous one into a list usable by the bash commands
-THESIS_FILES:=$(shell echo ${THESIS}/{${THESIS_FILES_RAW}})
+THESIS_FILES:=$(addprefix ${THESIS}/,${THESIS_FILES_RAW})
 
 ## Output files
 # Folder to write the output to
