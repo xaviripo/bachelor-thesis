@@ -14,6 +14,9 @@ THESIS_FILES_RAW=metadata.md abstract.md ack.md contents/intro.md
 # This variable processes the previous one into a list usable by the bash commands
 THESIS_FILES:=$(addprefix ${THESIS}/,${THESIS_FILES_RAW})
 
+# TeX files for the header includes
+HEADER=${THESIS}/header/fonts.tex
+
 ## Output files
 # Folder to write the output to
 OUT=out
@@ -45,7 +48,7 @@ $(OUT_CONCAT): $(THESIS_FILES) $(OUT)
 
 # Build the thesis PDF file
 $(OUT_THESIS): $(OUT_CONCAT) $(OUT)
-	$(PANDOC) --output=$(OUT_THESIS) $(OUT_CONCAT)
+	$(PANDOC) --include-in-header=$(HEADER) --output=$(OUT_THESIS) $(OUT_CONCAT)
 
 # Clean generated files. Should be the right inverse of `all`
 clean:
