@@ -1,3 +1,3 @@
-# Acknowledgments
+# Acknowledgments {.unnumbered}
 
 TODO Write acknowledgments

@@ -1,3 +1,3 @@
-# Abstract
+# Abstract {.unnumbered}
 
 TODO Write abstract
