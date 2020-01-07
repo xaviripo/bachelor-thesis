@@ -1,3 +1,21 @@
 # Introduction
 
-TODO Write introduction
+
+## What *is* Homotopy Type Theory?
+
+Computer science was born as a tool *by* mathematicians *for* mathematicians, with the goal of aiding in repetitive calculations. Although the field has diversified a lot since its inception, this task is still in its core. The ambition of computer scientists and mathematicians, though, kept growing, up to the challenge we still face today: can computers help us prove new theorems? Homotopy type theory (HoTT for short) is a relatively new field which results from the surprising blend of algebraic topology (*homotopy*) and type theory (*type*).
+
+In a few words, type theory is a foundation of mathematics which has a richer structure than more naive systems such as set theory or lambda calculus. Type theory assigns a *type* to every *term*, in contrast to *sets* which don't impose any semantic restriction to their *elements*. Types also differ from set theory in that they don't require any underlying logic (such as first-order logic), they are capable of representing logical propositions on their own. This is an important advantage when considering formalizing concepts in computer systems because no metatheory is necessary. Finally, type theory has native concepts for structures such as Cartesian products and functions, instead of building them on top of other primitives.
+
+Homotopy theory is a branch of algebraic topology which deals with how paths in topological spaces can be deformed into one another. These "loose paths" starting and ending at a given base point, together with a notion of composition, lead to a natural group, called the fundamental group of the space (together with the base point.) When the base point is disregarded, the group becomes a groupoid. One can then interpret the deformation of one path into another as a 2-path, or *homotopy*, or a path in the space of paths. It can be easily seen how this builds up to an infinite tower of path spaces. This structure is known as $\infty$-groupoid in categorical terms.
+
+Homotopy type theory is a kind of *intensional* type theory, this is to say, there is a differentiation between propositional and definitional equalities. Intensionality is a double-edged sword. The good side is that propositional equality is always given by a path, which contains the information on *how* the two terms are related. This means that a statement of the style $x = y$ also contains the proof (in fact, *all the proofs*) that $x$ equals $y$, in some sense. On the other hand, intensionality gives rise to a $\infty$-grupoid structure, such as the one of topological spaces seen above. In fact, under this point of view, types become spaces, terms become points, equalities become paths, etc. This makes homotopy type theory an ideal ground for the formalization of proofs in homotopy theory. This complex structure, though, makes identifying equality types (i.e. the types of paths between two points) a very difficult task, a generalization of a very well known problem in algebraic topology: the study of higher homotopy groups of spaces.
+
+
+## The Blakers-Massey Connectivity Theorem
+
+As it happens when any new mathematical invariant arises, one naturally asks: how can the invariant for a union of pieces be obtained from the invariant of each of the pieces? In the case of homotopy groups of a space, the Seifert-van Kampen theorem tells us that the fundamental group of a space is determined by the fundamental group of its subspaces, given they are good enough in a certain topological sense.
+
+It turns out, though, that the same is not true for higher homotopy groups. In fact, the best approximation we have obtained so far for this problem is the Blakers-Massey connectivity theorem. This theorem doesn't allow computing the higher homotopy groups of spaces, but rather, it only gives information on the connectivity of such spaces--a property that only relies on the triviality of its homotopy groups.
+
+As part of an ongoing effort to formalize important algebraic topology results using homotopy type theory, the Blakers-Massey theorem has recently been translated into Agda (a programming language that implements homotopy type theory), and in fact using new techniques along the way. In this thesis these proofs will be disassembled and exposed.

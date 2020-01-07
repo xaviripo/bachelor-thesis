@@ -1,0 +1,106 @@
+# Homotopy Type Theory
+
+A very brief introduction to type theory is given in this chapter, although maybe not deep enough to properly follow all the details in the theorem we want to study. The recommended reference material is the Homotopy Type Theory book (TODO move this to a reference footnote and explain a little about the project and the group).
+
+
+## Types and terms
+
+In type theory, every *term* has a unique assigned *type*. Note two important differences with respect to set theory:
+
+1. A term must belong to, at least, one type. In type theory it makes no sense to talk about a typeless term, and we can't do much with it if we don't know its type. All the equations and computations involving a term expect it to have an assigned type.
+
+2. A term must belong to, at most, one type. That is to say, terms can not belong to two or more types at the same time. Note that, in particular, an analogous notion to that of a subset is not possible--at least not without some intermediate structure.
+
+We write
+
+$$
+a : A
+$$
+
+to express that the term $a$ has type $A$. The words *element* and *point* will be used interchangeably with term.
+
+
+## Universes
+
+Types themselves behave as a special kind of terms of higher types, called *universes*. Universes are stratified, in a similar fashion to the Von Neuman hierarchy of sets. Exceptionally, types in universes are considered to belong to more than one universe: if they belong to a given universe $\mathcal{U}_n$, they belong to the bigger universe type $\mathcal{U}_{n+1}$ such that $\mathcal{U}_n : \mathcal{U}_{n+1}$. As with classical mathematics, we won't make explicit in which level our type belongs, rather using an ambiguous $\mathcal{U}$ notation for all universe types.
+(TODO check against book all this part)
+
+
+## Type constructors
+
+Type constructors allow to build new types from existing ones. To specify a new type constructor, one has to give the following rules for it:
+
+- Formation rules. Preconditions to be met by the types used to build the new type.
+
+- Introduction rules or constructors. Ways to build terms.
+
+- Elimination rules or eliminators. Ways to use terms. Can be non-dependent (recursion principle) or dependent (induction principle). TODO check whether the recursion and induction principles are always elimination rules or can sometimes be introduction rules too.
+
+- Computation rules. Can be judgmental or propositional. They explain how the eliminators act on the constructors.
+
+- Uniqueness principle. It's optional. Can be judgmental or propositional and can either show that functions into or outo the type are unique. When it characterizes maps into the type, it can act dually to the computation rule, telling us how the constructors act on the eliminators.
+
+Let's quickly review some type constructors.
+
+
+### Function types
+
+- Formation rule. Given any two types $A$ and $B$, the (non-dependent) function type from $A$ to $B$, denoted $A \rightarrow B$, contains all the functions $f : A \rightarrow B$ that assign to each term $a : A$ an element in $B$, $f(a)$.
+
+- Introduction rules. There are a few ways to define functions introduction rules. The most common ones are direct definition: $f(x) :\equiv \Phi$, where $\Phi$ is a formula that contains $x$ as an unbound variable; and $\lambda$-abstraction: $f :\equiv \lambda (x : A).\Phi$.
+
+- Elimination rule. The obvious eliminator is application: given a function $f : A \rightarrow B$ and a term $a : A$, we can think of $f(a) : B$ as applying $a$ to $f$ to produce a term of $B$.
+
+- Computation rule. The computation rule for functions tells us that $a : A$ applied to $\lambda(x : A)\Phi$ is $(\lambda(x : A)\Phi) \equiv \Phi'$ where $\Phi'$ is $\Phi$ with all occurences of $x$ are replaced with $a$.
+
+- Uniqueness principle. The reverse of the computation rule: $\lambda x.f(x) \equiv f$.
+
+There's one special kind of functions $A \rightarrow \mathcal{U}$ called type families or dependent types.
+
+Given a type family $B : A \rightarrow \mathcal{U}$, the dependent function type (also known as $\prod$-type) $\prod_{(x : A)}B(x)$ comprises the functions whose codomain type is a type family depending on the input *value*, i.e., given $f:\prod_{(x : A)}B(x)$ and $a:A$, then $f(a) : B(a)$. The rules for the dependent types are analogous to those of the non-dependent types.
+
+
+### Product types
+
+- Formation rule. Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) product type of $A$ and $B$. If we have types $A$ and $B : A \rightarrow \mathcal{U}$, then $\Sigma_{(x : A)}B(x)$ is the dependent product of $A$ and $B$.
+
+- Introduction rule. Given $a : A$ and $b : B$ ($b : B(a)$ if we are building a dependent product), we obtain $(a,b) : A \times B$ ($(a,b) : A \times B(a)$).
+
+- Elimination rule. This case is slightly less simple. Here the eliminator will tell us how to build functions out of product types (i.e. having product types as their domain). In a few words, if we have a function $g : A \rightarrow B \rightarrow C$, then it automatically gives us another one $f : A \times B \rightarrow C$, with the natural definition $f((a,b)) :\equiv g(a)(b)$. This principle is summed up in a special function called the recursor for product types: $\mathsf{rec}_{A \times B} : \prod_{(C : \mathcal{U})} (A \rightarrow B \rightarrow C) \rightarrow A \times B \rightarrow C$, defined as $\mathsf{rec}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$. When generalized to dependent functions ($g : \prod_{(x : A)}\prod_{(y : B)}C((x,y))$), this is known as the induction principle:
+
+$$\mathsf{ind}_{A \times B} : \prod_{C : A \times B \rightarrow \mathcal{U}} \left(\prod_{x : A}\prod_{y : B}C((x,y))\right) \prod_{z : A \times B} C(z)$$
+
+$$\mathsf{ind}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$$
+
+- Computation rule. TODO.
+
+- Uniqueness principle. TODO.
+
+
+### Inductive types
+
+To be able to apply the type constructors above, we need some other types to start from. We introduce a different way to construct types: inductive types.
+
+An inductive type is a type described by some elements or functions into it. For example, the empty type $\mathbf{0} : \mathcal{U}$ is the type defined by no constructors. Similarly, the unit type $\mathbf{1} : \mathcal{U}$ is characterized by a single constructor $\star : \mathbf{1}$. Finally, we see the type of booleans $\mathbf{2} : \mathcal{U}$, given by $0_\mathbf{2}, 1_\mathbf{2} : \mathbf{2}$.
+
+A more interesting example is, for example, the naturals $\mathbb{N} : \mathcal{U}$:
+
+$$0 : \mathbb{N}$$
+
+$$\mathsf{succ} : \mathbb{N} \rightarrow \mathbb{N}$$
+
+TODO Talk about not assuming (in)equality right away (e.g. having to prove that 0 is empty and 1 has a single element).
+
+TODO Talk about HIT, although the equality type is needed before hand?
+
+
+### The identity type
+
+The identity type is what mainly differentiates homotopy type theory from other kinds of type theory. Given a type $A : \mathcal{U}$, there exists a (possibly empty) type $a =_A b$ of identifications between $a : A$ and $b : A$. The idea is that every term in $a =_A b$ is a proof that $a$ is equal to $b$. This type is not always trivial: two elements in a type can be equal in many different ways. In fact, the complexity of identity types is what makes homotopy type theory interesting and what gives rise to the homotopical structure.
+
+TODO Path induction
+
+
+## Propositions as types
+
+TODO
