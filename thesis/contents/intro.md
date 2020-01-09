@@ -1,7 +1,7 @@
 # Introduction
 
 
-## What *is* Homotopy Type Theory?
+## What *is* homotopy type theory?
 
 Computer science was born as a tool *by* mathematicians *for* mathematicians, with the goal of aiding in repetitive calculations. Although the field has diversified a lot since its inception, this task is still in its core. The ambition of computer scientists and mathematicians, though, kept growing, up to the challenge we still face today: can computers help us prove new theorems? Homotopy type theory (HoTT for short) is a relatively new field which results from the surprising blend of algebraic topology (*homotopy*) and type theory (*type*).
 
@@ -12,7 +12,7 @@ Homotopy theory is a branch of algebraic topology which deals with how paths in 
 Homotopy type theory is a kind of *intensional* type theory, this is to say, there is a differentiation between propositional and definitional equalities. Intensionality is a double-edged sword. The good side is that propositional equality is always given by a path, which contains the information on *how* the two terms are related. This means that a statement of the style $x = y$ also contains the proof (in fact, *all the proofs*) that $x$ equals $y$, in some sense. On the other hand, intensionality gives rise to a $\infty$-grupoid structure, such as the one of topological spaces seen above. In fact, under this point of view, types become spaces, terms become points, equalities become paths, etc. This makes homotopy type theory an ideal ground for the formalization of proofs in homotopy theory. This complex structure, though, makes identifying equality types (i.e. the types of paths between two points) a very difficult task, a generalization of a very well known problem in algebraic topology: the study of higher homotopy groups of spaces.
 
 
-## The Blakers-Massey Connectivity Theorem
+## The Blakers-Massey connectivity theorem
 
 As it happens when any new mathematical invariant arises, one naturally asks: how can the invariant for a union of pieces be obtained from the invariant of each of the pieces? In the case of homotopy groups of a space, the Seifert-van Kampen theorem tells us that the fundamental group of a space is determined by the fundamental group of its subspaces, given they are good enough in a certain topological sense.
 
