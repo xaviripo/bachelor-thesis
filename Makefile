@@ -9,7 +9,7 @@ PANDOC=pandoc --from=markdown --to=latex
 THESIS=thesis
 
 # Space-separated list of files to use, in order to be included
-THESIS_FILES_RAW=metadata.md abstract.md ack.md contents/intro.md contents/homotopy.md contents/hott.md
+THESIS_FILES_RAW=metadata.md abstract.md ack.md contents/intro.md contents/homotopy.md contents/hott.md contents/bm.md
 
 # This variable processes the previous one into a list usable by the bash commands
 THESIS_FILES:=$(addprefix ${THESIS}/,${THESIS_FILES_RAW})
