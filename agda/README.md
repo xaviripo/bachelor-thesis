@@ -36,6 +36,9 @@ The official installation instructions can be found in
 [the Agda documentation](https://agda.readthedocs.io/en/v2.6.0.1/getting-started/prerequisites.html). Be aware that the documentation
 can be obsolete, so consider every step carefully.
 
+TODO Mention local Cabal installs ("Nix-style") as an alternative to the
+documentation-recommended global installs
+
 The prerequisites listed on the Agda documentation are mostly Haskell packages.
 As such, Cabal will take care of them when trying to install Agda and so you
 shouldn't worry about them too much. Installing GHC and cabal-install should
@@ -58,3 +61,20 @@ install some libraries.
 For example, many Agda programs depend on the standard library. To install it,
 following the instructions
 [here](https://github.com/agda/agda-stdlib/blob/master/notes/installation-guide.md).
+
+
+### Homotopy Type Theory
+
+The working group on homotopy type theory wrote a [library](https://github.com/HoTT/HoTT-Agda)
+for Agda. The installation instructions are available in the repositorty's
+README.md file. Unfortunately, the library is not currently up to date and,
+consequently, it isn't compatible with the latest version of Agda.
+
+So, in order to use this library, one must downgrade their Agda installation.
+This can cause further complications, as each version of Agda is only compatible
+with a certain range of versions of GHC, the Haskell base package, and the Cabal
+library, and older versions of these packages can be harder to find or not
+supported by your operating system anymore.
+
+Having different versions of GHC installed side by side is possible, but must
+be handled with care.
