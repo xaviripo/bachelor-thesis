@@ -7,20 +7,17 @@
 ## Options
 # Agda version. Default is the latest supported version for HoTT-Agda
 VERSION="2.5.3"
-# Space-separated libraries to be included. Give the names as stated INSIDE their
-# .agda-lib files. The available libraries can be found in deps/libraries
-LIBRARIES="src"
 # Whether to clean the workspace (including deleting installed dependencies)
 # before execution
 CLEAN="no"
 
 usage() {
     cat <<EOM
-Usage: $0 [-c] [-v VERSION] [-l LIBRARY ...] FILE
+Usage: $0 [-c] [-v VERSION] FILE [-- ARGS ...]
 -c --clean              Clean the dependencies before running (default: $CLEAN)
 -v --version    VERSION Specify the Agda version to run (default: "$VERSION")
--l --library    LIBRARY Specify a library name to include; can be used multiple times (default: "$LIBRARIES")
-                FILE    Agda file to typecheck.
+                FILE    Agda file to typecheck
+                ARGS    Arguments to pass to Agda
 
 EOM
     exit 1
@@ -35,14 +32,14 @@ EOM
 
     # -allow a command to fail with !’s side effect on errexit
     # -use return value from ${PIPESTATUS[0]}, because ! hosed $?
-    ! getopt --test > /dev/null 
+    ! getopt --test > /dev/null
     if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
         echo 'I’m sorry, `getopt --test` failed in this environment.'
         exit 1
     fi
 
-    OPTIONS=hcv:l:
-    LONGOPTS=help,clean,version:,library:
+    OPTIONS=-hcv:
+    LONGOPTS=help,clean,version:
 
     # -regarding ! and PIPESTATUS see above
     # -temporarily store output to be able to check for errors
@@ -57,15 +54,13 @@ EOM
     # read getopt’s output this way to handle the quoting right:
     eval set -- "$PARSED"
 
+    POS_ARGS=""
+
     # now enjoy the options in order and nicely split until we see --
     while true; do
         case "$1" in
             -v|--version)
                 VERSION="$2"
-                shift 2
-                ;;
-            -l|--library)
-                LIBRARIES="${LIBRARIES} $2"
                 shift 2
                 ;;
             -c|--clean)
@@ -80,19 +75,20 @@ EOM
                 break
                 ;;
             *)
-                echo $1
-                echo "Programming error"
-                exit 3
+                POS_ARGS="$POS_ARGS $1"
+                shift
                 ;;
         esac
     done
 
-    # handle non-option arguments
-    if [[ $# -ne 1 ]]; then
-        usage
-    fi
-
 # End of horrible code.
+
+AGDA_ARGS="$@"
+eval set -- "$POS_ARGS"
+
+if [[ $# -ne 1 ]]; then
+    usage
+fi
 
 ### Variables
 # Options for docker
@@ -104,7 +100,6 @@ IMAGE="banacorn/agda"
 # Options for Agda
 FILE="$( realpath $1 )"
 LIBRARIES_FILE="$ROOT/deps/libraries"
-LIBRARIES_FULL=$(for lib in $LIBRARIES; do echo "--library $lib"; done)
 
 ### Running
 # Clean if indicated
@@ -119,5 +114,5 @@ fi
 # Run docker
 (set -x; # Print the command when executing it
 docker run $OPTIONS $IMAGE:$VERSION \
-agda $FILE --library-file=$LIBRARIES_FILE $LIBRARIES_FULL
+agda $FILE --library-file=$LIBRARIES_FILE --library src $AGDA_ARGS
 )
