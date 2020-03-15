@@ -91,4 +91,4 @@ $(DEPS):
 
 # Clean up workspace
 clean-agda:
-	rm -rf $(DEPS) $(AGDA)/*.agdai $(AGDA)/*.agda~
+	rm -rf $(DEPS) $(AGDA)/**/*.agdai $(AGDA)/**/*.agda~
