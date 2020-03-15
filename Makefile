@@ -36,11 +36,11 @@ AGDA=agda
 DEPS=deps
 
 # List of Agda libraries repos
-DEPS_REPOS=https://github.com/HoTT/HoTT-Agda
+DEPS_REPOS=https://github.com/HoTT/HoTT-Agda "https://github.com/agda/agda-stdlib --branch v1.2"
 
 # List of agda-lib files, relative to the dependencies folder
 # Remember to always include the agda/src.agda-lib library!
-DEPS_LIBFILES=../agda/src.agda-lib HoTT-Agda/hott-core.agda-lib
+DEPS_LIBFILES=../agda/src.agda-lib HoTT-Agda/hott-core.agda-lib agda-stdlib/standard-library.agda-lib
 
 # Libraries file to be read by Agda
 DEPS_LIBRARIES=$(DEPS)/libraries
