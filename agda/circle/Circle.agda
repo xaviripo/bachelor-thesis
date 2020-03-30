@@ -9,6 +9,8 @@ open import lib.Univalence
 module circle.Circle where
 
 module _ where
+
+  -- Define the circle
   module S¹Def where
     postulate
       S¹ : Type₀
@@ -31,8 +33,8 @@ module _ where
   -- We have to find two equivalences, one in each direction.
   module ΩS¹≃ℤDef where
 
-    -- Left-to-right: we need to use the recursion principle of S¹.
-    module ΩS¹→ℤDef where
+    -- Define the code function used in both directions
+    module codeDef where
 
       {- The idea here is to define
       code : S¹ → Type
@@ -71,12 +73,17 @@ module _ where
         succ
           =∎
 
+    open codeDef
+
+    -- Left-to-right: we need to use the recursion principle of S¹.
+    module ΩS¹→ℤDef where
+
       -- TODO we should also define the inverse:
       -- transport code (! loop) == pred
       -- but we won't do it until we need it
 
-      encode : (x : S¹) → (base == x) → (code x)
-      encode x p = (transport code p) 0
+      encode : {x : S¹} → (base == x) → (code x)
+      encode p = (transport code p) 0
 
       -- Just some examples checking that encode works as expected
       module encode-test where
@@ -95,9 +102,9 @@ module _ where
         ap-rev x p = ap (λ fun → fun x) p
 
         -- Testing encode(idp) is 0
-        encode-idp : encode base idp == 0
+        encode-idp : encode idp == 0
         encode-idp =
-          encode base idp
+          encode idp
             =⟨ idp ⟩ -- definition of encode
           (transport code idp-base) 0
             =⟨ idp ⟩ -- definition of transport
@@ -114,9 +121,9 @@ module _ where
             idp-base = idp
 
         -- Testing encode(loop) is 1
-        encode-loop : encode base loop == 1
+        encode-loop : encode loop == 1
         encode-loop =
-          encode base loop
+          encode loop
             =⟨ idp ⟩ -- definition of encode
           (transport code loop) 0
             =⟨ ap-rev 0 lemma-transport-code-succ ⟩ -- apply lemma-transport-code-succ
@@ -126,9 +133,9 @@ module _ where
             =∎
 
         -- Testing encode(loop ∙ loop) is 2
-        encode-loop-loop : encode base (loop ∙ loop) == 2
+        encode-loop-loop : encode (loop ∙ loop) == 2
         encode-loop-loop =
-          encode base (loop ∙ loop)
+          encode (loop ∙ loop)
             =⟨ idp ⟩ -- definition of encode
           (transport code (loop ∙ loop)) 0
             =⟨ ap-rev 0 (transport-is-functorial code loop loop) ⟩ -- functoriality of transport
@@ -145,10 +152,10 @@ module _ where
 
         -- TODO Testing encode(loop^-1) is -1
 
-      postulate -- TODO replace this with real definition
-        a : ΩS¹ → ℤ
+      -- The particular case for base is the function (base == base) → ℤ we need
+      encode' = encode {base}
 
-    open ΩS¹→ℤDef public using () renaming (a to ΩS¹→ℤ)
+    open ΩS¹→ℤDef public using () renaming (encode' to ΩS¹→ℤ)
 
     -- Right-to-left: we use iterated loop composition.
     module ℤ→ΩS¹Def where
@@ -172,7 +179,7 @@ module _ where
     open ℤ→ΩS¹Def public using () renaming (loop⁻ to ℤ→ΩS¹)
 
   open ΩS¹≃ℤDef public
- 
+
   -- Statement of the main theorem: the loop space over S¹ is isomorphic to ℤ
   -- ΩS¹==ℤ : ΩS¹ == ℤ
   -- Proof of the main theorem: applying the univalence axiom to the equivalence
