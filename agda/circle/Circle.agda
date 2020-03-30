@@ -12,9 +12,11 @@ module _ where
 
   -- Define the circle
   module S¹Def where
-    postulate
-      S¹ : Type₀
+
+    data S¹ : Type₀ where
       base : S¹
+
+    postulate
       loop : base == base
 
     module S¹Elim {i} {C : S¹ → Type i} (base* : C base) (loop* : base* == base* [ C ↓ loop ]) where
@@ -175,6 +177,10 @@ module _ where
       loop⁻ (pos O) = idp
       loop⁻ (pos (S n)) = loop⁻-n≥0 n
       loop⁻ (negsucc n) = loop⁻-n≤0 n
+
+      -- Expand the definition to all of code, not only code base, by induction
+      decode : {x : S¹} → (code x) → (base == x)
+      decode {base} = loop⁻
 
     open ℤ→ΩS¹Def public using () renaming (loop⁻ to ℤ→ΩS¹)
 
