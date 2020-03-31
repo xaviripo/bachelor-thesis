@@ -54,25 +54,82 @@ module _ where
       postulate
         code-ap : ap code loop == ua succ-equiv
 
+
+      {- transport == coe ap -> transport-equiv == coe-equiv ap -}
+      transport-coe-equiv : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → transport-equiv B p == coe-equiv (ap B p)
+      transport-coe-equiv B idp = idp
+
+      transport-equiv-fst : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → transport B p == –> (transport-equiv B p)
+      transport-equiv-fst B idp = idp
+
+
       {- The meaning of coe is the opposite of ua:
       - coe takes a type equality and returns a map
       - ua takes a map (an equivalence) and returns an equality
       We just have to adapt this to the translation between maps and
       equivalences in Agda (see e.g. the difference between coe and coe-equiv) -}
+      lemma-transport-code-succ-equiv : transport-equiv code loop == succ-equiv
+      lemma-transport-code-succ-equiv =
+        transport-equiv code loop
+          =⟨ transport-coe-equiv code loop ⟩
+        coe-equiv (ap code loop)
+          =⟨ ap coe-equiv code-ap ⟩
+        coe-equiv (ua succ-equiv)
+        -- coe-equiv and ua are inverses, by imposition of coe-equiv-β
+          =⟨ coe-equiv-β succ-equiv ⟩
+        succ-equiv
+          =∎
+
       lemma-transport-code-succ : transport code loop == succ
       lemma-transport-code-succ =
         transport code loop
-          =⟨ idp ⟩
-        coe (ap code loop)
-          =⟨ ap coe code-ap ⟩
-        coe (ua succ-equiv)
-          =⟨ idp ⟩
-        –> (coe-equiv (ua succ-equiv))
-        -- coe-equiv and ua are inverses, by imposition of coe-equiv-β
-          =⟨ ap –> (coe-equiv-β succ-equiv) ⟩
+          =⟨ transport-equiv-fst code loop ⟩
+        –> (transport-equiv code loop)
+          =⟨ ap –> lemma-transport-code-succ-equiv ⟩
         –> succ-equiv
           =⟨ idp ⟩
         succ
+          =∎
+      -- lemma-transport-code-succ : transport code loop == succ
+      -- lemma-transport-code-succ =
+      --   transport code loop
+      --     =⟨ idp ⟩
+      --   coe (ap code loop)
+      --     =⟨ ap coe code-ap ⟩
+      --   coe (ua succ-equiv)
+      --     =⟨ idp ⟩
+      --   –> (coe-equiv (ua succ-equiv))
+      --   -- coe-equiv and ua are inverses, by imposition of coe-equiv-β
+      --     =⟨ ap –> (coe-equiv-β succ-equiv) ⟩
+      --   –> succ-equiv
+      --     =⟨ idp ⟩
+      --   succ
+      --     =∎
+
+      postulate
+        ide-is-self-inv : ∀ {i} (A : Type i) → ide A == ide A ⁻¹
+      -- ide-is-self-inv A =
+      --   ide A
+      --     =⟨ idp ⟩
+      --   (idf A , record {g = idf A; f-g = (λ _ → idp); g-f = (λ _ → idp); adj = (λ _ → idp)})
+      --     =⟨ idp ⟩
+      --   ide A ⁻¹
+      --     =∎
+
+      transport-inverse : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → (transport-equiv B (! p)) == (transport-equiv B p) ⁻¹
+      transport-inverse B {x} idp = ide-is-self-inv (B x)
+
+      lemma-transport-code-pred : transport code (! loop) == pred
+      lemma-transport-code-pred =
+        transport code (! loop)
+          =⟨ transport-equiv-fst code (! loop) ⟩
+        –> (transport-equiv code (! loop))
+          =⟨ ap fst (transport-inverse code loop) ⟩
+        –> (transport-equiv code loop ⁻¹)
+          =⟨ ap fst (ap _⁻¹ lemma-transport-code-succ-equiv) ⟩ -- this might need something else other than idp
+        –> (succ-equiv ⁻¹)
+          =⟨ idp ⟩
+        pred
           =∎
 
     open codeDef
@@ -154,10 +211,12 @@ module _ where
 
         -- TODO Testing encode(loop^-1) is -1
 
+      open encode-test public using (transport-is-functorial; ap-rev)
+
       -- The particular case for base is the function (base == base) → ℤ we need
       encode' = encode {base}
 
-    open ΩS¹→ℤDef public using () renaming (encode' to ΩS¹→ℤ)
+    open ΩS¹→ℤDef public using (encode; transport-is-functorial; ap-rev) renaming (encode' to ΩS¹→ℤ)
 
     -- Right-to-left: we use iterated loop composition.
     module ℤ→ΩS¹Def where
@@ -168,25 +227,100 @@ module _ where
       -- For n ≥ 0 and n ≤ 0 we need auxiliar functions that use induction on ℕ
       loop⁻-n≥0 : ℕ → (base == base)
       loop⁻-n≥0 0 = idp
-      loop⁻-n≥0 (S n) = loop ∙ loop⁻-n≥0 n
+      loop⁻-n≥0 (S n) = (loop⁻-n≥0 n) ∙ loop
 
       loop⁻-n≤0 : ℕ → (base == base)
       loop⁻-n≤0 0 = idp
-      loop⁻-n≤0 (S n) = (! loop) ∙ loop⁻-n≤0 n
+      loop⁻-n≤0 (S n) = (loop⁻-n≤0 n) ∙ (! loop)
 
-      loop⁻ (pos O) = idp
-      loop⁻ (pos (S n)) = loop⁻-n≥0 n
-      loop⁻ (negsucc n) = loop⁻-n≤0 n
+      -- negsucc 0 == -1
+      loop⁻ (pos n) = loop⁻-n≥0 n
+      loop⁻ (negsucc n) = loop⁻-n≤0 (S n)
 
       -- Expand the definition to all of code, not only code base, by induction
       decode : {x : S¹} → (code x) → (base == x)
       decode {base} = loop⁻
 
-    open ℤ→ΩS¹Def public using () renaming (loop⁻ to ℤ→ΩS¹)
+    open ℤ→ΩS¹Def public using (loop⁻-n≤0; decode) renaming (loop⁻ to ℤ→ΩS¹)
+
+    decode-encode : {x : S¹} (p : base == x) → decode (encode p) == p
+    decode-encode {base} idp = idp
+
+    -- Induction on ℤ doesn't work, we defer to induction on ℕ for each of the
+    -- two branches (pos n and negsucc n)
+    encode-decode : {x : S¹} (c : code x) → encode (decode c) == c
+    encode-decode {base} (pos n) = encode-decode-pos n
+      where
+      encode-decode-pos : (n : ℕ) → encode (decode (pos n)) == pos n
+      encode-decode-pos O = idp
+      encode-decode-pos (S n) =
+        encode (decode (pos (S n)))
+          =⟨ idp ⟩ -- definition of decode
+        encode ((decode (pos n)) ∙ loop)
+          =⟨ idp ⟩ -- definition of encode
+        (transport code ((decode (pos n)) ∙ loop)) 0
+          =⟨ ap-rev 0 (transport-is-functorial code (decode (pos n)) loop) ⟩ -- functoriality of transport
+        ((transport code loop) ∘ (transport code (decode (pos n)))) 0
+          =⟨ idp ⟩ -- definition of function composition
+        (transport code loop) ((transport code (decode (pos n))) 0)
+          =⟨ ap-rev ((transport code (decode (pos n))) 0) lemma-transport-code-succ ⟩ -- apply lemma-transport-code-succ
+        succ ((transport code (decode (pos n))) 0)
+          =⟨ idp ⟩ -- definition of encode
+        succ (encode (decode (pos n)))
+          =⟨ ap succ (encode-decode-pos n) ⟩ -- induction on n
+        succ (pos n)
+          =⟨ idp ⟩ -- definition of succ for ℤ
+        pos (S n)
+          =∎ -- done!
+    encode-decode {base} (negsucc n) = encode-decode-neg n
+      where
+      encode-decode-neg : (n : ℕ) → encode (decode (ℤ~ (succ (pos n)))) == ℤ~ (succ (pos n))
+      encode-decode-neg O =
+        encode (decode (negsucc O))
+          =⟨ idp ⟩
+        encode (loop⁻-n≤0 1) -- TODO clean the exports of the module that defines loop⁻-n≤0
+          =⟨ idp ⟩
+        encode (! loop)
+          =⟨ idp ⟩
+        (transport code (! loop)) 0
+          =⟨ ap-rev 0 lemma-transport-code-pred ⟩ -- the other lemma
+        pred 0
+          =⟨ idp ⟩
+        negsucc O
+          =∎
+      encode-decode-neg (S n) =
+        encode (decode (negsucc (S n)))
+          =⟨ idp ⟩ -- definition of decode
+        encode ((decode (negsucc n)) ∙ (! loop))
+          =⟨ idp ⟩ -- definition of encode
+        (transport code ((decode (negsucc n)) ∙ (! loop))) 0
+          =⟨ ap-rev 0 (transport-is-functorial code (decode (negsucc n)) (! loop)) ⟩ -- functoriality of transport
+        ((transport code (! loop)) ∘ (transport code (decode (negsucc n)))) 0
+          =⟨ idp ⟩ -- definition of function composition
+        (transport code (! loop)) ((transport code (decode (negsucc n))) 0)
+          =⟨ ap-rev ((transport code (decode (negsucc n))) 0) lemma-transport-code-pred ⟩ -- apply lemma-transport-code-pred
+        pred ((transport code (decode (negsucc n))) 0)
+          =⟨ idp ⟩ -- definition of encode
+        pred (encode (decode (negsucc n)))
+          =⟨ ap pred (encode-decode-neg n) ⟩ -- induction on n
+        pred (negsucc n)
+          =⟨ idp ⟩ -- definition of pred for ℤ
+        negsucc (S n)
+          =∎ -- done!
+
+    -- We have a more general result, but we only care about the loops at base.
+    -- The proof of the theorem though, would work for a more general type
+    -- {x : S¹} → (base == x) ≃ (code x)
+    -- as well. In our case, though, Agda will assume {x = base} because
+    -- ΩS¹ == (base == base).
+    -- TODO maybe try and write the general version and derive ΩS¹≃ℤ from it?
+    ΩS¹≃ℤ : ΩS¹ ≃ ℤ
+    ΩS¹≃ℤ = equiv encode decode encode-decode decode-encode
 
   open ΩS¹≃ℤDef public
 
   -- Statement of the main theorem: the loop space over S¹ is isomorphic to ℤ
-  -- ΩS¹==ℤ : ΩS¹ == ℤ
+  ΩS¹==ℤ : ΩS¹ == ℤ
+
   -- Proof of the main theorem: applying the univalence axiom to the equivalence
-  -- ΩS¹==ℤ = ua ΩS¹≃ℤ
+  ΩS¹==ℤ = ua ΩS¹≃ℤ
