@@ -30,7 +30,7 @@ module S¹Def where
     postulate
       loop-β : apd f loop == loop*
 
-open S¹Def public using (S¹; base; loop)
+open S¹Def using (S¹; base; loop)
 
 -- Alias for notation only
 ΩS¹ = (base == base)
@@ -216,10 +216,7 @@ module ΩS¹≃ℤDef where
 
     open encode-test public using (transport-is-functorial; ap-rev)
 
-    -- The particular case for base is the function (base == base) → ℤ we need
-    encode' = encode {base}
-
-  open ΩS¹→ℤDef public using (encode; transport-is-functorial; ap-rev) renaming (encode' to ΩS¹→ℤ)
+  open ΩS¹→ℤDef public using (transport-is-functorial; ap-rev; encode)
 
   -- Right-to-left: we use iterated loop composition.
   module ℤ→ΩS¹Def where
@@ -244,7 +241,7 @@ module ΩS¹≃ℤDef where
     decode : {x : S¹} → (code x) → (base == x)
     decode {base} = loop⁻
 
-  open ℤ→ΩS¹Def public using (loop⁻-n≤0; decode) renaming (loop⁻ to ℤ→ΩS¹)
+  open ℤ→ΩS¹Def public using (loop⁻-n≤0; decode)
 
   decode-encode : {x : S¹} (p : base == x) → decode (encode p) == p
   decode-encode {base} idp = idp
@@ -320,7 +317,7 @@ module ΩS¹≃ℤDef where
   ΩS¹≃ℤ : ΩS¹ ≃ ℤ
   ΩS¹≃ℤ = equiv encode decode encode-decode decode-encode
 
-open ΩS¹≃ℤDef public
+open ΩS¹≃ℤDef public using (encode; decode; ΩS¹≃ℤ)
 
 -- ΩS¹ is equivalent to ℤ as types
 module ΩS¹==ℤ where
@@ -331,7 +328,7 @@ module ΩS¹==ℤ where
   -- Proof: applying the univalence axiom to the equivalence
   ΩS¹==ℤ = ua ΩS¹≃ℤ
 
-open ΩS¹==ℤ public using (ΩS¹==ℤ)
+open ΩS¹==ℤ using (ΩS¹==ℤ)
 
 -- ΩS¹ is isomorphic to ℤ as groups
 module ΩS¹Isoℤ where
@@ -377,7 +374,7 @@ module ΩS¹Isoℤ where
     ΩS¹-group : Group₀
     ΩS¹-group = group ΩS¹ {{ΩS¹-is-set}} ΩS¹-group-structure
 
-  open ΩS¹Group public using (ΩS¹-group)
+  open ΩS¹Group using (ΩS¹-group)
 
   -- Convert our type equivalence to a group isomorphism. The only thing we are
   -- missing is a proof that the morphism preserves composition
