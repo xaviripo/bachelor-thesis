@@ -1,17 +1,69 @@
-{-# OPTIONS --without-K --rewriting #-}
+{-# OPTIONS --without-K #-}
 
+-- Basic imports
 open import lib.Base
-open import lib.PathGroupoid
+open import lib.PathGroupoid using (!)
 open import lib.types.Int
 open import lib.Equivalence
 open import lib.Univalence
-open import lib.types.Group
-open import lib.groups.Isomorphism
-open import lib.NType
-open import lib.groups.Int
-open import lib.groups.Homomorphism
 
+-- Root module of this file
 module circle.Circle where
+
+{- This module contains some auxiliar lemmas and tools, not directly related
+to the theorem or homotopy theory -}
+module aux where
+
+  {- Bit of a weird thing here.
+  ap allows us to do: x == y → f x == f y
+  in some cases, what we need is: f == g → f x == g x
+  We use the "reverse apply" lambda (λ fun → fun x) to do this. -}
+  ap-rev : ∀ {i j} {A : Type i} {B : Type j} {f g : A → B} (x : A)
+    → (f == g → f x == g x)
+  ap-rev x p = ap (λ fun → fun x) p
+
+  -- transport == coe ap => transport-equiv == coe-equiv ap
+  transport-equiv→coe-equiv : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → transport-equiv B p == coe-equiv (ap B p)
+  transport-equiv→coe-equiv B idp = idp
+
+  -- transport == –> transport-equiv
+  transport→transport-equiv : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → transport B p == –> (transport-equiv B p)
+  transport→transport-equiv B idp = idp
+
+  {- This is an ugly bit. The statement of the following postulate is in fact
+  true (the identity function of a type is its own inverse), but by the way
+  ⁻¹ is implemented it's non-trivial to prove.
+
+  Specifically, equivalences are defined as records (`is-equiv`), but the
+  inverse operator ⁻¹ does not use that, rather it builds its own private
+  module with the same fields. This makes the arguments clearly equal to one
+  another but the type checker is not capable of reducing things like:
+    .lib.Equivalence.M.f-g
+    (record
+    { g = λ x → x
+    ; f-g = λ _ → idp
+    ; g-f = λ _ → idp
+    ; adj = λ _ → idp
+    })
+  to something like
+    λ _ → idp
+  Because the f-g in M is not the same f-g as the one in the record below.
+  Thus, the identity has to be stated as a postulate.
+
+  We then use that to prove that transport-equiv respects inverses: -}
+  transport-equiv-respects-inv : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → (transport-equiv B (! p)) == (transport-equiv B p) ⁻¹
+  transport-equiv-respects-inv B {x} idp = ide-is-self-inv (B x)
+    where
+    postulate
+      ide-is-self-inv : ∀ {i} (A : Type i) → ide A == ide A ⁻¹
+
+  -- transport B (p ∙ q) == (transport B q) ∘ (transport B p)
+  transport-is-functorial : ∀ {i j} {A : Type i} (B : A → Type j)
+    {x y z : A} (p : x == y) (q : y == z) → transport B (p ∙ q) == (transport B q) ∘ (transport B p)
+  transport-is-functorial B idp idp = idp
+
+open aux
+
 
 -- Define the circle
 module S¹Def where
@@ -22,114 +74,77 @@ module S¹Def where
   postulate
     loop : base == base
 
-  module S¹Elim {i} {C : S¹ → Type i} (base* : C base) (loop* : base* == base* [ C ↓ loop ]) where
-    postulate
-      f : (x : S¹) → C x
-      base-β : f base ↦ base*
-    {-# REWRITE base-β #-}
-    postulate
-      loop-β : apd f loop == loop*
+  -- Alias for notation only
+  ΩS¹ = (base == base)
 
-open S¹Def using (S¹; base; loop)
+open S¹Def using (S¹; base; loop; ΩS¹)
 
--- Alias for notation only
-ΩS¹ = (base == base)
 
--- We have to find two equivalences, one in each direction.
+{- Let's try to prove the equivalence between ΩS¹ and ℤ as types.
+We have to find two equivalences, one in each direction. -}
 module ΩS¹≃ℤDef where
+
 
   -- Define the code function used in both directions
   module codeDef where
 
-    {- The idea here is to define
-    code : S¹ → Type
+    {- We'll be using the encode-decode method described in the HoTT book.
+    The idea here is to define
+        code : S¹ → Type
     and then lift it to
-    code-lifted : ΩS¹ → ℤ -}
-    -- We need to explicitly state the ₀ in Type₀. This is because otherwise,
-    -- the expression S¹ → Type has kind Set⍵, which is not a type.
-    -- See: https://wiki.portal.chalmers.se/agda/pmwiki.php/ReferenceManual/UniversePolymorphism
+        encode' : ΩS¹ → ℤ
+
+    We need to explicitly state the ₀ in Type₀. Otherwise, the expression
+    S¹ → Type has kind Set⍵, which is not a type.
+    See: https://wiki.portal.chalmers.se/agda/pmwiki.php/ReferenceManual/UniversePolymorphism -}
     code : S¹ → Type₀
     code base = ℤ
 
-    -- Part of the definition of code is that code(loop) is ua(succ).
-    -- This means that applying code to the loop path results in the isomorphism
-    -- between ℤ and ℤ induced by succ (taking each x to succ x).
+    {- Part of the definition of code is that code(loop) is ua(succ).
+    This means that applying code to the loop path results in the isomorphism
+    between ℤ and ℤ induced by succ (taking each x to succ x). -}
     postulate
       code-ap : ap code loop == ua succ-equiv
 
+    {- coe-equiv is the inverse of ua:
+    - coe-equiv takes a type equality and returns an equivalence
+    - ua takes an equivalence and returns an equality
+    This is postulated by coe-equiv-β.
 
-    {- transport == coe ap -> transport-equiv == coe-equiv ap -}
-    transport-coe-equiv : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → transport-equiv B p == coe-equiv (ap B p)
-    transport-coe-equiv B idp = idp
-
-    transport-equiv-fst : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → transport B p == –> (transport-equiv B p)
-    transport-equiv-fst B idp = idp
-
-
-    {- The meaning of coe is the opposite of ua:
-    - coe takes a type equality and returns a map
-    - ua takes a map (an equivalence) and returns an equality
-    We just have to adapt this to the translation between maps and
-    equivalences in Agda (see e.g. the difference between coe and coe-equiv) -}
+    This is the first important piece for the definition of encode:
+    we want to prove that applying code to loop functorialy results in succ. -}
     lemma-transport-code-succ-equiv : transport-equiv code loop == succ-equiv
     lemma-transport-code-succ-equiv =
       transport-equiv code loop
-        =⟨ transport-coe-equiv code loop ⟩
+        =⟨ transport-equiv→coe-equiv code loop ⟩
       coe-equiv (ap code loop)
         =⟨ ap coe-equiv code-ap ⟩
       coe-equiv (ua succ-equiv)
-      -- coe-equiv and ua are inverses, by imposition of coe-equiv-β
         =⟨ coe-equiv-β succ-equiv ⟩
       succ-equiv
         =∎
 
+    -- Now we adapt the previous result to the maps themselves
     lemma-transport-code-succ : transport code loop == succ
     lemma-transport-code-succ =
       transport code loop
-        =⟨ transport-equiv-fst code loop ⟩
+        =⟨ transport→transport-equiv code loop ⟩
       –> (transport-equiv code loop)
         =⟨ ap –> lemma-transport-code-succ-equiv ⟩
       –> succ-equiv
         =⟨ idp ⟩
       succ
         =∎
-    -- lemma-transport-code-succ : transport code loop == succ
-    -- lemma-transport-code-succ =
-    --   transport code loop
-    --     =⟨ idp ⟩
-    --   coe (ap code loop)
-    --     =⟨ ap coe code-ap ⟩
-    --   coe (ua succ-equiv)
-    --     =⟨ idp ⟩
-    --   –> (coe-equiv (ua succ-equiv))
-    --   -- coe-equiv and ua are inverses, by imposition of coe-equiv-β
-    --     =⟨ ap –> (coe-equiv-β succ-equiv) ⟩
-    --   –> succ-equiv
-    --     =⟨ idp ⟩
-    --   succ
-    --     =∎
 
-    postulate
-      ide-is-self-inv : ∀ {i} (A : Type i) → ide A == ide A ⁻¹
-    -- ide-is-self-inv A =
-    --   ide A
-    --     =⟨ idp ⟩
-    --   (idf A , record {g = idf A; f-g = (λ _ → idp); g-f = (λ _ → idp); adj = (λ _ → idp)})
-    --     =⟨ idp ⟩
-    --   ide A ⁻¹
-    --     =∎
-
-    transport-inverse : ∀ {i j} {A : Type i} (B : A → Type j) {x y : A} (p : x == y) → (transport-equiv B (! p)) == (transport-equiv B p) ⁻¹
-    transport-inverse B {x} idp = ide-is-self-inv (B x)
-
+    -- And we obtain the analog of lemma-transport-code-succ for pred
     lemma-transport-code-pred : transport code (! loop) == pred
     lemma-transport-code-pred =
       transport code (! loop)
-        =⟨ transport-equiv-fst code (! loop) ⟩
+        =⟨ transport→transport-equiv code (! loop) ⟩
       –> (transport-equiv code (! loop))
-        =⟨ ap fst (transport-inverse code loop) ⟩
+        =⟨ ap –> (transport-equiv-respects-inv code loop) ⟩
       –> (transport-equiv code loop ⁻¹)
-        =⟨ ap fst (ap _⁻¹ lemma-transport-code-succ-equiv) ⟩ -- this might need something else other than idp
+        =⟨ ap –> (ap _⁻¹ lemma-transport-code-succ-equiv) ⟩
       –> (succ-equiv ⁻¹)
         =⟨ idp ⟩
       pred
@@ -137,31 +152,23 @@ module ΩS¹≃ℤDef where
 
   open codeDef
 
-  -- Left-to-right: we need to use the recursion principle of S¹.
+
+  -- Left-to-right: we need to use the recursion principle of S¹
   module ΩS¹→ℤDef where
 
-    -- TODO we should also define the inverse:
-    -- transport code (! loop) == pred
-    -- but we won't do it until we need it
-
+    -- This direction is easy, we just lift the path and apply it to 0
     encode : {x : S¹} → (base == x) → (code x)
     encode p = (transport code p) 0
 
-    -- Just some examples checking that encode works as expected
+
+    {- Just some examples checking that encode works as expected.
+    These examples are not proven by idp basically because the definition
+    of code is not computational (it's got a postulate). This means that Agda,
+    when looking for the normal form of encode(...), does not apply code-ap and
+    so doesn't end up converting to ℤ.
+    The signatures of the functions still check because we can use the postulate
+    to prove them correct, though, so it's fine. -}
     module encode-test where
-
-      -- transport B (p ∙ q) == (transport B q) ∘ (transport B p)
-      transport-is-functorial : ∀ {i j} {A : Type i} (B : A → Type j)
-        {x y z : A} (p : x == y) (q : y == z) → transport B (p ∙ q) == (transport B q) ∘ (transport B p)
-      transport-is-functorial B idp idp = idp
-
-      -- Bit of a weird thing here.
-      -- ap allows us to do: x == y → f x == f y
-      -- in this case, what we need is: f == g → f x == g x
-      -- We use the "reverse apply" lambda (λ fun → fun x) to do this
-      ap-rev : ∀ {i j} {A : Type i} {B : Type j} {f g : A → B} (x : A)
-        → (f == g → f x == g x)
-      ap-rev x p = ap (λ fun → fun x) p
 
       -- Testing encode(idp) is 0
       encode-idp : encode idp == 0
@@ -176,8 +183,8 @@ module ΩS¹≃ℤDef where
           =⟨ idp ⟩ -- definition of coe
         0
           =∎
-          -- At some points we need to be explicit about which idp we're
-          -- talking about so that Agda can understand what we mean
+          {- At some points we need to be explicit about which idp we're
+          talking about so that Agda can understand what we mean -}
           where
           idp-base : base == base
           idp-base = idp
@@ -214,11 +221,10 @@ module ΩS¹≃ℤDef where
 
       -- TODO Testing encode(loop^-1) is -1
 
-    open encode-test public using (transport-is-functorial; ap-rev)
+  open ΩS¹→ℤDef public using (encode)
 
-  open ΩS¹→ℤDef public using (transport-is-functorial; ap-rev; encode)
 
-  -- Right-to-left: we use iterated loop composition.
+  -- Right-to-left: we use iterated loop composition
   module ℤ→ΩS¹Def where
 
     -- This is the function that we want
@@ -243,11 +249,17 @@ module ΩS¹≃ℤDef where
 
   open ℤ→ΩS¹Def public using (loop⁻-n≤0; decode)
 
+
+  {- Now we have encode and decode. To have the equivalence ΩS¹ ≃ ℤ, we must
+  now prove that they are quasi-inverses. We do both proofs by induction,
+  but one takes paths and the other one integers, so one is longer. -}
+
+  -- The first composition is trivial
   decode-encode : {x : S¹} (p : base == x) → decode (encode p) == p
   decode-encode {base} idp = idp
 
-  -- Induction on ℤ doesn't work, we defer to induction on ℕ for each of the
-  -- two branches (pos n and negsucc n)
+  {- The second one is trickier. Induction on ℤ doesn't work, we defer to
+  induction on ℕ for each of the two branches (pos n and negsucc n). -}
   encode-decode : {x : S¹} (c : code x) → encode (decode c) == c
   encode-decode {base} (pos n) = encode-decode-pos n
     where
@@ -308,16 +320,16 @@ module ΩS¹≃ℤDef where
       negsucc (S n)
         =∎ -- done!
 
-  -- We have a more general result, but we only care about the loops at base.
-  -- The proof of the theorem though, would work for a more general type
-  -- {x : S¹} → (base == x) ≃ (code x)
-  -- as well. In our case, though, Agda will assume {x = base} because
-  -- ΩS¹ == (base == base).
-  -- TODO maybe try and write the general version and derive ΩS¹≃ℤ from it?
+  -- The general result is as follows
+  result : {x : S¹} → (base == x) ≃ (code x)
+  result = equiv encode decode encode-decode decode-encode
+
+  -- But we only care about the case at {x = base}
   ΩS¹≃ℤ : ΩS¹ ≃ ℤ
-  ΩS¹≃ℤ = equiv encode decode encode-decode decode-encode
+  ΩS¹≃ℤ = result {base}
 
 open ΩS¹≃ℤDef public using (encode; decode; ΩS¹≃ℤ)
+
 
 -- ΩS¹ is equivalent to ℤ as types
 module ΩS¹==ℤ where
@@ -330,12 +342,22 @@ module ΩS¹==ℤ where
 
 open ΩS¹==ℤ using (ΩS¹==ℤ)
 
+
 -- ΩS¹ is isomorphic to ℤ as groups
 module ΩS¹Isoℤ where
+
+  -- Group related imports
+  open import lib.types.Group
+  open import lib.groups.Isomorphism
+  open import lib.NType using (is-set; has-dec-eq; dec-eq-is-set)
+  open import lib.groups.Int
+  open import lib.groups.Homomorphism using (preserves-comp)
+
 
   -- Prove ΩS¹ is a group with ∙, idp, ! generated by loop
   module ΩS¹Group where
 
+    -- Luckily for us, all proofs come easily using induction
     ΩS¹-group-structure : GroupStructure ΩS¹
     ΩS¹-group-structure = group-structure ident inv comp unit-l assoc inv-l
       where
@@ -376,12 +398,14 @@ module ΩS¹Isoℤ where
 
   open ΩS¹Group using (ΩS¹-group)
 
-  -- Convert our type equivalence to a group isomorphism. The only thing we are
-  -- missing is a proof that the morphism preserves composition
+
+  {- Convert our type equivalence to a group isomorphism. The only thing we are
+  missing is a proof that the morphism preserves composition -}
   ΩS¹-iso-ℤ : ΩS¹-group ≃ᴳ ℤ-group
   ΩS¹-iso-ℤ = ≃-to-≃ᴳ ΩS¹≃ℤ pres-comp
     where
-    pres-comp : preserves-comp _∙_ _ℤ+_ encode -- = ∀ a₁ a₂ → f (Ac a₁ a₂) == Bc (f a₁) (f a₂)
+    -- preserves-comp Ac Bc f = ∀ a₁ a₂ → f (Ac a₁ a₂) == Bc (f a₁) (f a₂)
+    pres-comp : preserves-comp _∙_ _ℤ+_ encode
     pres-comp idp idp = idp
 
 open ΩS¹Isoℤ using (ΩS¹-iso-ℤ)
