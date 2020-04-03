@@ -1,0 +1,32 @@
+name: Thesis
+
+on: [push, pull_request]
+
+jobs:
+  thesis:
+    runs-on: ubuntu-latest
+    name: Thesis
+    steps:
+
+    # Check out the repo
+    - uses: actions/checkout@v1
+
+    # Install pandoc and XeLaTeX
+    # The pandoc version from apt is old and incompatible with the flags in the
+    # Makefile. So we download the deb straight from pandoc's website.
+    - name: Install requirements
+      run: |
+        curl -L https://github.com/jgm/pandoc/releases/download/2.9.2.1/pandoc-2.9.2.1-1-amd64.deb --output pandoc.deb
+        sudo dpkg -i pandoc.deb
+        sudo apt install texlive-xetex
+
+    # Build the thesis file
+    - name: Build the file
+      run: make
+
+    # Upload it as an artifact
+    - name: Upload the file
+      uses: actions/upload-artifact@v2-preview
+      with:
+        name: Thesis
+        path: out/thesis.pdf
