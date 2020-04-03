@@ -12,4 +12,8 @@ geometry:
 - top=25mm
 - bottom=30mm
 - twoside
+
+mainfont: TeX Gyre Pagella
+mathfont: TeX Gyre Pagella Math
+monofont: DejaVu Sans Mono # TeX Gyre Cursor is missing lots of math characters
 ---

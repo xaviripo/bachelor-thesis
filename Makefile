@@ -2,7 +2,7 @@
 
 ## Commands
 # Pandoc
-PANDOC=pandoc --from=markdown --to=latex
+PANDOC=pandoc --from=markdown --to=latex --pdf-engine=xelatex
 
 ## Input files
 # Folder the thesis sources are contained in
@@ -13,9 +13,6 @@ THESIS_FILES_RAW=metadata.md abstract.md ack.md contents/intro.md contents/homot
 
 # This variable processes the previous one into a list usable by the bash commands
 THESIS_FILES:=$(addprefix ${THESIS}/,${THESIS_FILES_RAW})
-
-# TeX files for the header includes
-HEADER=${THESIS}/header/fonts.tex
 
 ## Output files
 # Folder to write the output to
@@ -67,7 +64,7 @@ $(OUT_CONCAT): $(THESIS_FILES) $(OUT)
 
 # Build the thesis PDF file
 $(OUT_THESIS): $(OUT_CONCAT) $(OUT)
-	$(PANDOC) --include-in-header=$(HEADER) --output=$(OUT_THESIS) $(OUT_CONCAT)
+	$(PANDOC) --output=$(OUT_THESIS) $(OUT_CONCAT)
 
 # Clean generated files. Should be the right inverse of `all`
 clean:

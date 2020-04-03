@@ -81,7 +81,7 @@ $$\mathsf{ind}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$$
 
 To be able to apply the type constructors above, we need some other types to start from. We introduce a different way to construct types: inductive types.
 
-An inductive type is a type described by some elements or functions into it. For example, the empty type $\mathbf{0} : \mathcal{U}$ is the type defined by no constructors. Similarly, the unit type $\mathbf{1} : \mathcal{U}$ is characterized by a single constructor $\star : \mathbf{1}$. Finally, we see the type of booleans $\mathbf{2} : \mathcal{U}$, given by $0_\mathbf{2}, 1_\mathbf{2} : \mathbf{2}$.
+An inductive type is a type described by some elements or functions into it. For example, the empty type $\mathbf{0} : \mathcal{U}$ is the type defined by no constructors. Similarly, the unit type $\mathbf{1} : \mathcal{U}$ is characterized by a single constructor $\star : \mathbf{1}$. Finally, we see the type of booleans $\mathbf{2} : \mathcal{U}$, given by $0\sb{\mathbf{2}}, 1\sb{\mathbf{2}} : \mathbf{2}$.
 
 A more interesting example is, for example, the naturals $\mathbb{N} : \mathcal{U}$:
 
