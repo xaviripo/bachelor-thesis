@@ -331,7 +331,7 @@ module ΩS¹≃ℤDef where
 open ΩS¹≃ℤDef public using (encode; decode; ΩS¹≃ℤ)
 
 
--- ΩS¹ is equivalent to ℤ as types
+-- ΩS¹ is equal to ℤ as terms in Type (the universe)
 module ΩS¹==ℤ where
 
   -- Statement: the loop space over S¹ is isomorphic to ℤ
