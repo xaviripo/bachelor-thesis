@@ -26,7 +26,7 @@ jobs:
 
     # Upload it as an artifact
     - name: Upload the file
-      uses: actions/upload-artifact@v2-preview
+      uses: actions/upload-artifact@v2
       with:
         name: Thesis
         path: out/thesis.pdf
