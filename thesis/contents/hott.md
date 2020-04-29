@@ -26,68 +26,79 @@ Types themselves behave as a special kind of terms of higher types, called *univ
 (TODO check against book all this part)
 
 
+## Equalities
+
+In intensional type theories, such as homotopy type theory, two terms can be definitionally equal (also known as judgmentally equal) or propositionally equal. Two terms are definitionally equal only when we impose so, and, in such case, they are fully interchangeable by one another. We denote that $a$ and $b$ are definitionally equal by writing $a \equiv b$. We sometimes write $a :\equiv b$ to emphasize that $a$ is being defined. The claim that two terms are definitionally equal cannot be disputed, it's not a proposition. This is used mainly when defining new terms and types, or for notation purposes.
+
+On the other hand, two (not necessarily equal in the previous sense) terms of the same type can be compared for propositional equality. This means that, given two terms $a$ and $b$ of a type $A$, it makes sense to ask whether they are equal or not. As we'll see, propositions are implemented through types in homotopy type theory, so we reserve the notation $a = b$ for the type of equalities between $a$ and $b$, or, in the homotopical sense, the type of paths between $a$ and $b$.
+
+
 ## Type constructors
 
-Type constructors allow to build new types from existing ones. To specify a new type constructor, one has to give the following rules for it:
+Type constructors allow to build new types from existing ones (for example, the cartesian product is a type constructor). To specify a new type constructor, one has to give the following rules for it:
 
-- Formation rules. Preconditions to be met by the types used to build the new type.
+- Formation rules. Preconditions to be met by the types used to build the constructed type.
 
-- Introduction rules or constructors. Ways to build terms.
+- Introduction rules or constructors. Ways to build new terms. These are functions (possibly nullary) whose return type is the constructed type.
 
-- Elimination rules or eliminators. Ways to use terms. Can be non-dependent (recursion principle) or dependent (induction principle). TODO check whether the recursion and induction principles are always elimination rules or can sometimes be introduction rules too.
+- Elimination rules or eliminators. Ways to use terms. These are functions that have, at least, one argument of the constructed type.
 
-- Computation rules. Can be judgmental or propositional. They explain how the eliminators act on the constructors.
-
-- Uniqueness principle. It's optional. Can be judgmental or propositional and can either show that functions into or outo the type are unique. When it characterizes maps into the type, it can act dually to the computation rule, telling us how the constructors act on the eliminators.
+- Computation rules. They explain how the eliminators act on the constructors.
 
 Let's quickly review some type constructors.
 
 
 ### Function types
 
+The function types are special in that their elements cannot be defined from simpler type-theoretic terms. From the function type constructor we will deduce most other constructors.
+
 - Formation rule. Given any two types $A$ and $B$, the (non-dependent) function type from $A$ to $B$, denoted $A \rightarrow B$, contains all the functions $f : A \rightarrow B$ that assign to each term $a : A$ an element in $B$, $f(a)$.
 
-- Introduction rules. There are a few ways to define functions introduction rules. The most common ones are direct definition: $f(x) :\equiv \Phi$, where $\Phi$ is a formula that contains $x$ as an unbound variable; and $\lambda$-abstraction: $f :\equiv \lambda (x : A).\Phi$.
+- Introduction rules. There are a few ways to define functions. The most common ones are direct definition: $f(x) :\equiv \Phi$, where $\Phi$ is a formula that contains $x$ as an unbound variable; and $\lambda$-abstraction: $f :\equiv \lambda (x : A).\Phi$.
 
 - Elimination rule. The obvious eliminator is application: given a function $f : A \rightarrow B$ and a term $a : A$, we can think of $f(a) : B$ as applying $a$ to $f$ to produce a term of $B$.
 
-- Computation rule. The computation rule for functions tells us that $a : A$ applied to $\lambda(x : A)\Phi$ is $(\lambda(x : A)\Phi) \equiv \Phi'$ where $\Phi'$ is $\Phi$ with all occurences of $x$ are replaced with $a$.
+- Computation rule. The computation rule for functions tells us that $a : A$ applied to $\lambda(x : A).\Phi$ is $\Phi$ with all occurences of $x$ replaced with $a$.
 
-- Uniqueness principle. The reverse of the computation rule: $\lambda x.f(x) \equiv f$.
-
-There's one special kind of functions $A \rightarrow \mathcal{U}$ called type families or dependent types.
+The types of functions with codomain $\mathcal{U}$ ($A \rightarrow \mathcal{U}$) are called type families or dependent types.
 
 Given a type family $B : A \rightarrow \mathcal{U}$, the dependent function type (also known as $\prod$-type) $\prod_{(x : A)}B(x)$ comprises the functions whose codomain type is a type family depending on the input *value*, i.e., given $f:\prod_{(x : A)}B(x)$ and $a:A$, then $f(a) : B(a)$. The rules for the dependent types are analogous to those of the non-dependent types.
+
+Observe that functions are currified. For example, if we want to build a function with two arguments, its type would be $f : A \rightarrow B \rightarrow C$. This means that, when applied to a value $a : A$, we have $f(a) : B \rightarrow C$. We often write $f(a,b)$ to mean $f(a)(b)$, for convenience.
 
 
 ### Product types
 
-- Formation rule. Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) product type of $A$ and $B$. If we have types $A$ and $B : A \rightarrow \mathcal{U}$, then $\Sigma_{(x : A)}B(x)$ is the dependent product of $A$ and $B$.
+As with function types, we have a both a non-dependent and a dependent version. We'll only expose the non-dependent version.
 
-- Introduction rule. Given $a : A$ and $b : B$ ($b : B(a)$ if we are building a dependent product), we obtain $(a,b) : A \times B$ ($(a,b) : A \times B(a)$).
+- Formation rule. Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) product type of $A$ and $B$. If we have types $A$ and $B : A \rightarrow \mathcal{U}$, then $\Sigma_{(x : A)}B(x)$ is the dependent product of $A$ and $B$. In the dependent case, $b$ has to belong to the type $B(a)$.
 
-- Elimination rule. This case is slightly less simple. Here the eliminator will tell us how to build functions out of product types (i.e. having product types as their domain). In a few words, if we have a function $g : A \rightarrow B \rightarrow C$, then it automatically gives us another one $f : A \times B \rightarrow C$, with the natural definition $f((a,b)) :\equiv g(a)(b)$. This principle is summed up in a special function called the recursor for product types: $\mathsf{rec}_{A \times B} : \prod_{(C : \mathcal{U})} (A \rightarrow B \rightarrow C) \rightarrow A \times B \rightarrow C$, defined as $\mathsf{rec}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$. When generalized to dependent functions ($g : \prod_{(x : A)}\prod_{(y : B)}C((x,y))$), this is known as the induction principle:
+- Introduction rule. Given $a : A$ and $b : B$, we obtain $(a,b) : A \times B$.
 
-$$\mathsf{ind}_{A \times B} : \prod_{C : A \times B \rightarrow \mathcal{U}} \left(\prod_{x : A}\prod_{y : B}C((x,y))\right) \prod_{z : A \times B} C(z)$$
+- Elimination rule. If we have a function $g : A \rightarrow B \rightarrow C$, then this rule gives us another one $f : A \times B \rightarrow C$, with the natural definition $f((a,b)) :\equiv g(a)(b)$. This principle is summed up in a special function called the recursor for product types: $\mathsf{rec}_{A \times B} : \prod_{(C : \mathcal{U})} (A \rightarrow B \rightarrow C) \rightarrow A \times B \rightarrow C$, defined as $\mathsf{rec}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$. When generalized to dependent functions ($g : \prod_{(x : A)}\prod_{(y : B)}C((x,y))$), this is known as the induction principle:
 
-$$\mathsf{ind}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$$
+   $$\mathsf{ind}_{A \times B} : \prod_{C : A \times B \rightarrow \mathcal{U}} \left(\prod_{x : A}\prod_{y : B}C((x,y))\right) \prod_{z : A \times B} C(z)$$
 
-- Computation rule. TODO.
+    $$\mathsf{ind}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$$
 
-- Uniqueness principle. TODO.
+    Again, both the recursion and induction principles exist for both non-dependent and dependent product types.
+
+- Computation rule. Imagine we have $a : A$, $b : B$, and $g : A \rightarrow B \rightarrow C$. When applying the introduction rule to $a$ and $b$, we get the pair $(a,b)$; and, when applying the elimination rule to the function $g$, we obtain a function $f : A \times B \rightarrow C$. This rule states that $g(a,b)$ is the same as $f((a,b))$. In other words, this says that our introduction and elimination rules are coherent.
 
 
 ### Inductive types
 
 To be able to apply the type constructors above, we need some other types to start from. We introduce a different way to construct types: inductive types.
 
-An inductive type is a type described by some elements or functions into it. For example, the empty type $\mathbf{0} : \mathcal{U}$ is the type defined by no constructors. Similarly, the unit type $\mathbf{1} : \mathcal{U}$ is characterized by a single constructor $\star : \mathbf{1}$. Finally, we see the type of booleans $\mathbf{2} : \mathcal{U}$, given by $0\sb{\mathbf{2}}, 1\sb{\mathbf{2}} : \mathbf{2}$.
+An inductive type is a type described by a set of (possibly nullary) functions whose codomain is that type. For example, the empty type $\mathbf{0} : \mathcal{U}$ is the type defined by no constructors. Similarly, the unit type $\mathbf{1} : \mathcal{U}$ is characterized by a single constructor $\star : \mathbf{1}$. Finally, we see the type of booleans $\mathbf{2} : \mathcal{U}$, given by $0\sb{\mathbf{2}}, 1\sb{\mathbf{2}} : \mathbf{2}$.
 
-A more interesting example is, for example, the naturals $\mathbb{N} : \mathcal{U}$:
+A more interesting example is the naturals $\mathbb{N} : \mathcal{U}$, given by:
+\begin{align*}
+0 &: \mathbb{N}\\
+\mathsf{succ} &: \mathbb{N} \rightarrow \mathbb{N}
+\end{align*}
 
-$$0 : \mathbb{N}$$
-
-$$\mathsf{succ} : \mathbb{N} \rightarrow \mathbb{N}$$
+Inductive types can be thought of a special case of type constructors. In the case of inductive types, though, just defining the constructors, which are its introduction rules, we can deduce the elimination rules, whereas we normally have to think them out and prove they are coherent, through the computation rule.
 
 TODO Talk about not assuming (in)equality right away (e.g. having to prove that 0 is empty and 1 has a single element).
 
