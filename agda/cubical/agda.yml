@@ -1,0 +1,5 @@
+version: 2.6.0.1
+libraries:
+  - repo: https://github.com/agda/cubical
+    libfile: cubical.agda-lib
+    branch: v0.1
