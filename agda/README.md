@@ -4,16 +4,13 @@ This folder contains developments written in Agda.
 In this file information about setting up the environment to work with Agda is
 detailed.
 
-
-## Installation
-
-### Preliminaries
+## Preliminaries
 
 Agda is a dependently-typed functional programming language. Its main function
 is as a proof assistant, this is, a software designed to aid mathematicians and
 other technical workers in developing rigorous proofs.
 
-To use Agda one needs to install the compiler. Although the compiler is capable
+To use Agda one needs to use its compiler. Although the compiler is capable
 of generating executable binaries which can be run and have I/O effects, proof
 development often involves only typechecking.
 
@@ -29,6 +26,42 @@ optional, it's very recommended to speed up working with Agda files.
 agda-mode is also available for Atom via an
 [extension](https://atom.io/packages/agda-mode).
 
+There are various ways to install Agda:
+
+- [Docker](#docker) (recommended)
+- [Local installation](#local-installation)
+
+
+## Docker
+
+The quick way to get started with Agda is through the Docker images offered by
+[banacorn](https://hub.docker.com/r/banacorn/agda/).
+
+To make using them even easier, in this directory we offer a binary file called
+`run` which calls Docker for you. The only prerequisites are:
+
+- Docker
+- Python 3
+
+
+### Usage
+
+To typecheck an Agda project, follow these steps:
+
+1. Create a file called `agda.yml` at the root of the project, specifying the
+version of Agda to use and any necessary libraries. Look at the provided
+examples.
+
+2. Execute:
+
+        ./run path/to/file.agda
+
+That's it! The first run will take a bit longer because the script has to
+download the Docker images.
+
+
+
+## Local installation
 
 ### Agda and agda-mode
 
@@ -66,7 +99,7 @@ following the instructions
 ### Homotopy Type Theory
 
 The working group on homotopy type theory wrote a [library](https://github.com/HoTT/HoTT-Agda)
-for Agda. The installation instructions are available in the repositorty's
+for Agda. The installation instructions are available in the repository's
 README.md file. Unfortunately, the library is not currently up to date and,
 consequently, it isn't compatible with the latest version of Agda.
 

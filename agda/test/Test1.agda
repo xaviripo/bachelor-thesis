@@ -2,7 +2,7 @@
 
 open import lib.Base
 
-module test.Test1 where
+module Test1 where
 
 module _ where
 

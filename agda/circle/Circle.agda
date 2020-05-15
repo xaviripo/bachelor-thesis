@@ -8,7 +8,7 @@ open import lib.Equivalence
 open import lib.Univalence
 
 -- Root module of this file
-module circle.Circle where
+module Circle where
 
 {- This module contains some auxiliar lemmas and tools, not directly related
 to the theorem or homotopy theory -}

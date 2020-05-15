@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module sphere.Sphere where
+module Sphere where
 
 open import Relation.Binary.PropositionalEquality using (_≡_; refl)
 

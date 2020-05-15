@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+
+# Imports
+
+import argparse
+from pathlib import Path
+import os
+from yaml import load
+import subprocess
+import shutil
+
+
+# Defaults
+
+## Agda
+VERSION = '2.6.0.1'
+LIBRARIES_FILENAME = 'libraries'
+DEFAULTS_FILENAME = 'defaults'
+DOCKER_IMAGE = 'banacorn/agda'
+
+## Custom configuration
+CONFIG_FILENAME = 'agda.yml'
+DEPS_DIRNAME = '.deps'
+
+
+# CLI arguments
+
+parser = argparse.ArgumentParser(
+    description='Type-check an Agda file.',
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
+
+parser.add_argument(
+    'filename',
+    metavar='FILE',
+    help='Agda file to type-check',
+)
+parser.add_argument(
+    '-v', '--version',
+    dest='version',
+    default=VERSION,
+    help='version of Agda to use',
+)
+parser.add_argument(
+    '-l', '--library',
+    dest='libraries',
+    action='append',
+    metavar='LIBRARY',
+    help='library to use',
+)
+parser.add_argument(
+    '-c', '--clean',
+    dest='clean',
+    action='store_true',
+    help='recreates the dependencies directory before running',
+)
+
+args, remaining = parser.parse_known_args()
+
+
+
+# Load config
+
+def load_config(dir, config_filename=CONFIG_FILENAME):
+    for path in dir.absolute().parents:
+        try:
+            with open(os.path.join(path, CONFIG_FILENAME)) as config:
+                return load(config), path
+        except FileNotFoundError:
+            continue
+    raise Exception('No valid configuration file found in any parent directories')
+
+file_path = Path(args.filename).absolute()
+
+if not file_path.exists() or not file_path.is_file():
+    raise Exception('File {filename} doesn\'t exist or is a folder'.format(filename=args.filename))
+
+try:
+    config, path = load_config(file_path)
+except:
+    config = {
+        'version': VERSION
+    }
+    path = Path().absolute()
+
+
+
+def clone_library(deps_path, repo, name=None, branch=None, depth=1):
+
+    # Directory to clone in
+    if name is None:
+        name = repo.split('/')[-1]
+
+    library_path = os.path.join(deps_path, name)
+    if os.path.isdir(library_path):
+        return name
+
+    git_clone_command = ['git', 'clone', repo, name]
+    if branch is not None:
+        git_clone_command.append(f'--branch={branch}')
+    if depth is not None:
+        git_clone_command.append(f'--depth={depth}')
+
+    print(f'[{name}] Cloning library...')
+    subprocess.run(
+        git_clone_command,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        cwd=deps_path,
+    )
+
+    return name
+
+if 'libraries' in config:
+    libraries = []
+    defaults = []
+    deps_path = os.path.join(path, DEPS_DIRNAME)
+    if args.clean:
+        shutil.rmtree(deps_path)
+    os.makedirs(deps_path, exist_ok=True)
+    for library in config['libraries']:
+        branch = library['branch'] if 'branch' in library else None
+        name = clone_library(deps_path, library['repo'], branch=branch)
+        library_path = os.path.join(deps_path, name, library['libfile'])
+        libraries.append(library_path)
+        with open(library_path, 'r') as libfile:
+            for line in libfile:
+                line = line.strip()
+                if line.startswith('name:'):
+                    defaults.append(line[5:].strip())
+
+    libraries_file = os.path.join(deps_path, LIBRARIES_FILENAME)
+    with open(libraries_file, 'w') as f:
+        f.write('\n'.join(libraries))
+
+    defaults_file = os.path.join(deps_path, DEFAULTS_FILENAME)
+    with open(defaults_file, 'w') as f:
+        f.write('\n'.join(defaults))
+
+agda_command = [
+    'agda',
+    str(file_path),
+    '--include-path', str(path),
+    *remaining,
+]
+
+docker_command = [
+    'docker', 'run',
+    '--volume', f'{path}:{path}',
+    '--env', 'AGDA_DIR=' + str(deps_path),
+    f'{DOCKER_IMAGE}:{config["version"]}',
+    *agda_command
+]
+
+subprocess.run(docker_command, cwd=str(path))

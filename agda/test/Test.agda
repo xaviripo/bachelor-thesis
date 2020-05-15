@@ -1,7 +1,7 @@
 {-# OPTIONS --without-K #-}
 
-module test.Test where
+module Test where
 
-open import test.Test0
-open import test.Test1
-open import test.Test2
+open import Test0
+open import Test1
+open import Test2

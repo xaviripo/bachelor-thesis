@@ -4,4 +4,4 @@ This module contains a few tests used to check that the installation works corre
 
 In order to run the tests, just pass this file to Agda, like so:
 
-    ./agda/run.sh agda/test/Test.agda -- --library hott-core
+    ./agda/run agda/test/Test.agda

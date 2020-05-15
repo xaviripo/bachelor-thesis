@@ -28,24 +28,9 @@ OUT_CONCAT=$(OUT)/thesis.md
 # The folder containing the Agda source files
 AGDA=agda
 
-## Dependencies
-# The dependencies folder for external Agda libraries
-DEPS=deps
-
-# List of Agda libraries repos
-DEPS_REPOS=https://github.com/HoTT/HoTT-Agda "https://github.com/agda/agda-stdlib --branch v1.2"
-
-# List of agda-lib files, relative to the dependencies folder
-# Remember to always include the agda/src.agda-lib library!
-DEPS_LIBFILES=../agda/src.agda-lib HoTT-Agda/hott-core.agda-lib agda-stdlib/standard-library.agda-lib
-
-# Libraries file to be read by Agda
-DEPS_LIBRARIES=$(DEPS)/libraries
-
-
 ### Tasks
 # Which tasks are not files?
-.PHONY: all clear agda clear-agda
+.PHONY: all clear clear-agda
 
 # Build everything
 all: thesis
@@ -70,22 +55,6 @@ $(OUT_THESIS): $(OUT_CONCAT) $(OUT)
 clean:
 	rm -rf $(OUT)
 
-## Agda-related tasks
-# Prepare the repo for running Agda. Only needs to be run once
-agda: $(DEPS)
-
-# The dependencies folder for Agda libraries
-$(DEPS):
-	mkdir -p $(DEPS)
-
-	# Clone each dependency
-	cd $(DEPS); for i in $(DEPS_REPOS); do git clone $$i; done
-
-	# Include each library in the libraries file to be read by Agda
-	for i in $(DEPS_LIBFILES); do \
-		PWD=$( pwd ) echo $$PWD/$(DEPS)/$$i >> $(DEPS_LIBRARIES); \
-	done
-
 # Clean up workspace
 clean-agda:
-	rm -rf $(DEPS) $(AGDA)/**/*.agdai $(AGDA)/**/*.agda~
+	rm -rf $(DEPS) $(AGDA)/**/*.agdai $(AGDA)/**/*.agda~ $(AGDA)/**/.deps
