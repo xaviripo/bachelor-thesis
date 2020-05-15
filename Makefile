@@ -57,4 +57,4 @@ clean:
 
 # Clean up workspace
 clean-agda:
-	rm -rf $(DEPS) $(AGDA)/**/*.agdai $(AGDA)/**/*.agda~ $(AGDA)/**/.deps
+	rm -rf $(AGDA)/**/*.agdai $(AGDA)/**/*.agda~ $(AGDA)/**/.deps

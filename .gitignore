@@ -2,7 +2,7 @@
 # The output folder
 /out
 # External Agda libraries
-/deps
+.deps
 
 ### https://github.com/github/gitignore/blob/master/TeX.gitignore
 ## Core latex/pdflatex auxiliary files:
