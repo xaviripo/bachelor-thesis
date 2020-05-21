@@ -1,0 +1,10 @@
+{
+  "version": "2.6.0.1",
+  "libraries": [
+    {
+      "repo": "https://github.com/agda/agda-stdlib",
+      "branch": "v1.2",
+      "libfile": "standard-library.agda-lib"
+    }
+  ]
+}

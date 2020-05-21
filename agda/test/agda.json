@@ -1,0 +1,9 @@
+{
+  "version": "2.5.3",
+  "libraries": [
+    {
+      "repo": "https://github.com/HoTT/HoTT-Agda",
+      "libfile": "hott-core.agda-lib"
+    }
+  ]
+}
