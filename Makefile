@@ -2,7 +2,7 @@
 
 ## Commands
 # Pandoc
-PANDOC=pandoc --from=markdown --to=latex --pdf-engine=xelatex
+PANDOC=pandoc --from=markdown --to=latex --pdf-engine=xelatex --bibliography=thesis/citations.bib
 
 ## Input files
 # Folder the thesis sources are contained in
