@@ -6,12 +6,13 @@ author: Xavier Ripoll
 # Document format
 documentclass: report
 toc: true
+numbersections: true
 geometry:
-- left=25mm
+- left=30mm
 - right=30mm
-- top=25mm
+- top=30mm
 - bottom=30mm
-- twoside
+fontsize: 11pt
 
 mainfont: TeX Gyre Pagella
 mathfont: TeX Gyre Pagella Math
