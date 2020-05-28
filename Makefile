@@ -9,7 +9,23 @@ PANDOC=pandoc --from=markdown --to=latex --pdf-engine=xelatex --bibliography=the
 THESIS=thesis
 
 # Space-separated list of files to use, in order to be included
-THESIS_FILES_RAW=metadata.md abstract.md ack.md contents/intro.md contents/homotopy.md contents/hott.md contents/bm.md contents/projective.md contents/agda.md
+THESIS_FILES_RAW=\
+metadata.md abstract.md ack.md\
+contents/1-intro/0-intro.md\
+contents/1-intro/1-homotopy.md\
+contents/1-intro/2-hott.md\
+contents/1-intro/3-agda.md\
+contents/2-hits/0-hits.md\
+contents/2-hits/1-concept.md\
+contents/2-hits/2-circle.md\
+contents/3-pushouts/0-pushouts.md\
+contents/3-pushouts/1-homotopy-pushouts.md\
+contents/3-pushouts/2-svk.md\
+contents/3-pushouts/3-bm.md\
+contents/4-rpn/0-rpn.md\
+contents/4-rpn/1-construction.md\
+contents/4-rpn/2-piece.md\
+contents/4-rpn/3-rp2.md
 
 # This variable processes the previous one into a list usable by the bash commands
 THESIS_FILES:=$(addprefix ${THESIS}/,${THESIS_FILES_RAW})

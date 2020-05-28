@@ -1,9 +1,6 @@
-# The Blakers-Massey Connectivity Theorem
+## The Blakers-Massey Connectivity Theorem
 
-In this chapter we finally present the Blakers-Massey theorem and unroll the proof from the paper.
-
-
-## Connectivity and truncatedness
+### Connectivity and truncatedness
 
 Two central notions to Blakers-Massey are those of truncatedness and connectivity of a type, which are dual to each other and related to the triviality of its identity types.
 
@@ -18,11 +15,11 @@ $A : \mathcal{U}$ is a $1$-type when all the second-level identity types are tri
 In view of this, we can define the notion of $n$-type inductively. For the base case we pick $n = -2$; $A$ is said to be a $(-2)$-type if it's contractible, this is, if there exists a term $a : A$ such that $\prod_{(x : A)}a = x$. In the general case, a type $A$ is an $(n+1)$-type if, for every $x$ and $y$ in $A$, $x = y$ is an $n$-type. It can be proved that an $n$-type is also an $(n+1)$-type, so every mere proposition is also a set, for example.
 
 
-## Statement
+### Statement
 
 TODO
 
 
-## The encode-decode method
+### The encode-decode method
 
 TODO

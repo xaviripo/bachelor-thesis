@@ -1,9 +1,9 @@
-# A Little Bit of Agda
+## A Little Bit of Agda
 
 TODO Explain some notions of Agda
 
 
-## Rewriting
+### Rewriting
 
 One of the great challenges that proof assistants are currently facing is the proper implementation of higher inductive types.
 
