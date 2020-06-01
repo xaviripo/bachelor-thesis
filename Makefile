@@ -2,7 +2,13 @@
 
 ## Commands
 # Pandoc
-PANDOC=pandoc --from=markdown --to=latex --pdf-engine=xelatex --bibliography=thesis/citations.bib
+PANDOC=pandoc\
+--top-level-division=chapter\
+--filter=pandoc-crossref\
+--from=markdown\
+--to=latex\
+--pdf-engine=xelatex\
+--bibliography=thesis/citations.bib
 
 ## Input files
 # Folder the thesis sources are contained in
@@ -10,7 +16,7 @@ THESIS=thesis
 
 # Space-separated list of files to use, in order to be included
 THESIS_FILES_RAW=\
-metadata.md abstract.md ack.md\
+metadata.md abstract.md ack.md definitions.tex\
 contents/1-intro/0-intro.md\
 contents/1-intro/1-homotopy.md\
 contents/1-intro/2-hott.md\

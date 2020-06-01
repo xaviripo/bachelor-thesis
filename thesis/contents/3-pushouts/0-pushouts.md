@@ -1,4 +1,4 @@
-# Pushouts
+# Pushouts {#sec:pushouts}
 
 As it happens when any new mathematical invariant arises, one naturally asks: how can the invariant for a union of pieces be obtained from the invariant of each of the pieces? In the case of homotopy groups of a space, the Seifert-van Kampen theorem tells us that the fundamental group of a space is determined by the fundamental group of its subspaces, given they are good enough in a certain topological sense.
 

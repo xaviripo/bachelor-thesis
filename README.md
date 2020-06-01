@@ -10,6 +10,7 @@ latest version through the [GitHub Actions](https://github.com/xaviripo/tfgr/act
 For generating the thesis itself, the following are necessary:
 
 - [Pandoc](https://pandoc.org/)
+- [pandoc-crossref](https://github.com/lierdakil/pandoc-crossref)
 - [XeLaTeX](https://www.tug.org/xetex/) (I use [TeX Live](https://www.tug.org/texlive/) XeTeX package)
 - The [TeX Gyre Pagella](http://www.gust.org.pl/projects/e-foundry/tex-gyre),
 [TeX Gyre Pagella Math](http://www.gust.org.pl/projects/e-foundry/tg-math), and
