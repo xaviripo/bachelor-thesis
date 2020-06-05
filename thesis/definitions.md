@@ -1,6 +1,6 @@
-% Math
+ <!-- # Math -->
 
-%% Theorems
+<!-- ## Theorems -->
 
 \newtheorem{definition}{Definition}
 \newtheorem{proposition}{Proposition}
@@ -9,14 +9,14 @@
 \newtheorem{theorem}{Theorem}
 
 
-%% General HoTT
+<!-- ## General HoTT -->
 
-% Basic functions
+<!-- Basic functions -->
 \newcommand{\ap}{\ensuremath{\mathsf{ap}}}
 \newcommand{\ua}{\ensuremath{\mathsf{ua}}}
 \newcommand{\transport}{\ensuremath{\mathsf{transport}}}
 
-% - Path concatenation, taken from HoTT
+<!-- Path concatenation, taken from HoTT -->
 \newcommand{\ct}{%
   \mathchoice{\mathbin{\raisebox{0.5ex}{$\displaystyle\centerdot$}}}%
              {\mathbin{\raisebox{0.5ex}{$\centerdot$}}}%
@@ -24,56 +24,79 @@
              {\mathbin{\raisebox{0.1ex}{$\scriptscriptstyle\,\centerdot\,$}}}
 }
 
-% - code, encode and decode
+<!-- code, encode and decode -->
 \newcommand{\code}{\ensuremath{\mathsf{code}}}
 \newcommand{\encode}{\ensuremath{\mathsf{encode}}}
 \newcommand{\decode}{\ensuremath{\mathsf{decode}}}
 
 
-%% Types
+<!-- ## Types -->
 
-% - Universe
+<!-- Universe -->
 \newcommand{\universe}{\ensuremath{\mathcal{U}}}
 
-% - Empty type
+<!-- Empty type -->
 \newcommand{\zero}{\ensuremath{\mathbf{0}}}
 
-% - Unit type
+<!-- Unit type -->
 \newcommand{\one}{\ensuremath{\mathbf{1}}}
-% Its element is \star
+<!-- Its element is \star -->
 
-% - Bool type and its elements
+<!-- Bool type and its elements -->
 \newcommand{\two}{\ensuremath{\mathbf{2}}}
 \newcommand{\zerotwo}{\ensuremath{0\sb{\two}}}
 \newcommand{\onetwo}{\ensuremath{1\sb{\two}}}
 
-% - Naturals
+<!-- Naturals -->
 \newcommand{\naturals}{\ensuremath{\mathbb{N}}}
 \newcommand{\natsucc}{\ensuremath{\mathsf{succ}}}
 
-% - Circle
+<!-- Circle -->
 \newcommand{\sone}{\ensuremath{\mathbb{S}^{1}}}
 \newcommand{\sbase}{\ensuremath{\mathsf{base}}}
 \newcommand{\sloop}{\ensuremath{\mathsf{loop}}}
 
-% - Sphere
+<!-- Sphere -->
 \newcommand{\stwo}{\ensuremath{\mathbb{S}^{2}}}
 \newcommand{\ssurf}{\ensuremath{\mathsf{surf}}}
 
 
-%% Path types
+<!-- ## Path types -->
 
-% - refl
+<!-- refl -->
 \newcommand{\refl}{\ensuremath{\mathsf{refl}}}
 
 
-%% Algebra
+<!-- ## Algebra -->
 
-% - Integers
+<!-- Integers -->
 \newcommand{\integers}{\ensuremath{\mathbb{Z}}}
 
 
-%% Truncations
+<!-- ## Truncations -->
 
-% - ||·||
+<!-- ||·|| -->
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+<!-- ## Pushouts -->
+
+<!-- inl -->
+\newcommand{\inl}{\ensuremath{\mathsf{inl}}}
+\newcommand{\inr}{\ensuremath{\mathsf{inr}}}
+\newcommand{\glue}{\ensuremath{\mathsf{glue}}}
+
+
+<!-- ## Categories -->
+
+<!-- Top -->
+\newcommand{\Top}{\ensuremath{\mathsf{Top}}}
+
+<!-- Ho(Top) -->
+\newcommand{\HoTop}{\ensuremath{\mathsf{Ho}(\mathsf{Top})}}
+
+
+<!-- ## Topology -->
+
+<!-- Closed 2-dimensional disk -->
+\newcommand{\dtwo}{\ensuremath{\mathbb{D}^{2}}}

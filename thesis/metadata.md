@@ -1,6 +1,6 @@
 ---
 # Metadata
-title: Mechanization of Proofs Through Homotopy Type Theory
+title: Proof Verification in Algebraic Topology
 author: Xavier Ripoll
 
 # Document format
@@ -28,4 +28,6 @@ chapters: true
 
 header-includes: |
   \usepackage{amsthm}
+  \usepackage{tikz}
+  \usetikzlibrary{arrows}
 ---

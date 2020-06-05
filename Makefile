@@ -3,7 +3,7 @@
 ## Commands
 # Pandoc
 PANDOC=pandoc\
---top-level-division=chapter\
+--standalone\
 --filter=pandoc-crossref\
 --from=markdown\
 --to=latex\
@@ -16,7 +16,7 @@ THESIS=thesis
 
 # Space-separated list of files to use, in order to be included
 THESIS_FILES_RAW=\
-metadata.md abstract.md ack.md definitions.tex\
+definitions.md metadata.md abstract.md ack.md\
 contents/1-intro/0-intro.md\
 contents/1-intro/1-homotopy.md\
 contents/1-intro/2-hott.md\
@@ -43,6 +43,9 @@ OUT=out
 # The final PDF file
 OUT_THESIS=$(OUT)/thesis.pdf
 
+# Standalone TeX file
+OUT_THESIS_TEX=$(OUT)/thesis.tex
+
 # Intermediate markdown file with all the sources concatenated
 OUT_CONCAT=$(OUT)/thesis.md
 
@@ -61,6 +64,9 @@ all: thesis
 # Build the whole thesis
 thesis: $(OUT_THESIS)
 
+# Build the whole thesis, as a standalone TeX file
+tex: $(OUT_THESIS_TEX)
+
 # Output folder
 $(OUT):
 	mkdir -p $(OUT)
@@ -72,6 +78,10 @@ $(OUT_CONCAT): $(THESIS_FILES) $(OUT)
 # Build the thesis PDF file
 $(OUT_THESIS): $(OUT_CONCAT) $(OUT)
 	$(PANDOC) --output=$(OUT_THESIS) $(OUT_CONCAT)
+
+# Build the thesis TeX file
+$(OUT_THESIS_TEX): $(OUT_CONCAT) $(OUT)
+	$(PANDOC) --output=$(OUT_THESIS_TEX) $(OUT_CONCAT)
 
 # Clean generated files. Should be the right inverse of `all`
 clean:
