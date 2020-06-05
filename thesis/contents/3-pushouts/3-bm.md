@@ -1,5 +1,8 @@
 ## The Blakers-Massey Connectivity Theorem
 
+It turns out, though, that the same is not true for higher homotopy groups. In fact, the best approximation we have obtained so far for this problem is the Blakers-Massey connectivity theorem. This theorem doesn't allow computing the higher homotopy groups of spaces, but rather, it only gives information on the connectivity of such spaces--a property that only relies on the triviality of its homotopy groups.
+
+
 ### Connectivity and truncatedness
 
 Two central notions to Blakers-Massey are those of truncatedness and connectivity of a type, which are dual to each other and related to the triviality of its identity types.

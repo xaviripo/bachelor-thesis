@@ -1,7 +1,7 @@
 ## Concept
 
 An inductive type, in its purest form, is given by introducing a series of *constructors*. The idea is that an inductive type is "freely generated" by its constructors. The simplest inductive type has no constructors:
-\[\zero : \universe\[
+\[\zero : \universe\]
 
 This is known as the **empty type**.
 
@@ -40,3 +40,5 @@ Or, taking higher paths, we can build higher dimensional spheres:
 \end{align*}
 
 As seen, one of the key ideas of higher inductive types is that (higher) paths can (sometimes) take the role of cells in CW complexes.
+
+TODO talk about the standard way of forming recursion/induction principles for HITs
