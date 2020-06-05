@@ -12,14 +12,14 @@ If we had chosen to present the circle as a pushout, we could apply the Seifert-
 We remind some topological definitions which will be relevant in this section.
 
 \begin{definition}
-A \textbf{covering space} (or just \textbf{cover}) of a topological space $X$, is a space $C$ (known as the \textbf{total space}) together with a continuous function $p : C \rightarrow X$ (the \textbf{projection}) satisfying the following condition: each point $x$ in $X$ has a neighborhood $U$ such that its preimage $p^{-1}(U)$ is the disjoint union of open sets, each homeomorphic to $U$.
+A \textbf{covering space} of a topological space $X$, is a space $C$ (known as the \textbf{total space}) together with a continuous function $p : C \rightarrow X$ (the \textbf{projection}) satisfying the following condition: each point $x$ in $X$ has a neighborhood $U$ such that its preimage $p^{-1}(U)$ is the disjoint union of open sets, each homeomorphic to $U$.
 \end{definition}
 
 We say that $U$ is **evenly covered** by $p^{-1}(U)$. We call the preimage of each point in $X$ its **fiber**. We can visualize $C$ as "lying over" $X$, and the fiber of each point lying over it.
 
-The traditional way to approach the problem at hand would be to find the cover of the circle, and from that see that each fiber is isomorphic to the integers \integers.
+The traditional way to approach the problem at hand would be to find the covering space of the circle, and from that see that each fiber is isomorphic to the integers \integers.
 
-A more type theoretic proof jumps straight to the fibers, without the need to build the covering space first. This is due to the way covering spaces are defined in homotopy type theory. In classical topology, the notion of subspace is very important. It is easy to see how this applies to covers, as their definition only already deals with subspaces of $X$ and $C$. Unfortunately, the notion of subspace, just like the notion of subset, does not translate well into homotopy type theory. The good news is that the alternative, which we will now see, is more adequate for synthetic homotopy and constructive mathematics. In general, whenever we find a definition that contains a tuple (for instance, the covering space together with its projection), we have to suspect that translating it literally into type theory will be cumbersome, because in constructive mathematics we have to carry along all the parts of the definition.
+A more type theoretic proof jumps straight to the fibers, without the need to build the covering space first. This is due to the way covering spaces are defined in homotopy type theory. In classical topology, the notion of subspace is very important. It is easy to see how this applies to covering spaces, as their definition only already deals with subspaces of $X$ and $C$. Unfortunately, the notion of subspace, just like the notion of subset, does not translate well into homotopy type theory. The good news is that the alternative, which we will now see, is more adequate for synthetic homotopy and constructive mathematics. In general, whenever we find a definition that contains a tuple (for instance, the covering space together with its projection), we have to suspect that translating it literally into type theory will be cumbersome, because in constructive mathematics we have to carry along all the parts of the definition.
 
 Hence, we will define directly for each point its fiber. In the case of the circle, this would be:
 

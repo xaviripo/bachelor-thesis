@@ -71,7 +71,7 @@ Observe that functions are currified. For example, if we want to build a functio
 
 As with function types, we have a both a non-dependent and a dependent version. We will only expose the non-dependent version.
 
-- Formation rule. Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) product type of $A$ and $B$. If we have types $A$ and $B : A \rightarrow \mathcal{U}$, then $\Sigma_{(x : A)}B(x)$ is the dependent product of $A$ and $B$. In the dependent case, $b$ has to belong to the type $B(a)$.
+- Formation rule. Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) product type of $A$ and $B$. If we have types $A$ and $B : A \rightarrow \mathcal{U}$, then $\prod_{(x : A)}B(x)$ is the dependent product of $A$ and $B$. In the dependent case, $b$ has to belong to the type $B(a)$.
 
 - Introduction rule. Given $a : A$ and $b : B$, we obtain $(a,b) : A \times B$.
 
