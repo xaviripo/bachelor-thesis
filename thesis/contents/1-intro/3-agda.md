@@ -14,9 +14,9 @@ postulate
   lem : ∀ {i} {A : Type i} → A + ¬ A
 ```
 
-where `+` represents the union of types and `¬` the negation of a type. This function can not be proved--but it's not inconsistent with the rest of the type theory either.
+where `+` represents the union of types and `¬` the negation of a type. This function can not be proved--but it is not inconsistent with the rest of the type theory either.
 
-It's easy to see how we can benefit from this:
+It is easy to see how we can benefit from this:
 
 ```agda
 data S¹ : Type₀ where

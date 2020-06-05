@@ -5,7 +5,7 @@ The *real projective space of dimension $n$* (${\mathbb R\mathrm P}^n$) is the t
 - The sphere ${\mathbb S}^n$ has a CW-complex structure with two 0-cells, two 1-cells, two 2-cells, etc. up to two $n$-cells.
 - The quotient space by the relationship $R$ glues each two $i$-cells through antipodal points ("flipping" one of the $i$-cells).
 
-It can be shown that ${\mathbb R\mathrm P}^n$ is then a CW-complex with one cell for each dimension from $0$ up to $n$. It's important to notice that there is more than one CW-complex with these cells. For example, if one were to try and build a CW-complex with one $0$-cell, one $1$-cell, and one $2$-cell, it would most probably *not* end up being the real projective plane ${\mathbb R\mathrm P}^2$. To get the projective plane, one has to mind using the $2$-cell to glue the $1$-cell to itself *reversed*. Otherwise, we obtain the common sphere ${\mathbb S}^2$ with its two poles identified.
+It can be shown that ${\mathbb R\mathrm P}^n$ is then a CW-complex with one cell for each dimension from $0$ up to $n$. It is important to notice that there is more than one CW-complex with these cells. For example, if one were to try and build a CW-complex with one $0$-cell, one $1$-cell, and one $2$-cell, it would most probably *not* end up being the real projective plane ${\mathbb R\mathrm P}^2$. To get the projective plane, one has to mind using the $2$-cell to glue the $1$-cell to itself *reversed*. Otherwise, we obtain the common sphere ${\mathbb S}^2$ with its two poles identified.
 
 Some CW-complexes translate very well into homotopy type theory as higher inductive types. When each $(n+1)$-cell has, at most, two different $n$-cells as its boundary, it can be regarded as a higher path between those $n$-cells. In the case of the projective spaces, the $(n+1)$-cell glues together the $n$-cell with itself, so we *can* express them as higher inductive types, using the following constructors:
 
@@ -18,7 +18,7 @@ X_3 &: X_2 = X_2^{-1}\\
 X_n &: X_{n-1} = X_{n-1}^{-1}
 \end{align*}
 
-Notice how, for $i$ greater than $1$, $X_i$ has type $X_{i-1} = X_{i-1}^{-1}$ rather than $X_{i-1} = X_{i-1}$. This is where the higher inductive types shine: they don't only tell us which cells are related, but also with what orientation, making the issue we had describing the CW-complex non-existent.
+Notice how, for $i$ greater than $1$, $X_i$ has type $X_{i-1} = X_{i-1}^{-1}$ rather than $X_{i-1} = X_{i-1}$. This is where the higher inductive types shine: they don not only tell us which cells are related, but also with what orientation, making the issue we had describing the CW-complex non-existent.
 
 We will see, using homotopy type theory alone, *why* the fundamental group of the real projective plane is ${\mathbb Z}_2$ for $n\geq 2$, and *why* it gets "stuck" at that for higher dimensions.
 
@@ -46,7 +46,7 @@ HoTT 7.3.13 states that $\left\Vert\Omega(A,a)\right\Vert_n=\Omega(\left\Vert(A,
 
 $$\pi_1({\mathbb R\mathrm P}^n, X_0) = \Omega(\left\Vert({\mathbb R\mathrm P}^n, X_0)\right\Vert_1)$$
 
-But what *is* $\left\Vert({\mathbb R\mathrm P}^n, X_0)\right\Vert_1$? The $k$-truncation of a space removes all non-trivial paths of degree $k+2$ and higher (the notation works so that $0$-truncations are sets). In this case (leaving out base points), $\left\Vert{\mathbb R\mathrm P}^n\right\Vert_1$ is ${\mathbb R\mathrm P}^n$ with all non-trivial $k$-paths for $k\geq 3$ removed. As ${\mathbb R\mathrm P}^n$ is a higher inductive type, it's rather simple to see what the resulting type is, we just have to remove all the constructors of degree $3$ and higher, obtaining:
+But what *is* $\left\Vert({\mathbb R\mathrm P}^n, X_0)\right\Vert_1$? The $k$-truncation of a space removes all non-trivial paths of degree $k+2$ and higher (the notation works so that $0$-truncations are sets). In this case (leaving out base points), $\left\Vert{\mathbb R\mathrm P}^n\right\Vert_1$ is ${\mathbb R\mathrm P}^n$ with all non-trivial $k$-paths for $k\geq 3$ removed. As ${\mathbb R\mathrm P}^n$ is a higher inductive type, it is rather simple to see what the resulting type is, we just have to remove all the constructors of degree $3$ and higher, obtaining:
 
 \begin{align*}
 X_0 &: {\mathbb R\mathrm P}^n\\

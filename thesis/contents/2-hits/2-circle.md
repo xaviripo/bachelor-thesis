@@ -7,7 +7,7 @@ The \textbf{fundamental group} of a based type $(X,x)$, denoted as $\pi_1(X,x)$,
 \[\pi_1(X,x) = \norm{\Omega(X,x)}_0\]
 \end{definition}
 
-If we had chosen to present the circle as a pushout, we could apply the Seifert-van Kampen theorem. Indeed, this will be discussed in @sec:pushouts. But right now let's concentrate on the presentation as a higher inductive type. After all, it wouldn't be useful if we weren't able to carry out elementary tasks like this one.
+If we had chosen to present the circle as a pushout, we could apply the Seifert-van Kampen theorem. Indeed, this will be discussed in @sec:pushouts. But right now let us concentrate on the presentation as a higher inductive type. After all, it would not be useful if we were not able to carry out elementary tasks like this one.
 
 We remind some topological definitions which will be relevant in this section.
 
@@ -19,7 +19,7 @@ We say that $U$ is **evenly covered** by $p^{-1}(U)$. We call the preimage of ea
 
 The traditional way to approach the problem at hand would be to find the cover of the circle, and from that see that each fiber is isomorphic to the integers \integers.
 
-A more type theoretic proof jumps straight to the fibers, without the need to build the covering space first. This is due to the way covering spaces are defined in homotopy type theory. In classical topology, the notion of subspace is very important. It's easy to see how this applies to covers, as their definition only already deals with subspaces of $X$ and $C$. Unfortunately, the notion of subspace, just like the notion of subset, does not translate well into homotopy type theory. The good news is that the alternative, which we will now see, is more adequate for synthetic homotopy and constructive mathematics. In general, whenever we find a definition that contains a tuple (for instance, the covering space together with its projection), we have to suspect that translating it literally into type theory will be cumbersome, because in constructive mathematics we have to carry along all the parts of the definition.
+A more type theoretic proof jumps straight to the fibers, without the need to build the covering space first. This is due to the way covering spaces are defined in homotopy type theory. In classical topology, the notion of subspace is very important. It is easy to see how this applies to covers, as their definition only already deals with subspaces of $X$ and $C$. Unfortunately, the notion of subspace, just like the notion of subset, does not translate well into homotopy type theory. The good news is that the alternative, which we will now see, is more adequate for synthetic homotopy and constructive mathematics. In general, whenever we find a definition that contains a tuple (for instance, the covering space together with its projection), we have to suspect that translating it literally into type theory will be cumbersome, because in constructive mathematics we have to carry along all the parts of the definition.
 
 Hence, we will define directly for each point its fiber. In the case of the circle, this would be:
 
@@ -124,7 +124,7 @@ We apply \autoref{circle-inverses} to see that \encode{} and \decode{} act as mu
 We use \autoref{circle-equiv} with $x = \sbase$. This gives us an equivalence $(\sbase = \sbase) \simeq \integers$. We apply the univalence axiom to obtain an equality from the equivalence. Applying $0$-truncation to both sides gives us $\norm{\sbase = \sbase}_0 = \norm{\integers}_0$. On the left side, we have the definition of $\pi_1(\sone)$. On the right, because \integers{} is a set, we obtain \integers{} again. So we have $\pi_1(\sone) = \integers$.
 \end{proof}
 
-The last step is to prove that the equivalence on \sbase{} takes path composition to addition, in order to see that it's a group homomorphism as well.
+The last step is to prove that the equivalence on \sbase{} takes path composition to addition, in order to see that it is a group homomorphism as well.
 
 \begin{theorem}
 $\pi_1(\sone)$ and \integers{} are isomorphic as groups.
@@ -132,7 +132,7 @@ $\pi_1(\sone)$ and \integers{} are isomorphic as groups.
 
 \begin{proof}
 %f (Ac a₁ a₂) == Bc (f a₁) (f a₂)
-It's enough to see that, for all $p$, $q$ in $\pi_1(\sone)$, $\encode_{\sbase}(p \ct q) = \encode_{\sbase}(p) + \encode_{\sbase}(q)$.
+It is enough to see that, for all $p$, $q$ in $\pi_1(\sone)$, $\encode_{\sbase}(p \ct q) = \encode_{\sbase}(p) + \encode_{\sbase}(q)$.
 \[\begin{array}{lllr}
 & \encode_{\sbase}(p \ct q)\\
 &= \transport^{\code}(p \ct q, 0) && \text{(definition of \encode)}\\

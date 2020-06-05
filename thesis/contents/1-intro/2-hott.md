@@ -7,7 +7,7 @@ A very brief introduction to type theory is given in this chapter, although mayb
 
 In type theory, every *term* has a unique assigned *type*. Note two important differences with respect to set theory:
 
-1. A term must belong to, at least, one type. In type theory it makes no sense to talk about a typeless term, and we can't do much with it if we don't know its type. All the equations and computations involving a term expect it to have an assigned type.
+1. A term must belong to, at least, one type. In type theory it makes no sense to talk about a typeless term, and we can not do much with it if we do not know its type. All the equations and computations involving a term expect it to have an assigned type.
 
 2. A term must belong to, at most, one type. That is to say, terms can not belong to two or more types at the same time. Note that, in particular, an analogous notion to that of a subset is not possible--at least not without some intermediate structure.
 
@@ -22,15 +22,15 @@ to express that the term $a$ has type $A$. The words *element* and *point* will 
 
 ### Universes
 
-Types themselves behave as a special kind of terms of higher types, called *universes*. Universes are stratified, in a similar fashion to the Von Neuman hierarchy of sets. Exceptionally, types in universes are considered to belong to more than one universe: if they belong to a given universe $\mathcal{U}_n$, they belong to the bigger universe type $\mathcal{U}_{n+1}$ such that $\mathcal{U}_n : \mathcal{U}_{n+1}$. As with classical mathematics, we won't make explicit in which level our type belongs, rather using an ambiguous $\mathcal{U}$ notation for all universe types.
+Types themselves behave as a special kind of terms of higher types, called *universes*. Universes are stratified, in a similar fashion to the Von Neuman hierarchy of sets. Exceptionally, types in universes are considered to belong to more than one universe: if they belong to a given universe $\mathcal{U}_n$, they belong to the bigger universe type $\mathcal{U}_{n+1}$ such that $\mathcal{U}_n : \mathcal{U}_{n+1}$. As with classical mathematics, we will not make explicit in which level our type belongs, rather using an ambiguous $\mathcal{U}$ notation for all universe types.
 (TODO check against book all this part)
 
 
 ### Equalities
 
-In intensional type theories, such as homotopy type theory, two terms can be definitionally equal (also known as judgmentally equal) or propositionally equal. Two terms are definitionally equal only when we impose so, and, in such case, they are fully interchangeable by one another. We denote that $a$ and $b$ are definitionally equal by writing $a \equiv b$. We sometimes write $a :\equiv b$ to emphasize that $a$ is being defined. The claim that two terms are definitionally equal cannot be disputed, it's not a proposition. This is used mainly when defining new terms and types, or for notation purposes.
+In intensional type theories, such as homotopy type theory, two terms can be definitionally equal (also known as judgmentally equal) or propositionally equal. Two terms are definitionally equal only when we impose so, and, in such case, they are fully interchangeable by one another. We denote that $a$ and $b$ are definitionally equal by writing $a \equiv b$. We sometimes write $a :\equiv b$ to emphasize that $a$ is being defined. The claim that two terms are definitionally equal cannot be disputed, it is not a proposition. This is used mainly when defining new terms and types, or for notation purposes.
 
-On the other hand, two (not necessarily equal in the previous sense) terms of the same type can be compared for propositional equality. This means that, given two terms $a$ and $b$ of a type $A$, it makes sense to ask whether they are equal or not. As we'll see, propositions are implemented through types in homotopy type theory, so we reserve the notation $a = b$ for the type of equalities between $a$ and $b$, or, in the homotopical sense, the type of paths between $a$ and $b$.
+On the other hand, two (not necessarily equal in the previous sense) terms of the same type can be compared for propositional equality. This means that, given two terms $a$ and $b$ of a type $A$, it makes sense to ask whether they are equal or not. As we will see, propositions are implemented through types in homotopy type theory, so we reserve the notation $a = b$ for the type of equalities between $a$ and $b$, or, in the homotopical sense, the type of paths between $a$ and $b$.
 
 
 ### Type constructors
@@ -45,7 +45,7 @@ Type constructors allow to build new types from existing ones (for example, the 
 
 - Computation rules. They explain how the eliminators act on the constructors.
 
-Let's quickly review some type constructors.
+Let us quickly review some type constructors.
 
 
 #### Function types
@@ -69,7 +69,7 @@ Observe that functions are currified. For example, if we want to build a functio
 
 #### Product types
 
-As with function types, we have a both a non-dependent and a dependent version. We'll only expose the non-dependent version.
+As with function types, we have a both a non-dependent and a dependent version. We will only expose the non-dependent version.
 
 - Formation rule. Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) product type of $A$ and $B$. If we have types $A$ and $B : A \rightarrow \mathcal{U}$, then $\Sigma_{(x : A)}B(x)$ is the dependent product of $A$ and $B$. In the dependent case, $b$ has to belong to the type $B(a)$.
 
