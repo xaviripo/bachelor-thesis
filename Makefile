@@ -17,10 +17,11 @@ THESIS=thesis
 # Space-separated list of files to use, in order to be included
 THESIS_FILES_RAW=\
 definitions.md metadata.md abstract.md ack.md\
-contents/1-intro/0-intro.md\
-contents/1-intro/1-homotopy.md\
-contents/1-intro/2-hott.md\
-contents/1-intro/3-agda.md\
+contents/0-intro/0-intro.md\
+contents/1-preliminaries/0-preliminaries.md\
+contents/1-preliminaries/1-homotopy.md\
+contents/1-preliminaries/2-hott.md\
+contents/1-preliminaries/3-agda.md\
 contents/2-hits/0-hits.md\
 contents/2-hits/1-concept.md\
 contents/2-hits/2-circle.md\

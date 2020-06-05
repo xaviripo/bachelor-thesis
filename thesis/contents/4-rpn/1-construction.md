@@ -18,7 +18,7 @@ X_3 &: X_2 = X_2^{-1}\\
 X_n &: X_{n-1} = X_{n-1}^{-1}
 \end{align*}
 
-Notice how, for $i$ greater than $1$, $X_i$ has type $X_{i-1} = X_{i-1}^{-1}$ rather than $X_{i-1} = X_{i-1}$. This is where the higher inductive types shine: they don not only tell us which cells are related, but also with what orientation, making the issue we had describing the CW-complex non-existent.
+Notice how, for $i$ greater than $1$, $X_i$ has type $X_{i-1} = X_{i-1}^{-1}$ rather than $X_{i-1} = X_{i-1}$. This is where the higher inductive types shine: they do not only tell us which cells are related, but also with what orientation, making the issue we had describing the CW-complex non-existent.
 
 We will see, using homotopy type theory alone, *why* the fundamental group of the real projective plane is ${\mathbb Z}_2$ for $n\geq 2$, and *why* it gets "stuck" at that for higher dimensions.
 
