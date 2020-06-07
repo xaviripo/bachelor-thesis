@@ -54,7 +54,11 @@ The function types are special in that their elements cannot be defined from sim
 
 - Formation rule. Given any two types $A$ and $B$, the (non-dependent) function type from $A$ to $B$, denoted $A \rightarrow B$, contains all the functions $f : A \rightarrow B$ that assign to each term $a : A$ an element in $B$, $f(a)$.
 
-- Introduction rules. There are a few ways to define functions. The most common ones are direct definition: $f(x) :\equiv \Phi$, where $\Phi$ is a formula that contains $x$ as an unbound variable; and $\lambda$-abstraction: $f :\equiv \lambda (x : A).\Phi$.
+- Introduction rules.
+There are a few ways to define functions.
+One is direct definition: $f(x) :\equiv \Phi$, where $\Phi$ is a formula that contains $x$ as an unbound variable.
+Equivalently, we can use $\lambda$-abstraction: $\lambda (x : A).\Phi$ is the function that takes an argument of type $A$ and replaces all occurrences of $x$ in $\Phi$ with it.
+So, we can define $f :\equiv \lambda (x : A).\Phi$.
 
 - Elimination rule. The obvious eliminator is application: given a function $f : A \rightarrow B$ and a term $a : A$, we can think of $f(a) : B$ as applying $a$ to $f$ to produce a term of $B$.
 
@@ -64,7 +68,10 @@ The types of functions with codomain $\mathcal{U}$ ($A \rightarrow \mathcal{U}$)
 
 Given a type family $B : A \rightarrow \mathcal{U}$, the dependent function type (also known as $\prod$-type) $\prod_{(x : A)}B(x)$ comprises the functions whose codomain type is a type family depending on the input *value*, i.e., given $f:\prod_{(x : A)}B(x)$ and $a:A$, then $f(a) : B(a)$. The rules for the dependent types are analogous to those of the non-dependent types.
 
-Observe that functions are currified. For example, if we want to build a function with two arguments, its type would be $f : A \rightarrow B \rightarrow C$. This means that, when applied to a value $a : A$, we have $f(a) : B \rightarrow C$. We often write $f(a,b)$ to mean $f(a)(b)$, for convenience.
+If we want to build a function with two arguments, its type would be $f : A \rightarrow B \rightarrow C$.
+This means that, when applied to a value $a : A$, we have $f(a) : B \rightarrow C$.
+When a function is presented in this way, we say it is curried.
+We often write $f(a,b)$ to mean $f(a)(b)$, for convenience.
 
 
 #### Product types
