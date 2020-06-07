@@ -16,8 +16,14 @@ jobs:
     # Makefile. So we download the deb straight from pandoc's website.
     - name: Install requirements
       run: |
+        # pandoc
         curl -L https://github.com/jgm/pandoc/releases/download/2.9.2.1/pandoc-2.9.2.1-1-amd64.deb --output pandoc.deb
         sudo dpkg -i pandoc.deb
+        # pandoc-crossref
+        curl -L https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.6.3/pandoc-crossref-Linux-2.9.2.1.tar.xz --output pandoc-crossref.tar.xz
+        tar xf pandoc-crossref.tar.xz
+        sudo mv pandoc-crossref /bin/
+        # XeTeX
         sudo apt install texlive-xetex
 
     # Build the thesis file
