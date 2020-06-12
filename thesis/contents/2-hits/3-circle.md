@@ -1,4 +1,4 @@
-## The Fundamental Group of the Circle
+## The Fundamental Group of the Circle {#sec:circle}
 
 In order to familiarize ourselves with spaces presented as higher inductive types, we analyze a study case: the fundamental group of the circle \sone. In classical topology, the fundamental group is defined as the quotient of the set of loops at the base point by the homotopy equivalence relationship. In homotopy type theory, the quotient is not necessary, as paths that are homotopy equivalent are *propositionally equal*. What we need to do, though, is make sure that the fundamental group is a discrete set, so we have to kill all higher order paths:
 

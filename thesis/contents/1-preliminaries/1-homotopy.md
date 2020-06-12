@@ -3,7 +3,7 @@
 In a topological space $X$, a **path** from $x \in X$ to $y \in X$ is defined as a continuous map $f : [0,1] \rightarrow X$ such that $f(0) = x$ and $f(1) = y$.
 Often, we want to consider the composition of paths $f$ (connecting $x$ to $y$) and $g$ (connecting $y$ to $z$).
 This would be a path that walks over $f$ in $[0,\frac{1}{2}]$ and walks over $g$ in $[\frac{1}{2},1]$, denoted by $f \ct g$.
-Then, we'd expect to be able to define extended compositions like $f \ct g \ct h \ct \cdots$.
+Then, we would expect to be able to define extended compositions like $f \ct g \ct h \ct \cdots$.
 Unfortunately, path composition is not associative due to parametrization issues.
 
 A way to allow associativity is by weakening our notion of path equality.
@@ -28,3 +28,5 @@ But, if we take homotopy classes, we are losing important topological informatio
 To preserve the higher homotopical structure, we need higher morphisms.
 We can build a new category from each pair of objects, consisting of all the paths between them, and whose morphisms are the homotopies between such paths.
 If we repeat this at higher levels indefinitely, we obtain a "castle" of groupoids, which is called an $\infty$-groupoid.
+
+TODO Define fundamental group and higher homotopy groups

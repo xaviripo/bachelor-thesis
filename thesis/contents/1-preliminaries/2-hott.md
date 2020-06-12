@@ -19,106 +19,149 @@ $$
 
 to express that the term $a$ has type $A$. The words *element* and *point* will be used interchangeably with term.
 
+Types themselves are regarded as terms of a special type \universe, called the "universe type".
+For example, when we say "$A$ is a type", this is the same as denoting $A : \universe$.
 
-### Universes
+There are two main ways to obtain types:
 
-Types themselves behave as a special kind of terms of higher types, called *universes*. Universes are stratified, in a similar fashion to the Von Neuman hierarchy of sets. Exceptionally, types in universes are considered to belong to more than one universe: if they belong to a given universe $\mathcal{U}_n$, they belong to the bigger universe type $\mathcal{U}_{n+1}$ such that $\mathcal{U}_n : \mathcal{U}_{n+1}$. As with classical mathematics, we will not make explicit in which level our type belongs, rather using an ambiguous $\mathcal{U}$ notation for all universe types.
-(TODO check against book all this part)
+1. To create them from scratch, via inductive types. We will see this option in @sec:hits.
 
+2. To create them from previously existing types, via type constructors.
 
-### Equalities
+Type constructors allow to build new types from existing ones.
+We can think of them as functions whose codomain is \universe.
+To specify a new type constructor, one has to give the following rules for it:
 
-In intensional type theories, such as homotopy type theory, two terms can be definitionally equal (also known as judgmentally equal) or propositionally equal. Two terms are definitionally equal only when we impose so, and, in such case, they are fully interchangeable by one another. We denote that $a$ and $b$ are definitionally equal by writing $a \equiv b$. We sometimes write $a :\equiv b$ to emphasize that $a$ is being defined. The claim that two terms are definitionally equal cannot be disputed, it is not a proposition. This is used mainly when defining new terms and types, or for notation purposes.
+- **Formation rules**.
+Preconditions to be met by the types used to build the constructed type.
 
-On the other hand, two (not necessarily equal in the previous sense) terms of the same type can be compared for propositional equality. This means that, given two terms $a$ and $b$ of a type $A$, it makes sense to ask whether they are equal or not. As we will see, propositions are implemented through types in homotopy type theory, so we reserve the notation $a = b$ for the type of equalities between $a$ and $b$, or, in the homotopical sense, the type of paths between $a$ and $b$.
+- **Introduction rules** or constructors.
+Ways to build new terms.
+These are functions (possibly nullary) whose return type is the constructed type.
 
+- **Elimination rules** or eliminators.
+Ways to use terms.
+These are functions that have, at least, one argument of the constructed type.
+Eliminators can often be non-dependent (called recursion principles or recursors) or dependent (called induction principles).
 
-### Type constructors
-
-Type constructors allow to build new types from existing ones (for example, the cartesian product is a type constructor). To specify a new type constructor, one has to give the following rules for it:
-
-- Formation rules. Preconditions to be met by the types used to build the constructed type.
-
-- Introduction rules or constructors. Ways to build new terms. These are functions (possibly nullary) whose return type is the constructed type.
-
-- Elimination rules or eliminators. Ways to use terms. These are functions that have, at least, one argument of the constructed type.
-
-- Computation rules. They explain how the eliminators act on the constructors.
-
-Let us quickly review some type constructors.
+- **Computation rules**.
+They explain how the eliminators act on the constructors.
 
 
-#### Function types
+### Function types
 
-The function types are special in that their elements cannot be defined from simpler type-theoretic terms. From the function type constructor we will deduce most other constructors.
+The function types are special in that their elements cannot be defined from simpler type-theoretic terms.
+From the function type constructor we will deduce most other constructors.
+This comes from the fact that type theories are often instances of typed lambda calculi, i.e. we are furnishing functions with types, rather than adding functions to types.
 
-- Formation rule. Given any two types $A$ and $B$, the (non-dependent) function type from $A$ to $B$, denoted $A \rightarrow B$, contains all the functions $f : A \rightarrow B$ that assign to each term $a : A$ an element in $B$, $f(a)$.
+- Formation rule.
+Given any two types $A$ and $B$, the (non-dependent) **function type** from $A$ to $B$, denoted $A \rightarrow B$, contains all the functions $f : A \rightarrow B$ that assign to each term $a : A$ an element in $B$, $f(a)$.
 
 - Introduction rules.
 There are a few ways to define functions.
 One is direct definition: $f(x) :\equiv \Phi$, where $\Phi$ is a formula that contains $x$ as an unbound variable.
-Equivalently, we can use $\lambda$-abstraction: $\lambda (x : A).\Phi$ is the function that takes an argument of type $A$ and replaces all occurrences of $x$ in $\Phi$ with it.
-So, we can define $f :\equiv \lambda (x : A).\Phi$.
+Equivalently, we can use $\lambda$-abstraction: we denote by $\lambda (x : A).\Phi$ the function that takes an argument of type $A$ and replaces all occurrences of $x$ in $\Phi$ with it.
+So, we can also define $f :\equiv \lambda (x : A).\Phi$.
 
-- Elimination rule. The obvious eliminator is application: given a function $f : A \rightarrow B$ and a term $a : A$, we can think of $f(a) : B$ as applying $a$ to $f$ to produce a term of $B$.
+- Elimination rule.
+The obvious eliminator is application: given a function $f : A \rightarrow B$ and a term $a : A$, we can think of $f(a) : B$ as applying $a$ to $f$ to produce a term of $B$.
 
-- Computation rule. The computation rule for functions tells us that $a : A$ applied to $\lambda(x : A).\Phi$ is $\Phi$ with all occurences of $x$ replaced with $a$.
+- Computation rule.
+The computation rule for functions tells us that $a : A$ applied to $\lambda(x : A).\Phi$ is $\Phi$ with all occurences of $x$ replaced with $a$.
+Observe that this goes a step further than the elimination rule, as we are describing the function in terms of its construction (as a $\lambda$-abstraction in this case).
 
-The types of functions with codomain $\mathcal{U}$ ($A \rightarrow \mathcal{U}$) are called type families or dependent types.
+The types of functions with codomain \universe{} ($A \rightarrow \universe$) are called **type families** or dependent types.
+Think carefully about what this means.
+Ordinary functions give us a value in a type for each value given.
+On the other hand, dependent types give us a whole type, for each value given.
 
-Given a type family $B : A \rightarrow \mathcal{U}$, the dependent function type (also known as $\prod$-type) $\prod_{(x : A)}B(x)$ comprises the functions whose codomain type is a type family depending on the input *value*, i.e., given $f:\prod_{(x : A)}B(x)$ and $a:A$, then $f(a) : B(a)$. The rules for the dependent types are analogous to those of the non-dependent types.
+Given a type family $B : A \rightarrow \universe$, the dependent function type (also known as $\prod$-type) $\prod_{(x : A)}B(x)$ comprises the functions whose codomain is a type family depending on the input *value*, i.e., given $f : \prod_{(x : A)} B(x)$ and $a : A$, then $f(a) : B(a)$.
+The rules for the dependent types are analogous to those of the non-dependent types.
 
 If we want to build a function with two arguments, its type would be $f : A \rightarrow B \rightarrow C$.
-This means that, when applied to a value $a : A$, we have $f(a) : B \rightarrow C$.
+This means that, when applied to a value $a : A$, $f$ returns a value $f(a) : B \rightarrow C$.
+Then, we can apply a value $b : B$, to obtain $f(a)(b) : C$.
+Although it is also possible to define multiple parameters via Cartesian products, just like in set theory, that is not the most natural way to do it in type theory.
 When a function is presented in this way, we say it is curried.
 We often write $f(a,b)$ to mean $f(a)(b)$, for convenience.
 
 
-#### Product types
+### Product types
 
-As with function types, we have a both a non-dependent and a dependent version. We will only expose the non-dependent version.
+As with function types, we have a both a non-dependent and a dependent version.
 
-- Formation rule. Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) product type of $A$ and $B$. If we have types $A$ and $B : A \rightarrow \mathcal{U}$, then $\prod_{(x : A)}B(x)$ is the dependent product of $A$ and $B$. In the dependent case, $b$ has to belong to the type $B(a)$.
+- Formation rule.
+Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) **product type** of $A$ and $B$.
+If we have types $A$ and $B : A \rightarrow \universe$, then $\prod_{(x : A)} B(x)$ is the dependent product of $A$ and $B$.
+In the dependent case, $b$ has to belong to the type $B(a)$.
 
-- Introduction rule. Given $a : A$ and $b : B$, we obtain $(a,b) : A \times B$.
+- Introduction rule.
+Given $a : A$ and $b : B$, we obtain $(a,b) : A \times B$.
 
-- Elimination rule. If we have a function $g : A \rightarrow B \rightarrow C$, then this rule gives us another one $f : A \times B \rightarrow C$, with the natural definition $f((a,b)) :\equiv g(a)(b)$. This principle is summed up in a special function called the recursor for product types: $\mathsf{rec}_{A \times B} : \prod_{(C : \mathcal{U})} (A \rightarrow B \rightarrow C) \rightarrow A \times B \rightarrow C$, defined as $\mathsf{rec}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$. When generalized to dependent functions ($g : \prod_{(x : A)}\prod_{(y : B)}C((x,y))$), this is known as the induction principle:
+- Elimination rules.
+If we have a function $f : A \rightarrow B \rightarrow C$, then this rule gives us another function $g : (A \times B) \rightarrow C$.
+The dependent eliminator is akin to this one, but with $f$ a dependent function.
 
-   $$\mathsf{ind}_{A \times B} : \prod_{C : A \times B \rightarrow \mathcal{U}} \left(\prod_{x : A}\prod_{y : B}C((x,y))\right) \prod_{z : A \times B} C(z)$$
-
-    $$\mathsf{ind}_{A \times B}(C,g,(a,b)) :\equiv g(a)(b)$$
-
-    Again, both the recursion and induction principles exist for both non-dependent and dependent product types.
-
-- Computation rule. Imagine we have $a : A$, $b : B$, and $g : A \rightarrow B \rightarrow C$. When applying the introduction rule to $a$ and $b$, we get the pair $(a,b)$; and, when applying the elimination rule to the function $g$, we obtain a function $f : A \times B \rightarrow C$. This rule states that $g(a,b)$ is the same as $f((a,b))$. In other words, this says that our introduction and elimination rules are coherent.
-
-
-#### Inductive types
-
-To be able to apply the type constructors above, we need some other types to start from. We introduce a different way to construct types: inductive types.
-
-An inductive type is a type described by a set of (possibly nullary) functions whose codomain is that type. For example, the empty type $\mathbf{0} : \mathcal{U}$ is the type defined by no constructors. Similarly, the unit type $\mathbf{1} : \mathcal{U}$ is characterized by a single constructor $\star : \mathbf{1}$. Finally, we see the type of booleans $\mathbf{2} : \mathcal{U}$, given by $0\sb{\mathbf{2}}, 1\sb{\mathbf{2}} : \mathbf{2}$.
-
-A more interesting example is the naturals $\mathbb{N} : \mathcal{U}$, given by:
-\begin{align*}
-0 &: \mathbb{N}\\
-\mathsf{succ} &: \mathbb{N} \rightarrow \mathbb{N}
-\end{align*}
-
-Inductive types can be thought of a special case of type constructors. In the case of inductive types, though, just defining the constructors, which are its introduction rules, we can deduce the elimination rules, whereas we normally have to think them out and prove they are coherent, through the computation rule.
-
-TODO Talk about not assuming (in)equality right away (e.g. having to prove that 0 is empty and 1 has a single element).
-
-TODO Talk about HIT, although the equality type is needed before hand?
+- Computation rule.
+The eliminator tells us there exists a function $g : (A \times B) \rightarrow C$.
+The computation rule tells us how this function acts on the elements created by the introduction rules, namely pairs $(a,b)$.
+Imagine we have $a : A$, $b : B$, and $g : A \rightarrow B \rightarrow C$.
+This rule defines $f((a,b))$ as $g(a,b)$.
 
 
-#### The identity type
+### Coproduct types
 
-The identity type is what mainly differentiates homotopy type theory from other kinds of type theory. Given a type $A : \mathcal{U}$, there exists a (possibly empty) type $a =_A b$ of identifications between $a : A$ and $b : A$. The idea is that every term in $a =_A b$ is a proof that $a$ is equal to $b$. This type is not always trivial: two elements in a type can be equal in many different ways. In fact, the complexity of identity types is what makes homotopy type theory interesting and what gives rise to the homotopical structure.
+The coproduct is the analogue of the disjoint union in set theory.
+It does not have a dependent version.
 
-TODO Path induction
+- Formation rule.
+As with product types, we take types $A$ and $B$ to obtain their **coproduct type** $A + B$.
+
+- Introduction rule.
+There are two ways to introduce elements of $A + B$.
+One is, given a term $a : A$, we have a term $\inl(a) : A + B$.
+The other, given $b : B$, we have $\inr(b) : A + B$.
+
+- Elimination rule.
+The non-dependent eliminator is very simple: for any type $C$, and given functions $f : A \rightarrow C$, $g: B \rightarrow C$, there is a function $h : (A + B) \rightarrow C$.
+
+- Computation rule.
+As with product types, this just tells us how to apply the eliminator on the constructor. In this case, the function $h$ given above behaves like this:
+  $$h(\inl(a)) = f(a)$$
+  $$h(\inr(b)) = g(b)$$
 
 
-### Propositions as types
+### Indentity types {#sec:hott-identity}
 
-TODO
+In intensional type theories, such as homotopy type theory, two terms can be definitionally equal (also known as judgmentally equal) or they can be propositionally equal.
+Two terms are definitionally equal only when we impose so, and, in such case, they are fully interchangeable by one another.
+We denote that $a$ and $b$ are definitionally equal by writing $a \equiv b$.
+We sometimes write $a :\equiv b$ to emphasize that $a$ is being defined.
+The claim that two terms are definitionally equal cannot be disputed, it is not a proposition.
+This is used mainly when defining new terms and types, or for notation purposes.
+
+On the other hand, two (not necessarily equal in the previous sense) terms of the same type can be compared for propositional equality.
+This means that, given two terms $a$ and $b$ of a type $A$, it makes sense to ask whether they are equal or not.
+As we will see, propositions are implemented through types in homotopy type theory, so we reserve the notation $a = b$ for the type of equalities between $a$ and $b$, or, in the homotopical sense, the type of paths between $a$ and $b$.
+We call this an **identity type** or path type.
+
+The identity type is what mainly differentiates homotopy type theory from other kinds of type theory. Given a type $A : \universe$, there exists a (possibly empty) type $a =_A b$ of identifications between $a : A$ and $b : A$.
+We often omit $A$ when it is clear and just write $a = b$.
+The idea is that every term in $a =_A b$ is a proof that $a$ is equal to $b$.
+This type is not always trivial: two elements in a type can be equal in many different ways.
+In fact, the complexity of identity types is what makes homotopy type theory interesting and what gives rise to the homotopical structure.
+
+Path types are also type constructors. They are a bit different from the other seen so far in that they do not only require types, but also elements of such type.
+We can think of the type constructor $(-=_{-}-)$ as a function of type $\prod_{(A : \universe)} A \rightarrow A \rightarrow \universe$.
+Now, as a type constructor, we should also give the rules on how it behaves.
+
+The introduction rule tells us that, given a term of a type, it is equal to itself.
+In other words, for any $A : \universe$ and $a : A$, we have $\refl_a : a = a$.
+The fact that this is the only introduction rule does not mean that there are not other paths.
+
+The elimination rule for path types is one of the most important reasoning tools in homotopy type theory.
+Often described in its dependent form, hence called **path induction**, it allows us to build functions and prove statements about all paths in a path type, by just proving them on a few paths of the type.
+Suppose we have a type family $C$ that assigns a type to every possible path in a type $A$ (i.e. $C : \prod_{(x,y : A)} (x =_A y) \rightarrow \universe$).
+We want to build a dependent function $f$ that, for each path $p : a = b$, gives us a value of $C(a,b,p)$.
+The induction principle for path types states that, in order to obtain $f$, it is only necessary to define it on the paths $\refl$.
+Then, the computation rule says that the $f$ that we obtain in fact respects the values we have given at each $\refl$.

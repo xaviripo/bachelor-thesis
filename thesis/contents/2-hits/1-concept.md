@@ -1,7 +1,7 @@
 ## Concept
 
 An inductive type, in its purest form, is given by introducing a series of *constructors*. The idea is that an inductive type is "freely generated" by its constructors. The simplest inductive type has no constructors:
-\[\zero : \universe\]
+$$\zero : \universe$$
 
 This is known as the **empty type**.
 

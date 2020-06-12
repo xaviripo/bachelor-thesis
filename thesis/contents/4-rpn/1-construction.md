@@ -1,67 +1,110 @@
 ## Construction
 
-The *real projective space of dimension $n$* (${\mathbb R\mathrm P}^n$) is the topological space ${\mathbb S}^n/R$, where $R$ is the relationship between each point and its antipode. We can also describe the real projective spaces as CW-complexes by using the following facts:
+We will now see how to build the projective spaces in homotopy type theory.
+Using pushouts, we can build $\RP^{n+1}$ from $\RP^n$ as such:
 
-- The sphere ${\mathbb S}^n$ has a CW-complex structure with two 0-cells, two 1-cells, two 2-cells, etc. up to two $n$-cells.
-- The quotient space by the relationship $R$ glues each two $i$-cells through antipodal points ("flipping" one of the $i$-cells).
+\begin{center}
+\begin{tikzpicture}
+\node (X) at (0,0) {\(\sphere^n\)};
+\node (Y) at (2,0) {\(\one\)};
+\node (Z) at (0,-2) {\(\RP^n\)};
+\node (P) at (2,-2) {\(\RP^{n+1}\)};
+\draw[->] (X) -- (Y);
+\draw[->] (X) -- (Z) node[midway,left] {$\alpha_n$};
+\draw[->] (Y) -- (P);
+\draw[->] (Z) -- (P);
+\end{tikzpicture}
+\end{center}
 
-It can be shown that ${\mathbb R\mathrm P}^n$ is then a CW-complex with one cell for each dimension from $0$ up to $n$. It is important to notice that there is more than one CW-complex with these cells. For example, if one were to try and build a CW-complex with one $0$-cell, one $1$-cell, and one $2$-cell, it would most probably *not* end up being the real projective plane ${\mathbb R\mathrm P}^2$. To get the projective plane, one has to mind using the $2$-cell to glue the $1$-cell to itself *reversed*. Otherwise, we obtain the common sphere ${\mathbb S}^2$ with its two poles identified.
+This amounts to attaching an $n+1$ cell to $\RP^n$, as we said before.
+The function $\alpha_n$, which defines *how* to attach the cell, is not as easy to define, though.
 
-Some CW-complexes translate very well into homotopy type theory as higher inductive types. When each $(n+1)$-cell has, at most, two different $n$-cells as its boundary, it can be regarded as a higher path between those $n$-cells. In the case of the projective spaces, the $(n+1)$-cell glues together the $n$-cell with itself, so we *can* express them as higher inductive types, using the following constructors:
+Instead of forcing this definition, we can take a closer look at that $\sphere^n$ in the pushout diagram.
+We have just seen that the sphere is a covering space of $\RP^n$.
+This suggests rewriting the diagram as:
 
-\begin{align*}
-X_0 &: {\mathbb R\mathrm P}^n\\
-X_1 &: X_0 = X_0\\
-X_2 &: X_1 = X_1^{-1}\\
-X_3 &: X_2 = X_2^{-1}\\
-&\vdots\\
-X_n &: X_{n-1} = X_{n-1}^{-1}
-\end{align*}
+\begin{center}
+\begin{tikzpicture}
+\node (X) at (0,0) {\(\sum_{(x : \RP^n)} \cov^n(x)\)};
+\node (Y) at (3,0) {\(\one\)};
+\node (Z) at (0,-2) {\(\RP^n\)};
+\node (P) at (3,-2) {\(\RP^{n+1}\)};
+\draw[->] (X) -- (Y);
+\draw[->] (X) -- (Z);
+\draw[->] (Y) -- (P);
+\draw[->] (Z) -- (P);
+\end{tikzpicture}
+\end{center}
 
-Notice how, for $i$ greater than $1$, $X_i$ has type $X_{i-1} = X_{i-1}^{-1}$ rather than $X_{i-1} = X_{i-1}$. This is where the higher inductive types shine: they do not only tell us which cells are related, but also with what orientation, making the issue we had describing the CW-complex non-existent.
+Where $\cov^n(x)$ is the fiber of $x : \RP^n$.
+Now, instead of defining the covering space and deducing the shape of the fibers from that, we do it the other way around: we have to define $\RP^n$ and $\cov^n$ inductively on $n$, and from that prove that the total space $\sum_{(x : \RP^n)} \cov^n(x)$ is indeed $\sphere^n$ in order to convince ourselves that this is indeed the projective spaces that we are building.
 
-We will see, using homotopy type theory alone, *why* the fundamental group of the real projective plane is ${\mathbb Z}_2$ for $n\geq 2$, and *why* it gets "stuck" at that for higher dimensions.
+For each $n \geq -1$, we define both $\RP^n$ and $\cov^n$ inductively.
+As the fiber of a covering space, we would usually define \cov to be fo type $\cov^n : \RP^n \rightarrow \universe$.
+In this case, though, we need a little bit more precision, and so we first define the "subuniverse" $\universe_{\szero}$ of 2 element sets, so that we can have $\cov^n : \RP^n \rightarrow \universe_{\szero}$.
+As there are no subtypes in homotopy type theory, this is actually a fibration itself:
 
+\begin{definition}
+The \textbf{universe of $2$-sets} $\universe_{\szero}$ consists of types together with a proof that they are equal to $\szero$, i.e. $\sum_{(A : \universe)} \norm{A = \szero}_{-1}$.
+\end{definition}
+Luckily, the fibers are mere propositions, so we can omit them for brevity without changing the constructions, and treat $\universe_{\szero}$ like a universe of types.
+Similarly, we consider \szero to be a pointed type, with center $\north$, but we will not write it explicitly throughout the text.
 
-### The fundamental group of the real projective plane
+Consider the map $\encode : \prod_{(A : \universe_{\szero})} (\szero = A) \rightarrow A$ given by taking the center of \szero to the element that the chosen equality transports it to.
+In other words, $\encode(A,p) = \idtoeqv(p)(\north)$, where \idtoeqv is the equivalence induced by the equality of types.
 
-The definition of ${\mathbb R\mathrm P}^2$ is:
+\begin{lemma}
+\encode{} is an equivalence.
+\end{lemma}
 
-\begin{align*}
-X_0 &: {\mathbb R\mathrm P}^n\\
-X_1 &: X_0 = X_0\\
-X_2 &: X_1 = X_1^{-1}\\
-\end{align*}
+This \encode, like the others we have seen, tries to give a combinatorial interpretation of an equality type, in this case $\szero = A$.
+To correctly interpret this function, we disregard the first argument ($A : \universe_{\szero}$), as it is only necessary in order to introduce the path $p$.
+Then we see the actual meaning of the lemma: every element of a $2$-set $A$ corresponds uniquely with an equality between $A$ and the canonical pointed $2$-set \szero.
+After all, there are only two ways to identify \szero{} with $A$.
+This identification is uniquely determinated by the image of \north{} through the path.
 
-Observe that, as this is a higher inductive type, it is freely generated by these constructors. We want to know which paths exist from $X_0$ to itself. *A priori* it seems like the fundamental group should be $\mathbb Z$, because we give a single path $X_1$. But the next constructor, $X_2$, is a homotopy between $X_1$ and itself. This tells us that the group of loops over $X_0$ is freely generated by $X_1$ and the relationship $X_2$ of type $X_1 = X_1^{-1}$, or, in other words, $\langle X_1 | X_1 = X_1^{-1}\rangle \cong {\mathbb Z}_2$, the cyclic group of order two.
+The proof of the lemma is slightly technical and requires introducing results about pointed types that are out of scope, so we skip directly to building $\RP^n$ and $\cov^n$:
 
+- For the base case ($n = -1$), we take $\RP^{-1} :\equiv \zero$, the empty type.
+Then, there is only one candidate for $\cov^{-1}$, which is the only function of type $\zero \rightarrow \universe_{\szero}$.
 
-### The fundamental group of higher projective spaces
+- For the inductive case, assume $\RP^n$ and $\cov^n$ are defined. $\RP^{n+1}$ is defined as the pushout:
 
-By definition, the fundamental group of a pointed space is the $0$-truncation of the loop space over its base point:
+  \begin{center}
+  \begin{tikzpicture}
+  \node (X) at (0,0) {\(\sum_{(x : \RP^n)} \cov^n(x)\)};
+  \node (Y) at (3,0) {\(\one\)};
+  \node (Z) at (0,-2) {\(\RP^n\)};
+  \node (P) at (3,-2) {\(\RP^{n+1}\)};
+  \draw[->] (X) -- (Y);
+  \draw[->] (X) -- (Z) node[midway,left] {$\pr_1$};
+  \draw[->] (Y) -- (P);
+  \draw[->] (Z) -- (P);
+  \end{tikzpicture}
+  \end{center}
 
-$$\pi_1({\mathbb R\mathrm P}^n, X_0) = \left\Vert\Omega({\mathbb R\mathrm P}^n, X_0)\right\Vert_0$$
+  To define $\cov^{n+1} : \RP^{n+1} \rightarrow \universe_{\szero}$, consider the following diagram:
 
-HoTT 7.3.13 states that $\left\Vert\Omega(A,a)\right\Vert_n=\Omega(\left\Vert(A,a)\right\Vert_{n+1})$. Thus,
+  \begin{center}
+  \begin{tikzpicture}
+  \node (X) at (0,0) {\(\sum_{(x : \RP^n)} \cov^n(x)\)};
+  \node (Y) at (3,0) {\(\one\)};
+  \node (Z) at (0,-2) {\(\RP^n\)};
+  \node (P) at (3,-2) {\(\universe_{\szero}\)};
+  \draw[->] (X) -- (Y);
+  \draw[->] (X) -- (Z) node[midway,left] {$\pr_1$};
+  \draw[->] (Y) -- (P) node[midway,right] {$\szero$};
+  \draw[->] (Z) -- (P) node[midway,below] {$\cov^n$};
+  \end{tikzpicture}
+  \end{center}
 
-$$\pi_1({\mathbb R\mathrm P}^n, X_0) = \Omega(\left\Vert({\mathbb R\mathrm P}^n, X_0)\right\Vert_1)$$
+  Where \szero represents the function taking $\star$ to \szero. If we can prove that the square commutes, then, by the universal property of the pushout, there has to exist an equivalence between $\RP^{n+1}$ and $\universe_{\szero}$, which we will take to be $\cov^{n+1}$.
 
-But what *is* $\left\Vert({\mathbb R\mathrm P}^n, X_0)\right\Vert_1$? The $k$-truncation of a space removes all non-trivial paths of degree $k+2$ and higher (the notation works so that $0$-truncations are sets). In this case (leaving out base points), $\left\Vert{\mathbb R\mathrm P}^n\right\Vert_1$ is ${\mathbb R\mathrm P}^n$ with all non-trivial $k$-paths for $k\geq 3$ removed. As ${\mathbb R\mathrm P}^n$ is a higher inductive type, it is rather simple to see what the resulting type is, we just have to remove all the constructors of degree $3$ and higher, obtaining:
+  For every $x : \RP^n$, we have the equivalence $\encode(\cov^n(x)) : (\szero = \cov^n(x)) \simeq \cov^n(x)$ given by the lemma.
+  Theorem 4.7.7 of @univalent_foundations_program_homotopy_2013 induces an equivalence
 
-\begin{align*}
-X_0 &: {\mathbb R\mathrm P}^n\\
-X_1 &: X_0 = X_0\\
-X_2 &: X_1 = X_1^{-1}
-\end{align*}
+  $$\sum_{x : \RP^n} \cov^n(x) \simeq \sum_{x : \RP^n} (\szero = \cov^n(x))$$
 
-Which is, in fact, the projective plane. This means that
+  So we have the following diagram:
 
-$$\left\Vert{\mathbb R\mathrm P}^n\right\Vert_1 = \left\Vert{\mathbb R\mathrm P}^2\right\Vert_1$$
-
-for all $n\geq 2$. From here, we quickly see that
-
-$$\Omega(\left\Vert{(\mathbb R\mathrm P}^n, X_0)\right\Vert_1) = \Omega(\left\Vert{(\mathbb R\mathrm P}^2, X_0)\right\Vert_1)$$
-
-$$\left\Vert\Omega({\mathbb R\mathrm P}^n, X_0)\right\Vert_0 = \left\Vert\Omega({\mathbb R\mathrm P}^2, X_0)\right\Vert_0$$
-
-$$\pi_1({\mathbb R\mathrm P}^n, X_0) = \pi_1({\mathbb R\mathrm P}^2, X_0) = {\mathbb Z}_2$$
+  TODO Finish the construction of RP^n

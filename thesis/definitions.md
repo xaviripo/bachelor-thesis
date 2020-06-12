@@ -13,6 +13,7 @@
 
 <!-- Basic functions -->
 \newcommand{\ap}{\ensuremath{\mathsf{ap}}}
+\newcommand{\idtoeqv}{\ensuremath{\mathsf{idtoeqv}}}
 \newcommand{\ua}{\ensuremath{\mathsf{ua}}}
 \newcommand{\transport}{\ensuremath{\mathsf{transport}}}
 
@@ -23,6 +24,15 @@
              {\mathbin{\raisebox{0.25ex}{$\scriptstyle\,\centerdot\,$}}}%
              {\mathbin{\raisebox{0.1ex}{$\scriptscriptstyle\,\centerdot\,$}}}
 }
+
+<!-- The fiber function -->
+\newcommand{\fib}{\ensuremath{\mathsf{fib}}}
+
+<!-- cov -->
+\newcommand{\cov}{\ensuremath{\mathsf{cov}}}
+
+<!-- projection function -->
+\newcommand{\pr}{\ensuremath{\mathsf{pr}}}
 
 <!-- code, encode and decode -->
 \newcommand{\code}{\ensuremath{\mathsf{code}}}
@@ -51,6 +61,11 @@
 \newcommand{\naturals}{\ensuremath{\mathbb{N}}}
 \newcommand{\natsucc}{\ensuremath{\mathsf{succ}}}
 
+<!-- S 0 -->
+\newcommand{\szero}{\ensuremath{\mathbb{S}^{0}}}
+\newcommand{\north}{\ensuremath{\mathsf{N}}}
+
+
 <!-- Circle -->
 \newcommand{\sone}{\ensuremath{\mathbb{S}^{1}}}
 \newcommand{\sbase}{\ensuremath{\mathsf{base}}}
@@ -59,6 +74,9 @@
 <!-- Sphere -->
 \newcommand{\stwo}{\ensuremath{\mathbb{S}^{2}}}
 \newcommand{\ssurf}{\ensuremath{\mathsf{surf}}}
+
+<!-- General sphere -->
+\newcommand{\sphere}{\ensuremath{\mathbb{S}}}
 
 
 <!-- ## Path types -->
@@ -78,6 +96,9 @@
 <!-- ||·|| -->
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
+<!-- The function in the definition of contractible types -->
+\newcommand{\contr}{\ensuremath{\mathsf{contr}}}
+
 
 <!-- ## Pushouts -->
 
@@ -92,11 +113,20 @@
 <!-- Top -->
 \newcommand{\Top}{\ensuremath{\mathsf{Top}}}
 
+<!-- Pointed Top -->
+\newcommand{\PTop}{\ensuremath{\mathsf{Top}_*}}
+
 <!-- Ho(Top) -->
 \newcommand{\HoTop}{\ensuremath{\mathsf{Ho}(\mathsf{Top})}}
+
+<!-- Grp -->
+\newcommand{\Grp}{\ensuremath{\mathsf{Grp}}}
 
 
 <!-- ## Topology -->
 
 <!-- Closed 2-dimensional disk -->
 \newcommand{\dtwo}{\ensuremath{\mathbb{D}^{2}}}
+
+<!-- Real projective space -->
+\newcommand{\RP}{\ensuremath{{\mathbb{R}\mathsf{P}}}}
