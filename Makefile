@@ -28,10 +28,9 @@ contents/2-hits/2-trunc-conn.md\
 contents/2-hits/3-circle.md\
 contents/3-pushouts/0-pushouts.md\
 contents/3-pushouts/1-homotopy-pushouts.md\
-contents/3-pushouts/2-svk.md\
-contents/3-pushouts/3-bm.md\
 contents/4-rpn/0-rpn.md\
-contents/4-rpn/1-construction.md
+contents/4-rpn/1-construction.md\
+
 
 # This variable processes the previous one into a list usable by the bash commands
 THESIS_FILES:=$(addprefix ${THESIS}/,${THESIS_FILES_RAW})
