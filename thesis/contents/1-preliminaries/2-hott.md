@@ -131,7 +131,7 @@ As with product types, this just tells us how to apply the eliminator on the con
   $$h(\inr(b)) = g(b)$$
 
 
-### Indentity types {#sec:hott-identity}
+### Identity types {#sec:hott-identity}
 
 In intensional type theories, such as homotopy type theory, two terms can be definitionally equal (also known as judgmentally equal) or they can be propositionally equal.
 Two terms are definitionally equal only when we impose so, and, in such case, they are fully interchangeable by one another.
