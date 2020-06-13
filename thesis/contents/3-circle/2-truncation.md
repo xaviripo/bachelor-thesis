@@ -1,9 +1,4 @@
-## Truncatedness and Connectivity
-
-Two important notions in order to further talk about the homotopy structure of types are those of truncatedness and connectivity, which are dual to each other and related to the triviality of identity types.
-
-
-### Truncatedness
+## Truncation
 
 Intuitively, a type $A : \universe$ is called an $n$-type (or just $n$-truncated) when all its identity spaces of order greater than $n$ are trivial.
 A few key examples:
@@ -69,22 +64,8 @@ Then, as we travel along \sloop{}, the path to \sbase{} changes as well, until w
 Now, the image of the function \contr{} at \sbase{} should be the same as before, with a \sloop{} appended, as we have made one turn around the circle.
 But this amounts to saying that $\refl_{\sbase} = \sloop$, which would imply the existence of a two-dimensional cell in the circle that just does not exist.
 In fact, the circle is not even a mere proposition, nor a set!
-We will see a formal proof of this in @sec:circle.
+We will see a formal proof of this in @sec:circle_fundamental-group.
 
 Given any type $A$, we can introduce its **$n$-truncation** $\norm{A}_n$ as the "$n$-type that best approximates $A$".
 
 TODO Give definition for n-truncation via HITs
-
-
-### Connectivity
-
-Whereas $n$-types have trivial path types above level $n$, $n$-connected types are those that have trivial path types at and below level $n$.
-We take this chance to also define the connectivity of functions:
-
-\begin{definition}
-A type $A$ is \textbf{$n$-connected} if $\norm{A}_n$ is contractible.
-A function $f : A \rightarrow B$ is \textbf{$n$-connected} if all its fibers are $n$-connected.
-\end{definition}
-
-The intuition behind this definition works as follows: if we $n$-truncate the type $A$ we are making it trivial at all levels above $n$.
-So, if the result is completely trivial (i.e. contractible), then all the paths at and below $n$ were trivial to begin with.

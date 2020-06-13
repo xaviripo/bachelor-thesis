@@ -21,15 +21,20 @@ contents/0-intro/0-intro.md\
 contents/1-preliminaries/0-preliminaries.md\
 contents/1-preliminaries/1-homotopy.md\
 contents/1-preliminaries/2-hott.md\
-contents/1-preliminaries/3-proof-formalization.md\
-contents/2-hits/0-hits.md\
-contents/2-hits/1-concept.md\
-contents/2-hits/2-trunc-conn.md\
-contents/2-hits/3-circle.md\
-contents/3-pushouts/0-pushouts.md\
-contents/3-pushouts/1-homotopy-pushouts.md\
-contents/4-rpn/0-rpn.md\
-contents/4-rpn/1-construction.md\
+contents/1-preliminaries/3-curry-howard.md\
+contents/2-agda/0-agda.md\
+contents/2-agda/1-setup.md\
+contents/2-agda/2-language.md\
+contents/2-agda/3-hott.md\
+contents/3-circle/0-circle.md\
+contents/3-circle/1-hits.md\
+contents/3-circle/2-truncation.md\
+contents/3-circle/3-fundamental-group.md\
+contents/4-rp2/0-rp2.md\
+contents/4-rp2/1-construction-classical.md\
+contents/4-rp2/2-pushouts.md\
+contents/4-rp2/3-construction-pushout.md\
+contents/4-rp2/4-construction-hit.md\
 
 
 # This variable processes the previous one into a list usable by the bash commands

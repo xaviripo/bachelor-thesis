@@ -1,4 +1,4 @@
-## The Fundamental Group of the Circle {#sec:circle}
+## The Fundamental Group of the Circle {#sec:circle_fundamental-group}
 
 In order to familiarize ourselves with spaces presented as higher inductive types, we analyze a study case: the fundamental group of the circle \sone. In classical topology, the fundamental group is defined as the quotient of the set of loops at the base point by the homotopy equivalence relationship. In homotopy type theory, the quotient is not necessary, as paths that are homotopy equivalent are *propositionally equal*. What we need to do, though, is make sure that the fundamental group is a discrete set, so we have to kill all higher order paths:
 
@@ -7,7 +7,7 @@ The \textbf{fundamental group} of a based type $(X,x)$, denoted as $\pi_1(X,x)$,
 \[\pi_1(X,x) = \norm{\Omega(X,x)}_0\]
 \end{definition}
 
-If we had chosen to present the circle as a pushout, we could apply the Seifert-van Kampen theorem. Indeed, this will be discussed in @sec:pushouts. But right now let us concentrate on the presentation as a higher inductive type. After all, it would not be useful if we were not able to carry out elementary tasks like this one.
+If we had chosen to present the circle as a pushout, we could apply the Seifert-van Kampen theorem. Indeed, this will be discussed in @sec:rp2_pushouts. But right now let us concentrate on the presentation as a higher inductive type. After all, it would not be useful if we were not able to carry out elementary tasks like this one.
 
 We remind some topological definitions which will be relevant in this section.
 

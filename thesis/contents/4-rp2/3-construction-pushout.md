@@ -1,4 +1,4 @@
-## Construction
+## Construction as a Pushout
 
 We will now see how to build the projective spaces in homotopy type theory.
 Using pushouts, we can build $\RP^{n+1}$ from $\RP^n$ as such:
