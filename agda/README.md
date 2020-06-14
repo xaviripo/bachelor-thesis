@@ -1,113 +1,118 @@
 # Agda
 
 This folder contains developments written in Agda.
-In this file information about setting up the environment to work with Agda is
-detailed.
-
-## Preliminaries
-
-Agda is a dependently-typed functional programming language. Its main function
-is as a proof assistant, this is, a software designed to aid mathematicians and
-other technical workers in developing rigorous proofs.
-
-To use Agda one needs to use its compiler. Although the compiler is capable
-of generating executable binaries which can be run and have I/O effects, proof
-development often involves only typechecking.
-
-The Agda compiler is written in [Haskell](https://www.haskell.org) with the help
-of a couple of libraries ([Alex](https://www.haskell.org/alex/) and
-[Happy](https://www.haskell.org/happy/)). The packages are posted to
-[Hackage](https://hackage.haskell.org/), the central Haskell package repository.
-
-Aside from the compiler, Agda also offers an extension for the text editor
-[GNU Emacs](https://www.gnu.org/software/emacs/), known as agda-mode, which
-offers the *interactive* part of the proof development. Although this is
-optional, it's very recommended to speed up working with Agda files.
-agda-mode is also available for Atom via an
-[extension](https://atom.io/packages/agda-mode).
-
-There are various ways to install Agda:
-
-- [Docker](#docker) (recommended)
-- [Local installation](#local-installation)
-
-
-## Docker
+Each folder has a different project and a README file explaining its contents.
+In order to try out such programs, we offer a system to manage multiple Agda versions and libraries.
 
 The quick way to get started with Agda is through the Docker images offered by
-[banacorn](https://hub.docker.com/r/banacorn/agda/).
+[Ting-gian Lua](https://hub.docker.com/r/banacorn/agda/).
 
 To make using them even easier, in this directory we offer a binary file called
-`run` which calls Docker for you. The only prerequisites are:
+`run` which calls Docker and manages possible dependencies for you. The prerequisites are:
 
 - Docker
 - Python 3
 
 
-### Usage
+## Installing Docker and Python
 
-To typecheck an Agda project, follow these steps:
+Visit the [Get Started with Docker](https://www.docker.com/get-started) web page and choose the appropriate option for your platform.
+In Windows, it might be necessary to activate the Hyper-V and Containers features. Take a look at the [documentation](https://docs.docker.com/docker-for-windows/install/).
 
-1. Create a file called `agda.yml` at the root of the project, specifying the
-version of Agda to use and any necessary libraries. Look at the provided
-examples.
+Visit the [Download Python](https://www.python.org/downloads/) web page and choose the appropriate option for your platform.
+It is important to use a 3.x version of Python, as 2.x is deprecated and will not work for this project.
+
+
+## Usage
+
+To type check an Agda project, follow these steps:
+
+1. Create a file called `agda.json` at the root of the project, specifying the
+version of Agda to use and any necessary libraries. It must follow the specification defined in section [Configuration file](#Configuration-file).
 
 2. Execute:
 
-        ./run path/to/file.agda
+  ```sh
+  ./run path/to/file.agda
+  ```
 
-That's it! The first run will take a bit longer because the script has to
-download the Docker images.
+The first run will take a bit longer because the script has to
+download the Docker images and libraries.
+If no error is displayed, this means that the file is correctly typed and hence the proof is deemed correct.
 
-
-
-## Local installation
-
-### Agda and agda-mode
-
-The official installation instructions can be found in
-[the Agda documentation](https://agda.readthedocs.io/en/v2.6.0.1/getting-started/prerequisites.html). Be aware that the documentation
-can be obsolete, so consider every step carefully.
-
-TODO Mention local Cabal installs ("Nix-style") as an alternative to the
-documentation-recommended global installs
-
-The prerequisites listed on the Agda documentation are mostly Haskell packages.
-As such, Cabal will take care of them when trying to install Agda and so you
-shouldn't worry about them too much. Installing GHC and cabal-install should
-be enough. To do this, follow the instructions for your platform in
-[here](https://www.haskell.org/downloads/#minimal). Make sure to install one of
-the supported versions of GHC, otherwise you risk cabal-install not finding the
-appropriate version of the required dependencies.
-
-Once GHC and cabal-install are set up, run the following commands listed in the
-documentation. Remember to include the Cabal binaries (probably in
-`~/.cabal/bin`) to your path. Running `agda-mode setup` is only necessary if
-you want to use Emacs' agda-mode.
+During running, a folder named `.deps` will be created at the same level as the `agda.json` file.
+This can be safely removed at any time, although the following runs of the program will be faster if it is preserved.
 
 
-### Libraries
+## Configuration file
 
-After installing and setting up Agda and agda-mode, you will probably want to
-install some libraries.
+In order to use different versions of Agda and different libraries, a configuration file can be set up.
+The file has to be named `agda.json` and must be placed at the root of the Agda project (i.e. at the folder that represents the root module).
 
-For example, many Agda programs depend on the standard library. To install it,
-following the instructions
-[here](https://github.com/agda/agda-stdlib/blob/master/notes/installation-guide.md).
+The possible values for the file are as follows:
 
+- `version`
 
-### Homotopy Type Theory
+  Description: the version of Agda to use.
 
-The working group on homotopy type theory wrote a [library](https://github.com/HoTT/HoTT-Agda)
-for Agda. The installation instructions are available in the repository's
-README.md file. Unfortunately, the library is not currently up to date and,
-consequently, it isn't compatible with the latest version of Agda.
+  Type: string.
 
-So, in order to use this library, one must downgrade their Agda installation.
-This can cause further complications, as each version of Agda is only compatible
-with a certain range of versions of GHC, the Haskell base package, and the Cabal
-library, and older versions of these packages can be harder to find or not
-supported by your operating system anymore.
+  Mandatory: yes.
 
-Having different versions of GHC installed side by side is possible, but must
-be handled with care.
+  Examples: `"version": "2.5.3"`
+
+- `libraries`
+
+  Description: a list of objects representing the libraries to use with this project.
+
+  Type: array.
+
+  Mandatory: no.
+
+  Each entry of the array must be an object with the following properties:
+
+  - `repo`
+
+    Description: the location of the Git repository that contains the library.
+
+    Type: string (URI).
+
+    Mandatory: yes.
+
+    Examples: `"repo": "https://github.com/HoTT/HoTT-Agda"`
+
+  - `libfile`
+
+    Description: the relative location inside the repository of the `*.agda-lib` file that represents the library.
+
+    Type: string.
+
+    Mandatory: yes.
+
+    Examples: `"libfile": "hott-core.agda-lib"`
+
+  - `branch`
+
+    Description: the tag or branch of the repository to check out.
+    If not included, by default the latest commit will be checked.
+
+    Type: string.
+
+    Mandatory: no.
+
+    Examples: `"branch": "v0.1"`
+
+For example, an Agda project using version 2.6.0.1 and the standard library, could use a configuration file like:
+
+```json
+{
+  "version": "2.6.0.1",
+  "libraries": [
+    {
+      "repo": "https://github.com/agda/agda-stdlib",
+      "branch": "v1.2",
+      "libfile": "standard-library.agda-lib"
+    }
+  ]
+}
+```
