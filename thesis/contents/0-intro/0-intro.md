@@ -1,14 +1,48 @@
 # Introduction
 
-Computer science was born as a tool *by* mathematicians *for* mathematicians, with the goal of aiding in repetitive calculations. Although the field has diversified a lot since its inception, this task is still in its core. The ambition of computer scientists and mathematicians, though, kept growing, up to the challenge we still face today: can computers help us prove new theorems? Homotopy type theory (HoTT for short) is a relatively new field which results from the surprising blend of algebraic topology (*homotopy*) and type theory (*type*).
+Computer science was born as a tool *by* mathematicians *for* mathematicians, with the goal of aiding in repetitive calculations.
+The field has diversified a lot since its inception, but the idea of helping in mathematical research still lies in its heart.
+The ambition of computer scientists and mathematicians has kept growing, up to the question posed today: can computers help us prove theorems?
+Homotopy type theory (HoTT for short) is a relatively new field which results from the surprising blend of algebraic topology (*homotopy*) and type theory (*type*) that tries to tackle this problem.
 
-In a few words, type theory is a foundation of mathematics which has a richer structure than more naive systems such as set theory or lambda calculus. Type theory assigns a *type* to every *term*, in contrast to *sets* which do not impose any semantic restriction to their *elements*. Types also differ from set theory in that they do not require any underlying logic (such as first-order logic), they are capable of representing logical propositions on their own. This is an important advantage when considering formalizing concepts in computer systems because no metatheory is necessary. Finally, type theory has native concepts for structures such as Cartesian products and functions, instead of building them on top of other primitives.
+In a few words, type theory is a foundation of mathematics, an alternative to set theory or category theory.
+In set theory, one way to build the natural numbers is through the recursive definition $0 := \varnothing$, $n' := n \cup \{n\}$.
+This yields a functional representation of the Peano naturals, but it also produces valid expressions like $0 \in 1$, which are often unwanted, as they mix the nature of the sets with the "pure" idea of the numbers.
+Of course, this does not really suppose any trouble to the working mathematician, as it is pretty easy to just "forget" about the particular implementation of the natural numbers and think of them as objects on their own rather than sets.
+This issue is only relevant when working on certain formal systems, in particular when one wants to do *computational* mathematics.
+In that case, it is important for the computer to be explicitly aware of what sets represent natural numbers and what sets do not.
 
-Homotopy theory is a branch of algebraic topology which deals with how paths in topological spaces can be deformed into one another. These "loose paths" starting and ending at a given base point, together with a notion of composition, lead to a natural group, called the fundamental group of the space (together with the base point.) When the base point is disregarded, the group becomes a groupoid. One can then interpret the deformation of one path into another as a 2-path, or *homotopy*, or a path in the space of paths. It can be easily seen how this builds up to an infinite tower of path spaces. This structure is known as $\infty$-groupoid in categorical terms.
+The problem becomes unsolvable when dealing with more complex objects.
+For example, viewing functions as sets of ordered pairs makes them not generally representable in a finite setting.
+Even though one can define a function by just stating its action on any element of the domain (e.g. $f(x) := x + 1$), the underlying set that represents the function can easily be infinite.
 
-Homotopy type theory is a kind of *intensional* type theory, this is to say, there is a differentiation between propositional and definitional equalities. Intensionality is a double-edged sword. The good side is that propositional equality is always given by a path, which contains the information on *how* the two terms are related. This means that a statement of the style $x = y$ also contains the proof (in fact, *all the proofs*) that $x$ equals $y$, in some sense. On the other hand, intensionality gives rise to a $\infty$-grupoid structure, such as the one of topological spaces seen above. In fact, under this point of view, types become spaces, terms become points, equalities become paths, etc. This makes homotopy type theory an ideal ground for the formalization of proofs in homotopy theory. This complex structure, though, makes identifying equality types (i.e. the types of paths between two points) a very difficult task, a generalization of a very well known problem in algebraic topology: the study of higher homotopy groups of spaces.
+Type theory tries to tackle this problem by taking a more semantic view on mathematical objects.
+It operates with terms that have assigned types.
+In the case of the natural numbers, for example, instead of building them out of more elementary atoms, we just state them as what we want them to be: a type with an initial term and a way to build a new term for each existing one.
+Similarly, functions become simple computation rules instead of literally being made out of all the possible mappings they entail.
 
-Computers can only understand the **machine language**, which is just a series of instructions that the processing unit is capable of executing.
+This philosophy---the idea that mathematical structures should be finitely describable---is known as constructivism, and is the quintessence of Per Martin-Löf's type theory.
+Although type theories precede Martin-Löf's by some decades, the one he published, known as intuitionistic type theory, is the first one to implement predicative logic, which is vital for producing meaningful mathematics.
+The notion of constructivism not only applies to objects such as algebraic structures, but also to predicates about these.
+In a set theoretic setting, constructing the set of all even natural numbers and the statement that such set is the set of all even numbers are two completely different things.
+
+The first would be something like $\{n \in \naturals : 2 \mid n \}$.
+This is just a set of numbers that, by definition, are all the even natural numbers.
+We can name this set $E$, then forget about how it was defined, and we would lose the notion that it is the set of even naturals.
+In fact, by writing $\{0,2,4,6,8,...\}$ we could describe that same set without using the notion of evenness.
+
+The second could be expressed as $\forall n \in \naturals, n \in E \iff 2 \mid n$.
+This assertion is expressed using predicative logic, it is not an object in the same sense as $E$.
+
+In type theory, we record the properties we care about of objects in the objects themselves.
+For example, the "set" of even naturals would be realized as a type consisting of ordered pairs, where the first component is any even number, and the second one is the *proof* that it is a natural.
+This way, not only we obtain the object itself (all the even natural numbers), we also encode the definition of the object with it.
+As a result of this technique, and the existence of certain native constructions (such as the dependent types introduced by Martin-Löf), intuitionistic type theory does not need of predicative or even propositional logic.
+It just needs a formal language that allows us to introduce some syntactical rules and create new types when needed.
+
+How is a type theory *actually* used in a computer setting?
+
+Computers can only understand the machine language, which is just a series of instructions that the processing unit is capable of executing.
 In order for humans to write complex programs, compilers were created, programs capable of translating a higher level language (e.g. C) into machine language.
 A compiler is not simple.
 The translation process actually consists of a series of different steps.
@@ -18,31 +52,54 @@ Then, the executable is run, yielding the desired results, for example making di
 
 But writing computer programs is no easy task, and is very error-prone.
 Modern compilers are equipped with tons of utilities that help minimize mistakes on the side of the human programmer.
-One of such tools is the **type system**.
+One of such tools is the type system.
 
 A type system furnishes each variable and function in a program with a type (integers, floating point numbers, booleans, etc.), maybe automatically through analysis of the code, or maybe by hand by the programmer themself.
 This way it is harder for the human to mistakenly assign a wrong value to a variable.
-When the compiler validates that all variables match their corresponding type, we say that it is **type checking** the program.
+When the compiler validates that all variables match their corresponding type, we say that it is type checking the program.
 
 Type systems have grown in complexity, allowing things like function types, product types, parametrized types (types that admit other types as parameters), etc.
 The last big addition to type systems was dependent types.
-These are types that depend on the values of other types, not unlike the type families we have seen in homotopy type theory.
-It turns out that this rather innocent-looking improvement is strong enough to allow type systems to work as a foundation for mathematics.
-
-Think about it this way: if I build a function of type `A -> void`, for some type `A`, and the compiler deems the function correct and its type valid, I have successfully proved that `A` is an empty type.
+These are types that depend on the values of other types.
+It turns out that this rather innocent-looking improvement is strong enough to allow type systems to implement an intuitionistic type theory.
 
 By *abusing* types in this manner, a way was found to write mathematical proofs through the type system.
 When doing this, we do not care about the rest of the compilation, or even the resulting executable: we only care about whether the program type-checks or not.
 Given sufficiently complex types, the mere fact that an element of such a type exists is a proof of a mathematical fact by itself.
 
-The idea of dependent types, which is necessary for this reasoning system to be possible, is fairly recent, and has not yet been implemented to many existing programming languages, mainly due to its great technical complexity.
-For the last twenty years, a few research-oriented programming languages with dependent types have been popping up.
-One of them is **Agda**, a programming language developed by the universities of Chalmers and Gothenburg (Sweden) with the idea of exploiting dependent types in mind.
-A mathematician types a program that constructs an element of a certain type, a type representing the statement to prove through the Curry-Howard correspondence.
-The Agda type checker then validates the types, effectively verifying that the proof is correct.
-Even though Agda is, in principle, more oriented to general programming than other proof assistants (e.g. Coq), its lightweight syntax and good integration of higher path types make it very suitable for the formalization of homotopy type theory.
-An ongoing development in Agda has been the implementation of a kind of type theory, known as cubical type theory, which allows modeling higher inductive types natively.
+Now, we that we have a picture of what an (intuitionistic) type theory is, what is *homotopy* type theory?
+First, we must introduce homotopy theory.
 
-A proof of the theorem presented at @sec:circle_fundamental-group has been implemented in Agda from scratch.
-Although this is not, by a long shot, a new development, it is still pretty educational as an introduction to Agda and dependently-typed programming.
-It is particularly good to illustrate most of the ideas in the proof without making too much use of previous results.
+Homotopy theory is a branch of algebraic topology which deals with how paths in topological spaces can be deformed into one another.
+When paths starting and ending at a given base point are "loosened" keeping only the endpoints fixed, together with an adequate notion of composition, we obtain a natural group, called the fundamental group of the space (together with the base point).
+When the base point is disregarded, the group becomes a groupoid.
+One can then interpret the deformation of one path into another as a 2-path, or *homotopy*, or a path in the space of paths.
+This idea can be applied recursively, considering homotopies between homotopies, and so on.
+It can be easily seen how this builds up to an infinite tower of path spaces.
+When ignoring stronger topological structure and just looking at the paths, each topological space can be assigned what we call a homotopy type.
+
+Homotopy type theory is a kind of *intensional* type theory, this is to say, there is a differentiation between propositional and definitional equalities.
+Intensionality is a double-edged sword.
+The good side is that propositional equality is always given by an equality, which contains the information on *how* the two terms are related.
+This means that a statement of the style $x = y$ also contains the proof (in fact, *all the proofs*) that $x$ equals $y$, in some sense.
+On the other hand, intensionality gives rise to a family of types which are very hard to study, the identity types, those representing equality statements.
+In fact, it turns out that identity types actually become a model for the higher path structures that appear in topological spaces, if we take equalities and think of them as paths joining the two equal things.
+
+So, we have the word *type* in three different settings:
+
+- As constructions used by logicians in type theory as a foundation of mathematics.
+- As a method used by computer scientists in type systems in order to reduce bugs.
+- As an invariant used by topologists to study and classify spaces (the homotopy type).
+
+Homotopy type theory is what happens when these three concepts are interpreted as one.
+
+Although homotopy type theory can be used as a basis for *all* of mathematics, it is particularly good for studying homotopy theory as it offers a synthetic setting for a subject that has traditionally been studied analytically, and, furthermore, allows it to be computerized so that the proofs can be checked automatically.
+
+The idea of dependent types, which is necessary for this reasoning system to be possible, is fairly recent, and has not yet been implemented to many existing programming languages, mainly due to its great technical complexity.
+For the last three decades, a few research-oriented programming languages with dependent types have been popping up.
+One of them is **Agda**, a programming language developed by the universities of Chalmers and Gothenburg (Sweden) with the idea of exploiting dependent types in mind.
+A mathematician writes a program that constructs an element of a certain type, a type representing the statement to prove through the Curry-Howard correspondence.
+The Agda type checker then validates the types, effectively verifying that the proof is correct.
+Even though Agda is, in principle, more oriented to general programming than other proof assistants (e.g. Coq), its lightweight syntax and good integration of higher equality types make it very suitable for the formalization of homotopy type theory.
+
+TODO Objectives

@@ -24,7 +24,7 @@ For example, when we say "$A$ is a type", this is the same as denoting $A : \uni
 
 There are two main ways to obtain types:
 
-1. To create them from scratch, via inductive types. We will see this option in @sec:circle_hits.
+1. To create them from scratch, via inductive types. We will see this option in @sec:hott_inductive-types.
 
 2. To create them from previously existing types, via type constructors.
 
@@ -127,8 +127,10 @@ The non-dependent eliminator is very simple: for any type $C$, and given functio
 
 - Computation rule.
 As with product types, this just tells us how to apply the eliminator on the constructor. In this case, the function $h$ given above behaves like this:
-  $$h(\inl(a)) = f(a)$$
-  $$h(\inr(b)) = g(b)$$
+  \begin{align*}
+  h(\inl(a)) &= f(a)\\
+  h(\inr(b)) &= g(b)
+  \end{align*}
 
 
 ### Identity types {#sec:preliminaries_hott_identity}
@@ -165,3 +167,53 @@ Suppose we have a type family $C$ that assigns a type to every possible path in 
 We want to build a dependent function $f$ that, for each path $p : a = b$, gives us a value of $C(a,b,p)$.
 The induction principle for path types states that, in order to obtain $f$, it is only necessary to define it on the paths $\refl$.
 Then, the computation rule says that the $f$ that we obtain in fact respects the values we have given at each $\refl$.
+
+
+### Inductive types {#sec:hott_inductive-types}
+
+An inductive type, in its purest form, is given by introducing a series of *constructors*. The idea is that an inductive type is "freely generated" by its constructors. The simplest inductive type has no constructors:
+$$\zero : \universe$$
+
+This is known as the **empty type**.
+
+The type with a single constructor is known as the **unit type**:
+\begin{align*}
+\one &: \universe\\
+\star &: \one
+\end{align*}
+
+Finally, we define the **type of booleans**:
+\begin{align*}
+\two &: \universe\\
+\zerotwo, \onetwo &: \two
+\end{align*}
+
+Inductive types accept other kinds of constructors, not just elements. For example, the **naturals** can be defined as such:
+\begin{align*}
+0 &: \naturals\\
+\natsucc &: \naturals \rightarrow \naturals
+\end{align*}
+
+What this is telling us is that every element of the type $\naturals$ can be built as either $0$, or as $\natsucc$ applied to another element of $\naturals$. Thus, the possible naturals are $0$, $\natsucc(0)$, $\natsucc(\natsucc(0))$, etc.
+
+Inductive types are regular enough that we can mechanically deduce what their elimination principles look like.
+In simple terms, to define a function out of an inductive type, we provide the image for each constructor.
+
+For example, to build a function with domain \naturals, we must provide a value for $0$, and a function that for every $n : \naturals$ gives us a value for $\natsucc(n)$.
+In the case of the naturals, this matches the traditional notion of recursion.
+Similarly, if we do this with a dependent function, we obtain the induction on the naturals.
+Elementarily, when given a family of types $P : \naturals \rightarrow \universe$, if we provide an element of $P(0)$, and for every $n : \naturals$ we provide a function $P(n) \rightarrow P(\natsucc(n))$, then we effectively prove $P$ for all naturals.
+
+Inductive types are an idea that already appears in older type theories. Homotopy type theory presents a whole new class of inductive types, known as **higher inductive types**. These allow constructors whose codomain is not only the type being described, but also path types on that.
+
+The most iconic example is the **circle**, $\sone$, which is made up by a single point and a loop from the point to itself.
+\begin{align*}
+\sbase &: \sone\\
+\sloop &: \sbase = \sbase
+\end{align*}
+
+Or, taking higher paths, we can build higher dimensional spheres:
+\begin{align*}
+\sbase &: \stwo\\
+\ssurf &: \refl_{\sbase} = \refl_{\sbase}
+\end{align*}
