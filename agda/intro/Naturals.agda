@@ -34,10 +34,10 @@ add-comm zero zero = refl
 add-comm (succ n) zero =
   begin
     (succ n) + zero
-  ≡⟨⟩
-    succ (n + zero)
-  ≡⟨ cong (succ) (add-right-id n) ⟩
+  ≡⟨ add-right-id (succ n) ⟩
     succ n
+  ≡⟨⟩
+    zero + (succ n)
   ∎
 add-comm zero (succ m) =
   begin
@@ -46,7 +46,7 @@ add-comm zero (succ m) =
     succ m
   ≡⟨ sym (add-right-id (succ m)) ⟩
     (succ m) + zero
-  ∎ 
+  ∎
 add-comm (succ n) (succ m) =
   begin
     (succ n) + (succ m)
