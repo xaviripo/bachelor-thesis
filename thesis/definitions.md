@@ -25,6 +25,7 @@
 \newcommand{\idtoeqv}{\ensuremath{\mathsf{idtoeqv}}}
 \newcommand{\ua}{\ensuremath{\mathsf{ua}}}
 \newcommand{\transport}{\ensuremath{\mathsf{transport}}}
+\newcommand{\id}{\ensuremath{\mathsf{id}}}
 
 <!-- Path concatenation, taken from HoTT -->
 \newcommand{\ct}{%

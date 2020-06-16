@@ -1,4 +1,4 @@
-## Classical Construction
+## Classical Construction {#sec:rp2_construction-classical}
 
 For the final part of this thesis, we will take a closer look at an interesting family of types and how they are built in homotopy type theory: the real projective spaces.
 

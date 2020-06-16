@@ -217,3 +217,8 @@ Or, taking higher paths, we can build higher dimensional spheres:
 \sbase &: \stwo\\
 \ssurf &: \refl_{\sbase} = \refl_{\sbase}
 \end{align*}
+
+
+### Univalence and function extensionality
+
+TODO Explain univalence and function extensionality
