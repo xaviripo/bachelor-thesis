@@ -12,6 +12,7 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
+\newtheorem{axiom}[theorem]{Axiom}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{question}[theorem]{Question}
@@ -26,6 +27,7 @@
 \newcommand{\ua}{\ensuremath{\mathsf{ua}}}
 \newcommand{\transport}{\ensuremath{\mathsf{transport}}}
 \newcommand{\id}{\ensuremath{\mathsf{id}}}
+\newcommand{\lift}{\ensuremath{\mathsf{lift}}}
 
 <!-- Path concatenation, taken from HoTT -->
 \newcommand{\ct}{%
@@ -140,3 +142,6 @@
 
 <!-- Real projective space -->
 \newcommand{\RP}{\ensuremath{{\mathbb{R}\mathsf{P}}}}
+
+<!-- Real line -->
+\newcommand{\reals}{\ensuremath{\mathbb{R}}}

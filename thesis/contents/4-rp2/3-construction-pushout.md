@@ -1,5 +1,38 @@
 ## Construction as a Pushout
 
+The common to attach cells in homotopy type theory is known as the "hub and spokes" technique.
+One possible interpretation is:
+
+```\begin{definition}```{=latex}
+Suppose a type $X$, and a function $f : \sphere^{n-1} \rightarrow X$ for $n > 0$.
+We define the **attachment of an $n$-cell** to $X$ via $f$ as the higher inductive type $\hat{X}$ defined by:
+
+- an inclusion function $i : X \rightarrow \hat{X}$,
+- a "hub" point $h : \hat{X}$, and
+- a family of "spokes" $s : \prod_{(p : \sphere^{n-1})} f(x) = h$.
+
+```\end{definition}```{=latex}
+
+We visualize the attachment as taking $X$, and gluing an $n$-cell along the image of $f$.
+
+Most often, we do not use this definition but rather apply the concept of attachment *ad hoc*.
+For example, this can be done through the pushout:
+
+\begin{center}
+\begin{tikzpicture}
+\node (X) at (0,0) {\(\sphere^{n-1}\)};
+\node (Y) at (2,0) {\(X\)};
+\node (Z) at (0,-2) {\(\one\)};
+\node (P) at (2,-2) {\(P\)};
+\draw[->] (X) -- (Y) node[midway,above] {$f$};
+\draw[->] (X) -- (Z);
+\draw[->] (Y) -- (P) node[midway,right] {$\inr$};
+\draw[->] (Z) -- (P) node[midway,below] {$\inl$};
+\end{tikzpicture}
+\end{center}
+
+which also attaches an $n$-cell via the path family $\glue : \prod_{(p : \sphere^{n-1})} \inr(f(x)) = \inl(\star)$, with $\inl(\star)$ acting as the hub.
+
 We will now see how to build the projective spaces in homotopy type theory.
 Using pushouts, we can build $\RP^{n+1}$ from $\RP^n$ as such:
 
@@ -36,12 +69,12 @@ This suggests rewriting the diagram as:
 \end{tikzpicture}
 \end{center}
 
-Where $\cov^n(x)$ is the fiber of $x : \RP^n$.
-Now, instead of defining the covering space and deducing the shape of the fibers from that, we do it the other way around: we have to define $\RP^n$ and $\cov^n$ inductively on $n$, and from that prove that the total space $\sum_{(x : \RP^n)} \cov^n(x)$ is indeed $\sphere^n$ in order to convince ourselves that this is indeed the projective spaces that we are building.
+where $\cov^n(x)$ is the fiber of $x : \RP^n$.
+Now, instead of defining the covering space and deducing the shape of the fibers from that, we do it the other way around: we have to define $\RP^n$ and $\cov^n$ inductively on $n$, and from that prove that the total space $\sum_{(x : \RP^n)} \cov^n(x)$ is indeed equivalent to $\sphere^n$ in order to convince ourselves that this is indeed the projective spaces that we are building.
 
 For each $n \geq -1$, we define both $\RP^n$ and $\cov^n$ inductively.
 As the fiber of a covering space, we would usually define \cov to be fo type $\cov^n : \RP^n \rightarrow \universe$.
-In this case, though, we need a little bit more precision, and so we first define the "subuniverse" $\universe_{\szero}$ of 2 element sets, so that we can have $\cov^n : \RP^n \rightarrow \universe_{\szero}$.
+In this case, though, we need a little bit more precision, and so we first define the "subuniverse" $\universe_{\szero}$ of $2$-element sets, so that we can have $\cov^n : \RP^n \rightarrow \universe_{\szero}$.
 As there are no subtypes in homotopy type theory, this is actually a fibration itself:
 
 \begin{definition}
@@ -63,7 +96,8 @@ Then we see the actual meaning of the lemma: every element of a $2$-set $A$ corr
 After all, there are only two ways to identify \szero{} with $A$.
 This identification is uniquely determinated by the image of \north{} through the path.
 
-The proof of the lemma is slightly technical and requires introducing results about pointed types that are out of scope, so we skip directly to building $\RP^n$ and $\cov^n$:
+The proof of the lemma is given in [@buchholtz_real_2017, Corollary II.6].
+It is slightly technical and requires introducing results about pointed types that are out of scope, so we skip directly to building $\RP^n$ and $\cov^n$:
 
 - For the base case ($n = -1$), we take $\RP^{-1} :\equiv \zero$, the empty type.
 Then, there is only one candidate for $\cov^{-1}$, which is the only function of type $\zero \rightarrow \universe_{\szero}$.

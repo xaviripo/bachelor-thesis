@@ -7,9 +7,9 @@ A very brief introduction to type theory is given in this chapter, although mayb
 
 In type theory, every *term* has a unique assigned *type*. Note two important differences with respect to set theory:
 
-1. A term must belong to, at least, one type. In type theory it makes no sense to talk about a typeless term, and we can not do much with it if we do not know its type. All the equations and computations involving a term expect it to have an assigned type.
+1. A term must belong to, at least, one type. In type theory it makes no sense to talk about a typeless term, and we cannot do much with it if we do not know its type. All the equations and computations involving a term expect it to have an assigned type.
 
-2. A term must belong to, at most, one type. That is to say, terms can not belong to two or more types at the same time. Note that, in particular, an analogous notion to that of a subset is not possible--at least not without some intermediate structure.
+2. A term must belong to, at most, one type. That is to say, terms cannot belong to two or more types at the same time. Note that, in particular, an analogous notion to that of a subset is not possible--at least not without some intermediate structure.
 
 We write
 
@@ -219,6 +219,53 @@ Or, taking higher paths, we can build higher dimensional spheres:
 \end{align*}
 
 
-### Univalence and function extensionality
+### Univalence
 
-TODO Explain univalence and function extensionality
+In type theory there is no notion of "subtype".
+Hence, it can be hard to work with inclusions.
+To ease this work, we introduce a series of notions related to the idea of "equivalent types".
+
+\begin{definition}
+Two functions $f, g: A \rightarrow B$ are \textbf{homotopic} when they are point-to-point equal, i.e. $\prod_{(x : A)} f(x) = g(x)$.
+We write this type as $f \sim g$, and call its elements homotopies.
+\end{definition}
+
+\begin{definition}
+Two types $A$ and $B$ are \textbf{equivalent} when there exist functions $f : A \rightarrow B$ and $g : B \rightarrow A$ such that $g \circ f \sim \id_{A}$ and $f \circ g \sim \id_{B}$.
+We call $f$ and $g$ equivalences and say that they are mutually quasi-inverses.
+We write $A \simeq B$ for the type of equivalences between $A$ and $B$.
+Formally, this type is:
+$$\sum_{f : A \rightarrow B} \left[\left(\sum_{g : B \rightarrow A} f \circ g \sim \id_{B}\right) \times \left(\sum_{h : B \rightarrow A} h \circ f \sim \id_{A}\right)\right]$$
+\end{definition}
+
+One of the new concepts that homotopy type theory brought was that of univalence.
+Essentially, univalence is a way of easing the problem of identifying types.
+
+\begin{lemma}[Transport]
+Given a type family $P : A \rightarrow \universe$ and a path $p : x = y$ of elements $x, y : A$, there is a function $p_* : P(x) \rightarrow P(y)$.
+\end{lemma}
+
+\begin{proof}
+It is enough to do path induction on the equality type $x = y$.
+This means we can assume $y \equiv x$ and $p \equiv \refl_x$, and hence $P(x)$ = $P(y)$.
+Thus, we can take $p_*$ to be the identity function of $P(x)$.
+\end{proof}
+
+\begin{lemma}
+Given types $A$ and $B$, there is a function $\idtoeqv : (A = B) \rightarrow (A \simeq B)$.
+\end{lemma}
+
+\begin{proof}
+Observe how $\id_{\universe} : \universe \rightarrow \universe$ is a type family.
+Thus we can apply the transport lemma.
+We want to assign $\idtoeqv(p) = p_*$.
+For this, we must prove that each $p_*$ is an equivalence.
+By path induction, we can suppose $p$ is $\refl_A$, and then $p_*$ is $\id_A$, which is trivially an equivalence.
+\end{proof}
+
+\begin{axiom}[Univalence]
+\idtoeqv{} is an equivalence.
+\end{axiom}
+
+The inverse function of \idtoeqv{} is known as \ua{} for "univalence axiom".
+It basically states that, whenever two types are equivalent, we can treat them as equal.

@@ -42,7 +42,7 @@ This is exactly what a function does: given an element of $A$, we obtain an elem
 
 And from that, we build the negation.
 Although we must beware of *reductio ad absurdum* in type theory for reasons we will later see, this construction comes from the idea that something is false whenever it implies a contradiction.
-In this case, if we have a function $A \rightarrow \zero$, then $A$ can not be inhabited, as there is no point in \zero{} to take the points of $A$.
+In this case, if we have a function $A \rightarrow \zero$, then $A$ cannot be inhabited, as there is no point in \zero{} to take the points of $A$.
 
 Nonetheless, it is often more comfortable for humans to describe proofs in the classical style, exposing a chain of arguments.
 We have seen the key elements of propositional logic; we need to see construct quantifiers:
@@ -59,7 +59,7 @@ Let us unpack this.
 For the existential, we provide dependent pairs. Each pair contains an element of $A$ together with the proof of the statement $P$ we claim about $a$.
 Observe that, once again, the corresponding type contains *all* possible proofs of $P(a)$.
 Conversely, if $b : A$ does not satisfy proposition $P$, then there does not exist any pair with $b$ as the first component.
-From this point of view, $\sum_{(a : A)} P(a)$ is not only the claim that there exists an $a$ such that $P(a)$, but it is also the type theoretical analogue of the subset $\{a \in A : P(a)\}$.
+From this point of view, $\sum_{(a : A)} P(a)$ is not only the claim that there exists an $a$ such that $P(a)$, but it is also the type-theoretical analogue of the subset $\{a \in A : P(a)\}$.
 
 For the universal quantifier, we do not want to show *some* elements of $a : A$; we want a proof of $P(a)$ for *every* $a : A$.
 This is what the dependent function does: for each $a$, it returns an element of $P(a)$.

@@ -222,7 +222,7 @@ postulate
 We have defined the empty type $\bot$ (what we call \zero in homotopy type theory), and through postulates we have introduced an element of the type.
 This creates an inconsistency which allows us to prove anything.
 
-Another reason why this is complicated is that we don't get the full elimination principle, as Agda is not aware that `loop` is a constructor of the higher inductive type.
+Another reason why this is complicated is that we do not get the full elimination principle, as Agda is not aware that `loop` is a constructor of the higher inductive type.
 This issue can be taken care of by being aware of it and introducing `loop`{.agda} "by hand" in the definitions that require it.
 
 A refinement of this technique, due to @licata_running_2011, and which came to be known as "Licata's trick", makes it all safer by using modules.

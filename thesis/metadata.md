@@ -1,8 +1,4 @@
 ---
-# Metadata
-title: Proof Verification in Algebraic Topology
-author: Xavier Ripoll
-
 # Document format
 documentclass: report
 toc: true
@@ -25,9 +21,11 @@ reference-section-title: References
 
 # pandoc-crossref
 chapters: true
+cref: true
 
 header-includes: |
   \usepackage{amsthm}
   \usepackage{tikz}
   \usetikzlibrary{arrows}
+  \AtBeginDocument{\let\maketitle\relax}
 ---

@@ -7,21 +7,14 @@ The \textbf{fundamental group} of a based type $(X,x)$, denoted as $\pi_1(X,x)$,
 \[\pi_1(X,x) = \norm{\Omega(X,x)}_0\]
 \end{definition}
 
-If we had chosen to present the circle as a pushout, we could apply the Seifert-van Kampen theorem. Indeed, this will be discussed in @sec:rp2_pushouts. But right now let us concentrate on the presentation as a higher inductive type. After all, it would not be useful if we were not able to carry out elementary tasks like this one.
+The classical proof uses the universal cover of \sone{}, which is the real line \reals{} with the projection $p(t) = e^{it}$.
+This can be visualized as \reals{} "going around" \sone{} in circles, like a helix.
+One can lift paths from \sone{} to its cover, and there they can be classified by the number of turns they do.
 
-We remind some topological definitions which will be relevant in this section.
-
-\begin{definition}
-A \textbf{covering space} of a topological space $X$, is a space $C$ (known as the \textbf{total space}) together with a continuous function $p : C \rightarrow X$ (the \textbf{projection}) satisfying the following condition: each point $x$ in $X$ has a neighborhood $U$ such that its preimage $p^{-1}(U)$ is the disjoint union of open sets, each homeomorphic to $U$.
-\end{definition}
-
-We say that $U$ is **evenly covered** by $p^{-1}(U)$. We call the preimage of each point in $X$ its **fiber**. We can visualize $C$ as "lying over" $X$, and the fiber of each point lying over it.
-
-The traditional way to approach the problem at hand would be to find the covering space of the circle, and from that see that each fiber is isomorphic to the integers \integers.
-
-A more type theoretic proof jumps straight to the fibers, without the need to build the covering space first. This is due to the way covering spaces are defined in homotopy type theory. In classical topology, the notion of subspace is very important. It is easy to see how this applies to covering spaces, as their definition only already deals with subspaces of $X$ and $C$. Unfortunately, the notion of subspace, just like the notion of subset, does not translate well into homotopy type theory. The good news is that the alternative, which we will now see, is more adequate for synthetic homotopy and constructive mathematics. In general, whenever we find a definition that contains a tuple (for instance, the covering space together with its projection), we have to suspect that translating it literally into type theory will be cumbersome, because in constructive mathematics we have to carry along all the parts of the definition.
-
-Hence, we will define directly for each point its fiber. In the case of the circle, this would be:
+In this proof, we do something similar.
+We build the covering space and, for each point $x : \sone$, show an equivalence between its fiber and the paths from \sbase{} to $x$.
+Conceptually, we are doing the same thing: we have "as many" paths as elements in the fiber, because each point in the fiber is another turn completed by the path starting at \sbase.
+Let us start by defining the cover.
 
 \begin{definition}
 Define $\code : \sone \rightarrow \universe$ by circle recursion:
@@ -60,22 +53,21 @@ On the other hand, we have the decode function of type $\prod_{x : \sone} \code(
 There is a path of type $\transport^{y \mapsto \code(y) \rightarrow (\sbase = y)}(\sloop, \sloop^-) = \sloop^-$.
 \end{lemma}
 
-\begin{proof}
-\[\begin{array}{lllr}
+`\begin{proof}`{=latex}
+$$\begin{array}{lllr}
 & \transport^{\code(-) \rightarrow (\sbase = -)}(\sloop, \sloop^-)\\
-% TODO explain the action of transport on A->B and base=x
 &= \transport^{(\sbase = -)}(\sloop, -) \circ \sloop^- \circ \transport^{\code(-)}(\sloop^{-1}, -) && \text{(1)}\\
 &= (- \ct \sloop) \circ \sloop^- \circ \transport^{\code(-)}(\sloop^{-1}, -) && \text{(2)}\\
 &= (- \ct \sloop) \circ \sloop^- \circ \natsucc^{-1} && \text{(3)}\\
 &= n \mapsto \sloop^{\natsucc^{-1}(n)} \ct \sloop && \text{(4)}\\
 &= n \mapsto \sloop^{n} && \text{(5)}
-\end{array}\]
-(1) and (2) are by the action of \transport{} on type families of the form $y \mapsto A(y) \rightarrow B(y)$ and $y \mapsto base = y$, correspondingly.
+\end{array}$$
+(1) and (2) are by the action of \transport{} on type families of the form $y \mapsto A(y) \rightarrow B(y)$ and $y \mapsto base = y$, correspondingly [see @univalent_foundations_program_homotopy_2013 2.9.4 and 2.11.2].
 (3) is due to the functoriality of \transport, and (4) and (5) due to reducing the function composition and then the path concatenation.
-\end{proof}
+`\end{proof}`{=latex}
 
 \begin{definition}
-Define $\decode : \prod_{x : \sone} \code(x) \rightarrow (\sbase = x)$ by circle recursion. For the image at $\sbase$, pick $\sloop^-$. For the lifting of \sloop, use the path from \autoref{circle-decode-path-lifting}.
+Define $\decode : \prod_{x : \sone} \code(x) \rightarrow (\sbase = x)$ by circle recursion. For the image at $\sbase$, pick $\sloop^-$. For the lifting of \sloop, use the path from \cref{circle-decode-path-lifting}.
 \end{definition}
 
 Next, we prove that \code and \decode are inverse functions:
@@ -113,7 +105,7 @@ There is a family of equivalences $\prod_{x : \sone} (\sbase = x) \simeq \code(x
 \end{theorem}
 
 \begin{proof}
-We apply \autoref{circle-inverses} to see that \encode{} and \decode{} act as mutual quasi-inverses.
+We apply \cref{circle-inverses} to see that \encode{} and \decode{} act as mutual quasi-inverses.
 \end{proof}
 
 \begin{corollary}
@@ -121,7 +113,7 @@ We apply \autoref{circle-inverses} to see that \encode{} and \decode{} act as mu
 \end{corollary}
 
 \begin{proof}
-We use \autoref{circle-equiv} with $x = \sbase$. This gives us an equivalence $(\sbase = \sbase) \simeq \integers$. We apply the univalence axiom to obtain an equality from the equivalence. Applying $0$-truncation to both sides gives us $\norm{\sbase = \sbase}_0 = \norm{\integers}_0$. On the left side, we have the definition of $\pi_1(\sone)$. On the right, because \integers{} is a set, we obtain \integers{} again. So we have $\pi_1(\sone) = \integers$.
+We use \cref{circle-equiv} with $x = \sbase$. This gives us an equivalence $(\sbase = \sbase) \simeq \integers$. We apply the univalence axiom to obtain an equality from the equivalence. Applying $0$-truncation to both sides gives us $\norm{\sbase = \sbase}_0 = \norm{\integers}_0$. On the left side, we have the definition of $\pi_1(\sone)$. On the right, because \integers{} is a set, we obtain \integers{} again. So we have $\pi_1(\sone) = \integers$.
 \end{proof}
 
 The last step is to prove that the equivalence on \sbase{} takes path composition to addition, in order to see that it is a group homomorphism as well.

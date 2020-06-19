@@ -1,4 +1,4 @@
-## Truncation
+## Truncation {#sec:circle_truncation}
 
 Intuitively, a type $A : \universe$ is called an $n$-type (or just $n$-truncated) when all its identity spaces of order greater than $n$ are trivial.
 A few key examples:
