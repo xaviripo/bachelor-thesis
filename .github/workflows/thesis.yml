@@ -24,7 +24,8 @@ jobs:
         tar xf pandoc-crossref.tar.xz
         sudo mv pandoc-crossref /bin/
         # XeTeX
-        sudo apt install texlive-xetex
+        sudo apt-get install texlive-xetex
+        sudo apt-get install texlive-lang-spanish
 
     # Build the thesis file
     - name: Build the file
