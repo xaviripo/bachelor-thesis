@@ -219,8 +219,6 @@ module ΩS¹≃ℤDef where
         2
           =∎
 
-      -- TODO Testing encode(loop^-1) is -1
-
   open ΩS¹→ℤDef public using (encode)
 
 
@@ -290,7 +288,7 @@ module ΩS¹≃ℤDef where
     encode-decode-neg O =
       encode (decode (negsucc O))
         =⟨ idp ⟩
-      encode (loop⁻-n≤0 1) -- TODO clean the exports of the module that defines loop⁻-n≤0
+      encode (loop⁻-n≤0 1)
         =⟨ idp ⟩
       encode (! loop)
         =⟨ idp ⟩
