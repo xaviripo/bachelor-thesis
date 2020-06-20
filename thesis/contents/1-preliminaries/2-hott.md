@@ -1,6 +1,8 @@
 ## Homotopy Type Theory
 
-A very brief introduction to type theory is given in this chapter, although maybe not deep enough to properly follow all the details in the theorem we want to study. The recommended reference material is the Homotopy Type Theory book (TODO move this to a reference footnote and explain a little about the project and the group).
+A very brief introduction to type theory is given in this chapter.
+Unfortunately, not every concept is explained as detailed as it is desirable.
+The recommended reference material is the Homotopy Type Theory book [@univalent_foundations_program_homotopy_2013].
 
 
 ### Types and terms

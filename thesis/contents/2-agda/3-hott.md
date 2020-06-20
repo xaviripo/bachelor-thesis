@@ -1,4 +1,4 @@
-## Homotopy Type Theory in Agda
+## Homotopy Type Theory in Agda {#sec:agda-hott}
 
 ### An example
 

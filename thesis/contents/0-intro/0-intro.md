@@ -1,9 +1,11 @@
 # Introduction
 
+\pagenumbering{arabic}
+
 Computer science was born as a tool *by* mathematicians *for* mathematicians, with the goal of aiding in repetitive calculations.
 The field has diversified a lot since its inception, but the idea of helping in mathematical research still lies in its heart.
 The ambition of computer scientists and mathematicians has kept growing, up to the question posed today: can computers help us prove theorems?
-Homotopy type theory (HoTT for short) is a relatively new field which results from the surprising blend of algebraic topology (*homotopy*) and type theory (*type*) that tries to tackle this problem.
+Homotopy type theory is a field that can potentially help with this problem.
 
 In a few words, type theory is a foundation of mathematics, an alternative to set theory or category theory.
 In set theory, one way to build the natural numbers is through the recursive definition $0 := \varnothing$, $n' := n \cup \{n\}$.
@@ -67,7 +69,7 @@ By *abusing* types in this manner, a way was found to write mathematical proofs 
 When doing this, we do not care about the rest of the compilation, or even the resulting executable: we only care about whether the program type-checks or not.
 Given sufficiently complex types, the mere fact that an element of such a type exists is a proof of a mathematical fact by itself.
 
-Now, we that we have a picture of what an (intuitionistic) type theory is, what is *homotopy* type theory?
+Now that we have a picture of what an (intuitionistic) type theory is, what is *homotopy* type theory?
 First, we must introduce homotopy theory.
 
 Homotopy theory is a branch of algebraic topology which deals with how paths in topological spaces can be deformed into one another.
@@ -102,4 +104,16 @@ A mathematician writes a program that constructs an element of a certain type, a
 The Agda type checker then validates the types, effectively verifying that the proof is correct.
 Even though Agda is, in principle, more oriented to general programming than other proof assistants (e.g. Coq), its lightweight syntax and good integration of higher equality types make it very suitable for the formalization of homotopy type theory.
 
-TODO Objectives
+Learning constructive mathematics is not easy.
+After explaining the basic concepts of type theory, we began our journey by examining the first non-trivial proof one encounters in algebraic topology, namely that of the fundamental group of the circle \sone.
+This alone led us to study the rich concept of covering spaces.
+The theoretical study of this proof was accompanied by the practical implementation of an Agda program that implements it.
+
+Afterwards, we wanted to try our luck with a more complicated case: the fundamental group of the real projective plane $\RP^2$.
+While we were observing the problem, we realized that a potentially easier construction of $\RP^2$ could perhaps be made than those found in publications.
+In particular, our approach tries to remove all accessory constructions and leave only the minimal components that would give a type the homotopical structure of $\RP^2$.
+The implications are that we have to work with second order inductive types, the difficulties of which we expose along the way.
+Albeit we accomplish the task of obtaining the fundamental group, we have difficulties proving the construction is indeed a projective space, although we make great advances towards it.
+
+Both parts of this thesis are an excellent display of the elegance of translating concepts from set-theoretic topology to homotopy type theory, where many times the definitions better represent the ideas behind them.
+Not only does homotopy type theory help us translate the theorems for the computer to verify, it also succinctly encapsulates the essence of *paths* in a way that allows us to tell what topological constructions are homotopical and which are not.

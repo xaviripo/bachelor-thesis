@@ -2,12 +2,12 @@
 
 For the final part of this thesis, we will take a closer look at an interesting family of types and how they are built in homotopy type theory: the real projective spaces.
 
-In classical topology, the **real projective space of dimension $n$** ($\RP^n$) is the topological space $\sphere^n/R$, where $R$ is the relation that identifies each point with its antipode. We can also describe the real projective spaces as CW complexes using the following facts:
+In classical topology, the **real projective space of dimension** $\mathbfit{n}$, denoted by $\RP^n$, is the topological space $\sphere^n/R$, where $R$ is the relation that identifies each point with its antipode. We can also describe the real projective spaces as CW complexes using the following facts:
 
 - The sphere $\sphere^n$ has a CW complex structure with two $0$-cells, two $1$-cells, two $2$-cells, etc. up to two $n$-cells.
 - The quotient space by the relationship $R$ glues each pair of $i$-cells antipodally ("flipping" one of the $i$-cells).
 
-It can be shown that $\RP^n$ is then a CW complex with one cell for each dimension from $0$ up to $n$.
+Thus, $\RP^n$ is a CW complex with one cell for each dimension from $0$ up to $n$.
 It is important to notice that there is more than one CW complex with these cells.
 For example, if one were to try and build a CW complex with one $0$-cell, one $1$-cell, and one $2$-cell, it would most probably *not* end up being the real projective plane ${\mathbb R\mathrm P}^2$.
 To get the projective plane, one has to mind using the $2$-cell to glue the $1$-cell to itself *reversed*.
@@ -24,7 +24,7 @@ Each fiber has exactly two elements: the two antipodal points that have been ide
 Covering spaces have a unique path lifting property, which states that, given a point $x \in \RP^n$ and an element $\tilde{x}$ of its fiber $p^{-1}(x)$, then any path starting at $x$ "lifts" to a unique path in the covering space starting at $\tilde{x}$.
 In our case, if we take any loop $\gamma : [0,1] \rightarrow \RP^n$, $\gamma(0) = \gamma(1) = x$, we can lift it to a path in $\sphere^n$.
 As the fibers have two elements, we say that the covering space has two "sheets".
-So, depending on our choice of $\gamma$, it can be lifted in two different ways: taking both endpoints of the lifted path to be the same (e.g. $\tilde{x}$), or taking each endpoint to be the antipodal of the other (e.g. $\tilde{x}$ and $-\tilde{x}$).
+So, depending on our choice of $\gamma$, it can be lifted in two different ways: taking both endpoints of the lifted path to be the same (say, $\tilde{x}$), or taking each endpoint to be the antipodal of the other ($\tilde{x}$ and $-\tilde{x}$).
 
 For the first, we obtain a loop in the sphere.
 As $\sphere^n$ has a trivial fundamental group for $n > 1$, that loop is homotopic to the constant path on $\tilde{x}$.
@@ -37,7 +37,7 @@ What can be said of such loop?
 It seems to be the only generator of the fundamental group of $\RP^n$, so the only thing left to do is to check what order it has.
 Hence, we want to see what $\gamma \ct \gamma$ is.
 As we have done before, we can lift the path to $\sphere^n$.
-The first $\gamma$ is as before, a path from $\tilde{x}$ to $-\tilde{x}$.
+The first $\gamma$ is, as before, a path from $\tilde{x}$ to $-\tilde{x}$.
 In order for $\gamma \ct \gamma$ to be a valid loop, the second $\gamma$ has to be lifted to a path from $-\tilde{x}$ to $\tilde{x}$, otherwise the endpoints do not match.
 But then, we obtain a loop on $\tilde{x}$, which makes $\gamma \ct \gamma$ homotopic to the constant path on $x$.
 

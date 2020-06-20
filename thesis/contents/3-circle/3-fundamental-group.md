@@ -1,6 +1,22 @@
 ## The Fundamental Group of the Circle {#sec:circle_fundamental-group}
 
-In order to familiarize ourselves with spaces presented as higher inductive types, we analyze a study case: the fundamental group of the circle \sone. In classical topology, the fundamental group is defined as the quotient of the set of loops at the base point by the homotopy equivalence relationship. In homotopy type theory, the quotient is not necessary, as paths that are homotopy equivalent are *propositionally equal*. What we need to do, though, is make sure that the fundamental group is a discrete set, so we have to kill all higher order paths:
+We finally approach the calculation of the fundamental group of \sone.
+This was used as an exercise in learning both homotopy type theory and Agda.
+The proof showcased here is practically the same that has been implemented and attached to this work.
+Compared to that of the commutativity of addition exposed in @sec:agda-hott, this is non-trivial as it deals with more advanced topological concepts (fibrations, paths and homotopies), which result in complex type-theoretical constructions (type families, identity types).
+The program for the proof is well self-documented and tries to guide the reader along the path explained in this section.
+
+In classical topology, the fundamental group is defined as such:
+
+```\begin{definition}```{=latex}
+Given a topological space $X$ together with a base point $x$, we define the **fundamental group** of $(X,x)$ as the group $\pi_1(X,x)$ formed by the homotopy classes of the paths from $x$ to $x$, and the group operation defined as $[f] \ct [g] = [f \ct g]$.
+```\end{definition}```{=latex}
+
+That this is indeed a group requires proving that the equivalence classes respect composition, and that the group laws are fulfilled.
+This can be found in @hatcher_algebraic_2000 Proposition 1.3.
+The identity is none other than the constant path on $x$, and the inverses are given by walking the paths backwards, i.e. $f^{-1}(t) = f(1-t)$.
+
+In homotopy type theory, the quotient is not necessary, as paths that are homotopy equivalent are *propositionally equal*. What we need to do, though, is make sure that the fundamental group is a discrete set, so we have to kill all higher order paths:
 
 \begin{definition}
 The \textbf{fundamental group} of a based type $(X,x)$, denoted as $\pi_1(X,x)$, is the $0$-truncation of its loop space at $x$, i.e.:

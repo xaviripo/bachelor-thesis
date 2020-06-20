@@ -7,7 +7,7 @@ We will not worry about the Emacs extension in this work, but rather just on bei
 
 ### Using Docker
 
-Installing Agda itself is not extremely difficult, even for users unfamiliar with Haskell or compilation processes in general.
+Installing Agda itself is not extremely difficult, even for users unfamiliar with Haskell (in which Agda is written) or compilation processes in general.
 For our particular purposes, though, there is an important blocking issue.
 As our intention is to develop proofs in homotopy type theory, it is appropriate to try and work with the HoTT-Agda library developed by the Univalent Foundations Program researchers @brunerie_homotopy_nodate.
 Unfortunately, the library has not been updated to work with the latest version of the Agda compiler.
@@ -35,7 +35,7 @@ Nonetheless, these may be outdated and sometimes have setup issues.
 A viable alternative is to compile Agda's compiler from source.
 This is a resource-heavy task, so it is advised to try only on more powerful computers.
 The official recommendation is to install through Haskell's Cabal, a toolchain for building and packaging Haskell programs.
-Unfortunately, Caball generally works with a global package index^[It is possible to use a newer mode known as *sandboxes*. This posed technical issues with older Agda versions and so was not taken as the main route, but the reader is encouraged to consider the option.], and so installing Agda's dependencies might conflict with already installed Haskell packages, if there were any.
+Unfortunately, Cabal generally works with a global package index^[It is possible to use a newer mode known as *sandboxes*. This posed technical issues with older Agda versions and so was not taken as the main route, but the reader is encouraged to consider the option.], and so installing Agda's dependencies might conflict with already installed Haskell packages, if there were any.
 
 In order to do so one just has to install directly using the Cabal command line interface^[<https://agda.readthedocs.io/en/v2.6.1/getting-started/installation.html#installation-from-hackage>.], specifying the desired Agda version. For example, for version 2.5.3, one would use:
 

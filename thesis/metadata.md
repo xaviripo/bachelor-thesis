@@ -24,6 +24,8 @@ chapters: true
 cref: true
 
 header-includes: |
+  \usepackage[catalan,english]{babel}
+  \selectlanguage{english}
   \usepackage{amsthm}
   \usepackage{tikz}
   \usetikzlibrary{arrows}

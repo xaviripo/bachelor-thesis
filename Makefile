@@ -35,6 +35,7 @@ contents/4-rp2/1-construction-classical.md\
 contents/4-rp2/2-pushouts.md\
 contents/4-rp2/3-construction-pushout.md\
 contents/4-rp2/4-construction-hit.md\
+contents/5-conclusions/0-conclusions.md\
 
 
 # Thesis files to be included before the table of contents
