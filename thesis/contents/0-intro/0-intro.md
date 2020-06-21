@@ -1,4 +1,4 @@
-# Introduction
+# Introduction {.unnumbered}
 
 \pagenumbering{arabic}
 
@@ -7,7 +7,7 @@ The field has diversified a lot since its inception, but the idea of helping in 
 The ambition of computer scientists and mathematicians has kept growing, up to the question posed today: can computers help us prove theorems?
 Homotopy type theory is a field that can potentially help with this problem.
 
-In a few words, type theory is a foundation of mathematics, an alternative to set theory or category theory.
+In a few words, type theory is a foundation of mathematics, alternative to set theory or category theory.
 In set theory, one way to build the natural numbers is through the recursive definition $0 := \varnothing$, $n' := n \cup \{n\}$.
 This yields a functional representation of the Peano naturals, but it also produces valid expressions like $0 \in 1$, which are often unwanted, as they mix the nature of the sets with the "pure" idea of the numbers.
 Of course, this does not really suppose any trouble to the working mathematician, as it is pretty easy to just "forget" about the particular implementation of the natural numbers and think of them as objects on their own rather than sets.
@@ -16,14 +16,14 @@ In that case, it is important for the computer to be explicitly aware of what se
 
 The problem becomes unsolvable when dealing with more complex objects.
 For example, viewing functions as sets of ordered pairs makes them not generally representable in a finite setting.
-Even though one can define a function by just stating its action on any element of the domain (e.g. $f(x) := x + 1$), the underlying set that represents the function can easily be infinite.
+Even though one can define a function by just stating its action on any element of the domain (for example, $f(x) := x + 1$), the underlying set that represents the function can easily be infinite.
 
 Type theory tries to tackle this problem by taking a more semantic view on mathematical objects.
 It operates with terms that have assigned types.
 In the case of the natural numbers, for example, instead of building them out of more elementary atoms, we just state them as what we want them to be: a type with an initial term and a way to build a new term for each existing one.
 Similarly, functions become simple computation rules instead of literally being made out of all the possible mappings they entail.
 
-This philosophy---the idea that mathematical structures should be finitely describable---is known as constructivism, and is the quintessence of Per Martin-Löf's type theory.
+This philosophy---the idea that mathematical structures should be finitely describable---is known as constructivism, and is the quintessence of Martin-Löf's type theory.
 Although type theories precede Martin-Löf's by some decades, the one he published, known as intuitionistic type theory, is the first one to implement predicative logic, which is vital for producing meaningful mathematics.
 The notion of constructivism not only applies to objects such as algebraic structures, but also to predicates about these.
 In a set-theoretic setting, constructing the set of all even natural numbers and the *statement* that such set is the set of all even numbers are two completely different things.
@@ -33,7 +33,7 @@ This is just a set of numbers that, by definition, are all the even natural numb
 We can name this set $E$, then forget about how it was defined, and we would lose the notion that it is the set of even naturals.
 In fact, by writing $\{0,2,4,6,8,...\}$ we could describe that same set without using the notion of evenness.
 
-The second could be expressed as $\forall n \in \naturals, n \in E \iff 2 \mid n$.
+The second could be expressed as $\forall n \in \naturals \quad n \in E \iff 2 \mid n$.
 This assertion is expressed using predicative logic, it is not an object in the same sense as $E$.
 
 In type theory, we record the properties we care about of objects in the objects themselves.
@@ -110,10 +110,10 @@ This alone led us to study the rich concept of covering spaces.
 The theoretical study of this proof was accompanied by the practical implementation of an Agda program that implements it.
 
 Afterwards, we wanted to try our luck with a more complicated case: the fundamental group of the real projective plane $\RP^2$.
-While we were observing the problem, we realized that a potentially easier construction of $\RP^2$ could perhaps be made than those found in publications.
+While we were observing the problem, we realized that a potentially easier construction of $\RP^2$ could perhaps be made as an alternative to those found in publications.
 In particular, our approach tries to remove all accessory constructions and leave only the minimal components that would give a type the homotopical structure of $\RP^2$.
 The implications are that we have to work with second order inductive types, the difficulties of which we expose along the way.
-Albeit we accomplish the task of obtaining the fundamental group, we have difficulties proving the construction is indeed a projective space, although we make great advances towards it.
+Albeit we accomplish the task of obtaining the fundamental group, we have difficulties proving that the construction is indeed a projective space, although we make substantial advances towards it.
 
-Both parts of this thesis are an excellent display of the elegance of translating concepts from set-theoretic topology to homotopy type theory, where many times the definitions better represent the ideas behind them.
-Not only does homotopy type theory help us translate the theorems for the computer to verify, it also succinctly encapsulates the essence of *paths* in a way that allows us to tell what topological constructions are homotopical and which are not.
+Both parts of this thesis display the elegance of translating concepts from set-theoretic topology to homotopy type theory, where many times the definitions better represent the ideas behind them.
+Not only does homotopy type theory help us translate the theorems for the computer to verify, but it also succinctly encapsulates the essence of *paths* in a way that allows us to tell what topological constructions are homotopical and which are not.

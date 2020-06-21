@@ -43,7 +43,7 @@ This clearly suits our conception of the fundamental group of the projective pla
 What we called $\gamma$ in there is represented by $X_1$ here.
 And the fact that $\gamma \ct \gamma$ is the constant path can be seen here as $X_1 \ct X_1 = \refl_{X_0}$, proven by $X_2$.
 
-So, we pose the question: is $X$ equivalent to $\RP^n$?
+So, we pose the question: is $X$ equivalent to $\RP^2$?
 
 Following the definition of equivalence, we should find two functions, $\psi : X \rightarrow \RP^2$ and $\varphi : \RP^2 \rightarrow X$, that are mutual quasi-inverses, or, in other words, such that $\psi \circ \varphi \sim \id_{\RP^2}$ and $\varphi \circ \psi \sim \id_{X}$.
 
@@ -94,12 +94,16 @@ We have to provide a point $\psi(X_0)$ for $X_0$, a path $\psi(X_0) = \psi(X_0)$
 - For $\psi(X_0)$ we choose $\inl(\sbase)$.
 - For $\psi(X_1)$, $\ap_{\inl}(\sloop)$.
 
-Unfortunately, the construction of $\psi(X_2)$ requires providing a proof that $\ap_\inl(\sloop) \ct \ap_\inl(\sloop) = \refl_{\inl(\sbase)}$, which practically amounts to calculating the fundamental group of $\RP^2$.
+Unfortunately, the construction of $\psi(X_2)$ requires providing a proof that
+
+$$\ap_\inl(\sloop) \ct \ap_\inl(\sloop) = \refl_{\inl(\sbase)},$$
+
+which practically amounts to calculating the fundamental group of $\RP^2$.
 
 If we could define $\psi$ like this, then proving they are mutual quasi-inverses amounts to once again use the eliminators of each type, but in a trickier way.
 As the induction principle tells us that a function is determined by a series of parameters, we can prove that $\varphi \circ \psi$ and $\psi \circ \varphi$ are equal to the corresponding identity functions by just showing they agree with them on these parameters alone.
 
 In the case of $\varphi \circ \psi : X \rightarrow X$, we would use the elimination principle of $X$, whereas for $\psi \circ \varphi : \RP^2 \rightarrow \RP^2$, we would use the elimination principle of $\RP^2$.
 
-The difficulties in defining the function $\psi$ are a clear display of the complexity of higher inductive types that require a second order eliminator (i.e. that have higher order paths), and explain the reason why these constructions are not thoroughly used.
+The difficulties in defining the function $\psi$ are a clear display of the complexity of higher inductive types that require a second order eliminator (i.e., that have higher order paths), and explain the reason why these constructions are not thoroughly used.
 Nonetheless, we believe that building them and proving them correct can be useful.

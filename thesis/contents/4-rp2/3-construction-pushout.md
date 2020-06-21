@@ -90,7 +90,7 @@ Consider the map $\encode : \prod_{(A : \universe_{\szero})} (\szero = A) \right
 In other words, $\encode(A,p) = \idtoeqv(p)(\north)$, where \idtoeqv is the equivalence induced by the equality of types.
 
 \begin{lemma}
-\encode{} is an equivalence.
+The function $\encode : \prod_{(A : \universe_{\szero})} (\szero = A) \rightarrow A$ given by $\encode(A,p) = \idtoeqv(p)(\north)$ is an equivalence.
 \end{lemma}
 
 This \encode, like the others we have seen, tries to give a combinatorial interpretation of an equality type, in this case $\szero = A$.
@@ -139,7 +139,7 @@ Then $\RP^{n+1}$ is defined as the following pushout:
   where \szero represents the function taking $\star$ to \szero. If we can prove that the square commutes, then, by the universal property of the pushout, there has to exist a function from $\RP^{n+1}$ to $\universe_{\szero}$, which we will take to be $\cov^{n+1}$.
 
   For every $x : \RP^n$, we have the equivalence $\encode(\cov^n(x)) : (\szero = \cov^n(x)) \simeq \cov^n(x)$ given by the lemma.
-  Theorem 4.7.7 of the @univalent_foundations_program_homotopy_2013 induces an equivalence
+  Theorem 4.7.7 of @the_univalent_foundations_program_homotopy_2013 induces an equivalence
 
   $$\sum_{x : \RP^n} \cov^n(x) \simeq \sum_{x : \RP^n} (\szero = \cov^n(x))$$
 
@@ -163,5 +163,5 @@ Then $\RP^{n+1}$ is defined as the following pushout:
   \end{center}
 
   The inner square is an instance of what is known as a pullback square, because its upper left corner is (equivalent to) the double sum type over equalities of the top right and bottom left corners, $\sum_{(y : \one)} \sum_{(x : \RP^n)} (\szero = \cov^n(x))$.
-  These are dual to the pushout squares and are also commutative [@univalent_foundations_program_homotopy_2013, Exercise 2.11].
+  These are dual to the pushout squares and are also commutative [@the_univalent_foundations_program_homotopy_2013, Exercise 2.11].
   Hence, the outer square is also commutative, as we wanted to prove.

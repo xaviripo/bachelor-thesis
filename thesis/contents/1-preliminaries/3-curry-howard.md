@@ -83,5 +83,5 @@ This is also the point where homotopy type theory diverges from other (more exte
 Intensionality means that the type $a = b$ is not "boolean", i.e. it can have different, non-equal proofs.
 As it only seemed to add complexity, this property was traditionally discarded through the introduction of an axiom known as axiom K.
 Axiom K essentially imposes what we call **uniqueness of identity proofs**, or in other words, that all path types are mere propositions, either inhabited by a single path or empty.
-This kills the higher homotopical structure, rendering the type theory more approachable from a certain computational point of view, but making elements less faithful to the proof they represent.
-The recent study of higher path types has shown that preserving them makes for a good grounds of homotopy theory.
+This kills the higher homotopical structure, rendering type theory more approachable from a certain computational point of view, but making elements less faithful to the proof they represent.
+The recent study of path types shows that preserving them results in a good foundation of homotopy theory.

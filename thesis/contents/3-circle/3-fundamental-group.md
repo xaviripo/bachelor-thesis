@@ -78,7 +78,7 @@ $$\begin{array}{lllr}
 &= n \mapsto \sloop^{\natsucc^{-1}(n)} \ct \sloop && \text{(4)}\\
 &= n \mapsto \sloop^{n} && \text{(5)}
 \end{array}$$
-(1) and (2) are by the action of \transport{} on type families of the form $y \mapsto A(y) \rightarrow B(y)$ and $y \mapsto base = y$, correspondingly [see @univalent_foundations_program_homotopy_2013 2.9.4 and 2.11.2].
+(1) and (2) are by the action of \transport{} on type families of the form $y \mapsto A(y) \rightarrow B(y)$ and $y \mapsto base = y$, correspondingly [see @the_univalent_foundations_program_homotopy_2013 2.9.4 and 2.11.2].
 (3) is due to the functoriality of \transport, and (4) and (5) due to reducing the function composition and then the path concatenation.
 `\end{proof}`{=latex}
 
@@ -117,7 +117,7 @@ For the second equality, we apply circle induction. Usually, we would have to su
 \end{proof}
 
 \begin{theorem}\label{circle-equiv}
-There is a family of equivalences $\prod_{x : \sone} (\sbase = x) \simeq \code(x)$
+There is a family of equivalences $\prod_{x : \sone} (\sbase = x) \simeq \code(x)$.
 \end{theorem}
 
 \begin{proof}
@@ -125,7 +125,7 @@ We apply \cref{circle-inverses} to see that \encode{} and \decode{} act as mutua
 \end{proof}
 
 \begin{corollary}
-\[\pi_1(\sone) = \integers\]
+\[\pi_1(\sone) = \integers.\]
 \end{corollary}
 
 \begin{proof}
