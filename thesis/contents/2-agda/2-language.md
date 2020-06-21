@@ -72,7 +72,7 @@ a = b
 
 To define `a`{.agda} as having value `b`{.agda}.
 This makes Agda's `=`{.agda} operator equivalent to homotopy type theory's $:\equiv$, rather confusingly.
-Conversely, for identity types, `≡`{.agda} is generally used, or sometimes `==`{.agda}, depending on the library.
+In the homotopy type theory library, `==`{.agda} is used for identity types, and we follow this convention, although outside of that `≡`{.agda} is generally used.
 
 Agda incorporates dependent function types.
 A non-dependent function between types `A`{.agda} and `B`{.agda} is written like so:
@@ -81,7 +81,7 @@ A non-dependent function between types `A`{.agda} and `B`{.agda} is written like
 f : A → B
 ```
 
-If `B`{.agda} is actually a type family on `A`{.agda} (`B : A → Set`{.agda}), then we can write:
+If `B`{.agda} is actually a type family on `A`{.agda} (`B : A → Type`{.agda}), then we can write:
 
 ```agda
 f : (a : A) → (B a)
@@ -132,14 +132,15 @@ Notice that Agda admits recursive definitions as long as they can be reduced dow
 ### Universe types
 
 Agda provides a type `Set`{.agda} of types. The name is a little misleading, as, from a homotopy type theory point of view it represents the universe of small types, rather than the universe of sets (what we call $0$-types).
-`Set`{.agda} is actually shorthand for `Set lzero`{.agda}, which represents the first type in a hierarchy of universes indexed by a type `Level`{.agda}.
-This exists to avoid Russell's paradox (which makes `Set : Set`{.agda} impossible).
-Instead, Agda defines a chain of universes: `Set lzero : Set (lsuc lzero)`{.agda}, etc.
+For this reason, in the homotopy type theory this is renamed to `Type`{.agda}.
+`Type`{.agda} is actually shorthand for `Type lzero`{.agda}, which represents the first type in a hierarchy of universes indexed by a type `Level`{.agda}.
+This exists to avoid Russell's paradox (which makes `Type : Type`{.agda} impossible).
+Instead, Agda defines a chain of universes: `Type lzero : Type (lsuc lzero)`{.agda}, etc.
 While this is not relevant for the math behind the proofs we will develop, it is very much present in the actual code, especially in the form of universe polymorphism, which allows us to parametrize the universe level.
 For example, if we wanted to write an identity function that applies to *all* types, we would have to do it like so:
 
 ```agda
-id : {n : Level} → {A : Set n} → A → A
+id : {n : Level} → {A : Type n} → A → A
 id x = x
 ```
 
@@ -153,7 +154,7 @@ In broad terms, it generalizes the dependent pair type to be indexed by names.
 As a trivial example, tuples can be seen as an instance of a record type:
 
 ```agda
-record Pair (A B : Set) : Set where
+record Pair (A B : Type) : Type where
   field
     fst : A
     snd : B
@@ -169,7 +170,7 @@ p = record { fst = 0; snd = 1 }
 By providing a `constructor`{.agda} directive, we can define a custom notation for the introduction rule of that type:
 
 ```agda
-record Pair (A B : Set) : Set where
+record Pair (A B : Type) : Type where
   constructor _,_
   field
     fst : A
@@ -185,7 +186,7 @@ p = 0 , 1
 Finally, Agda offers the `data`{.agda} syntax that plays the role of inductive types.
 
 ```agda
-data Nat : Set where
+data Nat : Type where
   zero : Nat
   suc  : Nat → Nat
 ```
@@ -193,16 +194,16 @@ data Nat : Set where
 Data types also admit parameters themselves:
 
 ```agda
-data List (A : Set) : Set where
+data List (A : Type) : Type where
   [] : List A
   _∷_ : List A → List A
 ```
 
 When a given parameter can have different values for each constructor, we move it to the right side of the `:`{.agda} and call it an index.
-In the following example, `(A : Set)`{.agda} is a parameter but `Nat` is an index:
+In the following example, `(A : Type)`{.agda} is a parameter but `Nat` is an index:
 
 ```agda
-data Vector (A : Set) : Nat → Set where
+data Vector (A : Type) : Nat → Type where
   []  : Vector A 0
   _∷_ : {n : Nat} → A → Vector A n → Vector A (suc n)
 ```
@@ -226,7 +227,7 @@ This adds the type `Nat`{.agda} with constructors `zero`{.agda} and `suc`{.agda}
 To offer the utmost flexibility, we can also mimic these built-ins ourselves and then tell the compiler we want it to use the efficient internal representation:
 
 ```agda
-data Nat : Set where
+data Nat : Type where
   zero : Nat
   suc  : Nat → Nat
 
@@ -239,8 +240,8 @@ Another case that appears in most programs is the equality type.
 It is defined in the `Agda.Builtin.Equality`{.agda} module as follows:
 
 ```agda
-data _≡_ {a} {A : Set a} (x : A) : A → Set a where
-  refl : x ≡ x
+data _==_ {a} {A : Type a} (x : A) : A → Type a where
+  refl : x == x
 ```
 
 Observe how it is defined like we would define an inductive type with a single constructor `refl`{.agda}.
@@ -252,7 +253,7 @@ For example, pair types can be defined in two different ways.
 One, as record types:
 
 ```agda
-record Σ {a b} (A : Set a) (B : A → Set b) : Set (a ⊔ b) where
+record Σ {a b} (A : Type a) (B : A → Type b) : Type (a ⊔ b) where
   constructor _,_
   field
     fst : A
@@ -262,7 +263,7 @@ record Σ {a b} (A : Set a) (B : A → Set b) : Set (a ⊔ b) where
 Another, as data types:
 
 ```agda
-data Σ {a b} (A : Set a) (B : A → Set b) : Set (a ⊔ b) where
+data Σ {a b} (A : Type a) (B : A → Type b) : Type (a ⊔ b) where
   _,_ : (x : A) → (B x) → Σ A B
 ```
 
@@ -289,7 +290,7 @@ For us, the most important option is `--without-K`{.agda}:
 By default, Agda allows formulating axiom K:
 
 ```agda
-K : {A : Set} {a : A} (P : a ≡ a → Set) → P refl → (loop : a ≡ a) → P loop
+K : {A : Type} {a : A} (P : a == a → Type) → P refl → (loop : a == a) → P loop
 K P p refl = p
 ```
 

@@ -5,30 +5,20 @@
 Let us treat a simple hands on example: the commutativity of addition of natural numbers.
 The full source code of this proof is available in the attachments.
 
-First, as a preamble, we deactivate uniqueness of identity proofs and import a few basic definitions regarding equality.
+First, as a preamble, we deactivate uniqueness of identity proofs using `{-# OPTIONS --without-K #-}`{.agda} and construct a few basic definitions regarding equality.
+
+We begin the actual content by defining the naturals and their addition operation:
 
 ```agda
-{-# OPTIONS --without-K #-}
+  -- Natural numbers
+  data ℕ : Type lzero where
+    zero : ℕ
+    succ : ℕ → ℕ
 
-import Relation.Binary.PropositionalEquality as Eq
-open Eq using (_≡_; refl; sym; cong)
-open Eq.≡-Reasoning using (begin_; _≡⟨⟩_; _≡⟨_⟩_; _∎)
-
-module Naturals where
-```
-
-We begin by defining the naturals and their addition operation:
-
-```agda
--- Natural numbers
-data ℕ : Set where
-  zero : ℕ
-  succ : ℕ → ℕ
-
--- Addition of naturals
-_+_ : ℕ → ℕ → ℕ
-zero + m = m
-(succ n) + m = succ (n + m)
+  -- Addition of naturals
+  _+_ : ℕ → ℕ → ℕ
+  zero + m = m
+  (succ n) + m = succ (n + m)
 ```
 
 The definition of the natural numbers as an inductive type has already been seen.
@@ -43,24 +33,23 @@ Case analysis could be further used on the second argument, but this definition 
 Now, we proceed to prove a lemma:
 
 ```agda
--- Proof that 0 is right identity of addition
-add-right-id : (n : ℕ) → (n + zero) ≡ n
-add-right-id zero = refl
-add-right-id (succ n) =
-  begin
+  -- Proof that 0 is right identity of addition
+  add-right-id : (n : ℕ) → (n + zero) == n
+  add-right-id zero = idp
+  add-right-id (succ n) =
     (succ n) + zero
-  ≡⟨⟩
+      =⟨ idp ⟩
     succ (n + zero)
-  ≡⟨ cong (succ) (add-right-id n) ⟩
+      =⟨ ap (succ) (add-right-id n) ⟩
     succ n
-  ∎
+      =∎
 ```
 
 A few things to note here.
 
 First of all, we remember that theorems (or lemmas) take the shape of types, whereas proofs are their inhabitants.
 We can identify every part in the example above.
-The statement of the lemma is the type of `add-right-id`{.agda}, namely `(n : ℕ) → (n + zero) ≡ n`{.agda}.
+The statement of the lemma is the type of `add-right-id`{.agda}, namely `(n : ℕ) → (n + zero) == n`{.agda}.
 This is the type of functions that take a natural number `n`{.agda}, and return an equality between `n + zero`{.agda} and `n`{.agda}.
 The proof will be the function `add-right-id`{.agda} that we are defining.
 
@@ -74,11 +63,11 @@ So, effectively, when building the proof, we are saying "`zero + zero`{.agda} is
 The second part might look more daunting, but is not much more difficult.
 Some of the imports at the top of the file define a syntax that allows us to define proofs given by the concatenation of multiple paths by writing them out in a readable way.
 
-Suppose we have paths `p : a ≡ b`{.agda}, `q : b ≡ c`{.agda}, and `r : c ≡ d`{.agda}.
+Suppose we have paths `p : a == b`{.agda}, `q : b == c`{.agda}, and `r : c == d`{.agda}.
 Instead of just writing the concatenation of the paths `p ∙ q ∙ r`, the Agda standard library (and other libraries too) gives us a way to write it out as:
 
 ```agda
-begin a ≡⟨ p ⟩ b ≡⟨ q ⟩ c ≡⟨ r ⟩ d ∎
+a =⟨ p ⟩ b =⟨ q ⟩ c =⟨ r ⟩ d =∎
 ```
 
 This is actually the same as `p ∙ q ∙ r`{.agda}, but resembles much more what we have in mind when writing the proof, and so is the generally preferred style.
@@ -87,8 +76,8 @@ Back to the proof, we first state that `(succ n) + zero`{.agda} is the same thin
 We do not provide any path as proof, as they are definitionally equal (in particular, by the definition of `_+_`{.agda} when the first operator uses `succ`{.agda}).
 
 The second step is more interesting.
-We use `cong` (known as \ap in the homotopy type theory literature) to take a path of type `(n + zero) ≡ n`{.agda}, apply `succ`{.agda} to both sides of the equality, and obtain a new path of type `succ (n + zero) ≡ succ n`{.agda}.
-Observe that the path of type `(n + zero) ≡ n`{.agda} chosen is `add-right-id`{.agda} itself.
+We use `cong` (known as \ap in the homotopy type theory literature) to take a path of type `(n + zero) == n`{.agda}, apply `succ`{.agda} to both sides of the equality, and obtain a new path of type `succ (n + zero) == succ n`{.agda}.
+Observe that the path of type `(n + zero) == n`{.agda} chosen is `add-right-id`{.agda} itself.
 One might fear that the recursive call gets stuck for ever.
 But, since we invoke `add-right-id n`{.agda} from the case of `add-right-id (succ n)`{.agda}, we are going "down" the stack of `succ`{.agda}s, and so it will end up reducing to the base case `add-right-id zero`{.agda}.
 In contrast to other programming languages, Agda is capable of knowing whether a recursive call will end or not, so we must not worry about infinite recursion.
@@ -96,8 +85,8 @@ In contrast to other programming languages, Agda is capable of knowing whether a
 We are now ready to prove the main theorem:
 
 ```agda
--- Proof of the commutativity of addition
-add-comm : (n m : ℕ) → (n + m) ≡ (m + n)
+  -- Proof of the commutativity of addition
+  add-comm : (n m : ℕ) → (n + m) == (m + n)
 ```
 
 Similarly to the lemma, this proof is a dependent function.
@@ -105,20 +94,19 @@ It takes any two natural numbers, `n`{.agda} and `m`{.agda}, and returns a path 
 This proof is longer than that of the lemma, mainly because now we have to pattern match on two variables instead of one.
 
 ```agda
-add-comm zero zero = refl
+  add-comm zero zero = idp
 ```
 
 The case for `zero + zero`{.agda} is trivial.
 
 ```agda
-add-comm (succ n) zero =
-  begin
+  add-comm (succ n) zero =
     (succ n) + zero
-  ≡⟨ add-right-id (succ n) ⟩
+      =⟨ add-right-id (succ n) ⟩
     succ n
-  ≡⟨⟩
+      =⟨ idp ⟩
     zero + (succ n)
-  ∎
+      =∎
 ```
 
 This case does not introduce any new tools either.
@@ -126,40 +114,38 @@ We start off by applying the lemma.
 Then, `succ n`{.agda} is equal to `zero + (succ n)`{.agda} by definition of `_+_`{.agda}.
 
 ```agda
-add-comm zero (succ m) =
-  begin
+  add-comm zero (succ m) =
     zero + (succ m)
-  ≡⟨⟩
+      =⟨ idp ⟩
     succ m
-  ≡⟨ sym (add-right-id (succ m)) ⟩
+      =⟨ ! (add-right-id (succ m)) ⟩
     (succ m) + zero
-  ∎
+      =∎
 ```
 
 Here we do the same, but in the opposite order.
-In consequence, we have to "reverse" the path of type `(succ m) + zero ≡ succ m`{.agda} to obtain one of type `succ m ≡ (succ m) + zero`{.agda} via `sym`{.agda}, which is known as the path reversal operator $p \mapsto p^{-1}$ in homotopy type theory.
+In consequence, we have to "reverse" the path of type `(succ m) + zero == succ m`{.agda} to obtain one of type `succ m == (succ m) + zero`{.agda} via `sym`{.agda}, which is known as the path reversal operator $p \mapsto p^{-1}$ in homotopy type theory.
 
 The last case is the longest:
 
 ```agda
-add-comm (succ n) (succ m) =
-  begin
+  add-comm (succ n) (succ m) =
     (succ n) + (succ m)
-  ≡⟨⟩
+      =⟨ idp ⟩
     succ (n + (succ m))
-  ≡⟨ cong (succ) (add-comm n (succ m)) ⟩
+      =⟨ ap (succ) (add-comm n (succ m)) ⟩
     succ ((succ m) + n)
-  ≡⟨⟩
+      =⟨ idp ⟩
     succ (succ (m + n))
-  ≡⟨ cong (succ) (cong (succ) (add-comm m n)) ⟩
+      =⟨ ap (succ) (ap (succ) (add-comm m n)) ⟩
     succ (succ (n + m))
-  ≡⟨⟩
+      =⟨ idp ⟩
     succ ((succ n) + m)
-  ≡⟨ cong (succ) (add-comm (succ n) m) ⟩
+      =⟨ ap (succ) (add-comm (succ n) m) ⟩
     succ (m + (succ n))
-  ≡⟨⟩
+      =⟨ idp ⟩
     (succ m) + (succ n)
-  ∎
+      =∎
 ```
 
 It is reduced to previous cases through recursion with the help of `cong`{.agda} and the definition of `_+_`{.agda}.
@@ -168,8 +154,8 @@ This concludes the proof.
 Now, it can be applied as such:
 
 ```agda
-_ : (1 + 2) ≡ (2 + 1)
-_ = add-comm 1 2
+  _ : (1 + 2) == (2 + 1)
+  _ = add-comm 1 2
 ```
 
 We could go a step further and mark the arguments `n`{.agda} and `m`{.agda} as implicit, so that we could invoke this theorem just by writing `add-comm`{.agda} without parameters, but we leave them explicit for illustrative purposes.
@@ -202,7 +188,7 @@ data S¹ : Set where
   base : S¹
 
 postulate
-  loop : base ≡ base
+  loop : base == base
 ```
 
 First, we create a type with a single point constructor `base`{.agda}, and then tell Agda that there exists a path `loop`{.agda} from `base`{.agda} to `base`{.agda}.
