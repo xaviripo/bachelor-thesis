@@ -1,7 +1,6 @@
 # Agda
 
 This folder contains developments written in Agda.
-Each folder has a different project and a README file explaining its contents.
 In order to try out such programs, we offer a system to manage multiple Agda versions and libraries.
 
 The quick way to get started with Agda is through the Docker images offered by
@@ -23,7 +22,24 @@ Visit the [Download Python](https://www.python.org/downloads/) web page and choo
 It is important to use a 3.x version of Python, as 2.x is deprecated and will not work for this project.
 
 
-## Usage
+## Included projects
+
+A few Agda projects are included in the `src/` folder.
+
+- `Naturals.agda`. The proof of the commutativity of addition in the natural numbers.
+
+  To try it, just execute `./run src/Naturals.agda`.
+
+- `Circle.agda`. The construction of the fundamental group of the circle.
+
+  To try it, just execute `./run src/Circle.agda`.
+
+- `Fail.agda`. An example of an incorrect proof, so that the user can see the output when a program is not correctly typed.
+
+  To try it, just execute `./run src/Fail.agda`.
+
+
+## New projects
 
 To type check an Agda project, follow these steps:
 
