@@ -163,4 +163,9 @@ docker_command = [
     *agda_command
 ]
 
-subprocess.run(docker_command, cwd=str(path))
+cp = subprocess.run(docker_command, cwd=str(path))
+
+if cp.returncode == 0:
+    print(f'[{args.filename}] Type checking successful.')
+else:
+    print(f'[{args.filename}] Type checking failed.')
