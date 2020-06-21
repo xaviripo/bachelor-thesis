@@ -26,7 +26,7 @@ Similarly, functions become simple computation rules instead of literally being 
 This philosophy---the idea that mathematical structures should be finitely describable---is known as constructivism, and is the quintessence of Per Martin-Löf's type theory.
 Although type theories precede Martin-Löf's by some decades, the one he published, known as intuitionistic type theory, is the first one to implement predicative logic, which is vital for producing meaningful mathematics.
 The notion of constructivism not only applies to objects such as algebraic structures, but also to predicates about these.
-In a set theoretic setting, constructing the set of all even natural numbers and the statement that such set is the set of all even numbers are two completely different things.
+In a set-theoretic setting, constructing the set of all even natural numbers and the *statement* that such set is the set of all even numbers are two completely different things.
 
 The first would be something like $\{n \in \naturals : 2 \mid n \}$.
 This is just a set of numbers that, by definition, are all the even natural numbers.
@@ -37,7 +37,7 @@ The second could be expressed as $\forall n \in \naturals, n \in E \iff 2 \mid n
 This assertion is expressed using predicative logic, it is not an object in the same sense as $E$.
 
 In type theory, we record the properties we care about of objects in the objects themselves.
-For example, the "set" of even naturals would be realized as a type consisting of ordered pairs, where the first component is any even number, and the second one is the *proof* that it is a natural.
+For example, the "set" of even naturals would be realized as a type consisting of ordered pairs, where the first component is any even number, and the second one is the *proof* that it is even.
 This way, not only we obtain the object itself (all the even natural numbers), we also encode the definition of the object with it.
 As a result of this technique, and the existence of certain native constructions (such as the dependent types introduced by Martin-Löf), intuitionistic type theory does not need of predicative or even propositional logic.
 It just needs a formal language that allows us to introduce some syntactical rules and create new types when needed.
@@ -82,7 +82,7 @@ When ignoring stronger topological structure and just looking at the paths, each
 
 Homotopy type theory is a kind of *intensional* type theory, this is to say, there is a differentiation between propositional and definitional equalities.
 Intensionality is a double-edged sword.
-The good side is that propositional equality is always given by an equality, which contains the information on *how* the two terms are related.
+The good side is that propositional equality is always given by a type, which contains the information on *how* the two terms are related.
 This means that a statement of the style $x = y$ also contains the proof (in fact, *all the proofs*) that $x$ equals $y$, in some sense.
 On the other hand, intensionality gives rise to a family of types which are very hard to study, the identity types, those representing equality statements.
 In fact, it turns out that identity types actually become a model for the higher path structures that appear in topological spaces, if we take equalities and think of them as paths joining the two equal things.

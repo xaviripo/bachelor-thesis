@@ -72,7 +72,7 @@ a = b
 
 To define `a`{.agda} as having value `b`{.agda}.
 This makes Agda's `=`{.agda} operator equivalent to homotopy type theory's $:\equiv$, rather confusingly.
-In the homotopy type theory library, `==`{.agda} is used for identity types, and we follow this convention, although outside of that `≡`{.agda} is generally used.
+In the homotopy type theory library [@brunerie_homotopy_nodate], `==`{.agda} is used for identity types, and we follow this convention, although outside of that `≡`{.agda} is generally used.
 
 Agda incorporates dependent function types.
 A non-dependent function between types `A`{.agda} and `B`{.agda} is written like so:
@@ -132,7 +132,8 @@ Notice that Agda admits recursive definitions as long as they can be reduced dow
 ### Universe types
 
 Agda provides a type `Set`{.agda} of types. The name is a little misleading, as, from a homotopy type theory point of view it represents the universe of small types, rather than the universe of sets (what we call $0$-types).
-For this reason, in the homotopy type theory this is renamed to `Type`{.agda}.
+For this reason, in the homotopy type theory library this is renamed to `Type`{.agda}.
+
 `Type`{.agda} is actually shorthand for `Type lzero`{.agda}, which represents the first type in a hierarchy of universes indexed by a type `Level`{.agda}.
 This exists to avoid Russell's paradox (which makes `Type : Type`{.agda} impossible).
 Instead, Agda defines a chain of universes: `Type lzero : Type (lsuc lzero)`{.agda}, etc.

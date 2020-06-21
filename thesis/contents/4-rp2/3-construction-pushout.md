@@ -81,6 +81,8 @@ As there are no subtypes in homotopy type theory, this is actually a fibration i
 The **universe of $\mathbf{2}$-sets** $\universe_{\szero}$ consists of types together with a proof that they are equal to $\szero$, i.e., $\sum_{(A : \universe)} \norm{A = \szero}_{-1}$.
 ```\end{definition}```{=latex}
 
+We take \szero{} as the inductive type with two constructors, \north{} and \south{}.
+
 Luckily, the fibers are mere propositions, so we can omit them for brevity without changing the constructions, and treat $\universe_{\szero}$ like a universe of types.
 Similarly, we consider \szero to be a pointed type, with center $\north$, but we will not write it explicitly throughout the text.
 

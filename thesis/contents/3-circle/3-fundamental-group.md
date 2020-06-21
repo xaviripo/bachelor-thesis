@@ -3,7 +3,7 @@
 We finally approach the calculation of the fundamental group of \sone.
 This was used as an exercise in learning both homotopy type theory and Agda.
 The proof showcased here is practically the same that has been implemented and attached to this work.
-Compared to that of the commutativity of addition exposed in @sec:agda-hott, this is non-trivial as it deals with more advanced topological concepts (fibrations, paths and homotopies), which result in complex type-theoretical constructions (type families, identity types).
+Compared to that of the commutativity of addition exposed in @sec:agda-hott, this is non-trivial as it deals with topological concepts (fibrations, paths and homotopies), which result in more complex type-theoretic constructions (type families, identity types).
 The program for the proof is well self-documented and tries to guide the reader along the path explained in this section.
 
 In classical topology, the fundamental group is defined as such:

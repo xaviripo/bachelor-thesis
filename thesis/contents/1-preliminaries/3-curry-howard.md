@@ -15,7 +15,7 @@ The best way to understand this is to take a look at the most relevant examples:
 
 All other principles can be deduced from these.
 Some types can be regarded as statements.
-When that is the case, whether its inhabited or not is equivalent to whether its true or false as a statement.
+When that is the case, whether they are inhabited or not is equivalent to whether they are true or false as a statement.
 That is why type theory is regarded as *constructivist*: when we prove a theorem, what we do is build an element of a type.
 We consider each term of a type to be a different proof of it.
 We often call these elements **witnesses**, so we can reserve the word proof for the process of building one.
@@ -41,11 +41,12 @@ An implication $A \Rightarrow B$ is true whenever a proof for $A$ yields a proof
 This is exactly what a function does: given an element of $A$, we obtain an element of $B$.
 
 And from that, we build the negation.
-Although we must beware of *reductio ad absurdum* in type theory for reasons we will later see, this construction comes from the idea that something is false whenever it implies a contradiction.
+Although we must beware of *reductio ad absurdum* in type theory, because in general it does not work, this construction comes from the idea that something is false whenever it implies a contradiction.
 In this case, if we have a function $A \rightarrow \zero$, then $A$ cannot be inhabited, as there is no point in \zero{} to take the points of $A$.
 
 Nonetheless, it is often more comfortable for humans to describe proofs in the classical style, exposing a chain of arguments.
-We have seen the key elements of propositional logic; we need to see construct quantifiers:
+
+We have seen the key elements of propositional logic; now we need to construct quantifiers:
 
 | First order logic                            | Type theory                            |
 |----------------------------------------------|---------------------------------------:|
@@ -59,7 +60,7 @@ Let us unpack this.
 For the existential, we provide dependent pairs. Each pair contains an element of $A$ together with the proof of the statement $P$ we claim about $a$.
 Observe that, once again, the corresponding type contains *all* possible proofs of $P(a)$.
 Conversely, if $b : A$ does not satisfy proposition $P$, then there does not exist any pair with $b$ as the first component.
-From this point of view, $\sum_{(a : A)} P(a)$ is not only the claim that there exists an $a$ such that $P(a)$, but it is also the type-theoretical analogue of the subset $\{a \in A : P(a)\}$.
+From this point of view, $\sum_{(a : A)} P(a)$ is not only the claim that there exists an $a$ such that $P(a)$, but it is also the type-theoretic analogue of the subset $\{a \in A : P(a)\}$.
 
 For the universal quantifier, we do not want to show *some* elements of $a : A$; we want a proof of $P(a)$ for *every* $a : A$.
 This is what the dependent function does: for each $a$, it returns an element of $P(a)$.
@@ -83,4 +84,4 @@ Intensionality means that the type $a = b$ is not "boolean", i.e. it can have di
 As it only seemed to add complexity, this property was traditionally discarded through the introduction of an axiom known as axiom K.
 Axiom K essentially imposes what we call **uniqueness of identity proofs**, or in other words, that all path types are mere propositions, either inhabited by a single path or empty.
 This kills the higher homotopical structure, rendering the type theory more approachable from a certain computational point of view, but making elements less faithful to the proof they represent.
-The recent study of higher path types has shown that preserving them makes for a good grounds for homotopy theory.
+The recent study of higher path types has shown that preserving them makes for a good grounds of homotopy theory.

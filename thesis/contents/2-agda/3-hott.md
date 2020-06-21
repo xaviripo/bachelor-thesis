@@ -64,7 +64,7 @@ The second part might look more daunting, but is not much more difficult.
 Some of the imports at the top of the file define a syntax that allows us to define proofs given by the concatenation of multiple paths by writing them out in a readable way.
 
 Suppose we have paths `p : a == b`{.agda}, `q : b == c`{.agda}, and `r : c == d`{.agda}.
-Instead of just writing the concatenation of the paths `p ∙ q ∙ r`, the Agda standard library (and other libraries too) gives us a way to write it out as:
+Instead of just writing the concatenation of the paths `p ∙ q ∙ r`, the homotopy type theory library (and other libraries too) gives us a way to write it out as:
 
 ```agda
 a =⟨ p ⟩ b =⟨ q ⟩ c =⟨ r ⟩ d =∎
@@ -76,11 +76,11 @@ Back to the proof, we first state that `(succ n) + zero`{.agda} is the same thin
 We do not provide any path as proof, as they are definitionally equal (in particular, by the definition of `_+_`{.agda} when the first operator uses `succ`{.agda}).
 
 The second step is more interesting.
-We use `cong` (known as \ap in the homotopy type theory literature) to take a path of type `(n + zero) == n`{.agda}, apply `succ`{.agda} to both sides of the equality, and obtain a new path of type `succ (n + zero) == succ n`{.agda}.
+We use `ap` to take a path of type `(n + zero) == n`{.agda}, apply `succ`{.agda} to both sides of the equality, and obtain a new path of type `succ (n + zero) == succ n`{.agda}.
 Observe that the path of type `(n + zero) == n`{.agda} chosen is `add-right-id`{.agda} itself.
 One might fear that the recursive call gets stuck for ever.
 But, since we invoke `add-right-id n`{.agda} from the case of `add-right-id (succ n)`{.agda}, we are going "down" the stack of `succ`{.agda}s, and so it will end up reducing to the base case `add-right-id zero`{.agda}.
-In contrast to other programming languages, Agda is capable of knowing whether a recursive call will end or not, so we must not worry about infinite recursion.
+In contrast to some other programming languages, Agda is capable of knowing whether a recursive call will end or not, so we must not worry about infinite recursion.
 
 We are now ready to prove the main theorem:
 
@@ -124,7 +124,7 @@ Then, `succ n`{.agda} is equal to `zero + (succ n)`{.agda} by definition of `_+_
 ```
 
 Here we do the same, but in the opposite order.
-In consequence, we have to "reverse" the path of type `(succ m) + zero == succ m`{.agda} to obtain one of type `succ m == (succ m) + zero`{.agda} via `sym`{.agda}, which is known as the path reversal operator $p \mapsto p^{-1}$ in homotopy type theory.
+In consequence, we have to "reverse" the path of type `(succ m) + zero == succ m`{.agda} to obtain one of type `succ m == (succ m) + zero`{.agda} via `!`{.agda}, which is known as the path reversal operator $p \mapsto p^{-1}$ in homotopy type theory.
 
 The last case is the longest:
 
@@ -148,7 +148,7 @@ The last case is the longest:
       =∎
 ```
 
-It is reduced to previous cases through recursion with the help of `cong`{.agda} and the definition of `_+_`{.agda}.
+It is reduced to previous cases through recursion with the help of `ap`{.agda} and the definition of `_+_`{.agda}.
 
 This concludes the proof.
 Now, it can be applied as such:

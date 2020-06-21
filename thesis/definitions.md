@@ -76,6 +76,7 @@
 <!-- S 0 -->
 \newcommand{\szero}{\ensuremath{\mathbb{S}^{0}}}
 \newcommand{\north}{\ensuremath{\mathsf{N}}}
+\newcommand{\south}{\ensuremath{\mathsf{S}}}
 
 
 <!-- Circle -->

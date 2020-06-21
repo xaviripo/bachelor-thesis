@@ -37,7 +37,7 @@ This is a resource-heavy task, so it is advised to try only on more powerful com
 The official recommendation is to install through Haskell's Cabal, a toolchain for building and packaging Haskell programs.
 Unfortunately, Cabal generally works with a global package index^[It is possible to use a newer mode known as *sandboxes*. This posed technical issues with older Agda versions and so was not taken as the main route, but the reader is encouraged to consider the option.], and so installing Agda's dependencies might conflict with already installed Haskell packages, if there were any.
 
-In order to do so one just has to install directly using the Cabal command line interface^[<https://agda.readthedocs.io/en/v2.6.1/getting-started/installation.html#installation-from-hackage>.], specifying the desired Agda version. For example, for version 2.5.3, one would use:
+In order to do so one just has to install directly using the Cabal command line interface^[<https://agda.readthedocs.io/en/v2.6.1/getting-started/installation.html>.], specifying the desired Agda version. For example, for version 2.5.3, one would use:
 
 ```sh
 cabal install Agda-2.5.3
@@ -96,7 +96,7 @@ The default action of Agda when given a file is to type check it, if we want to 
 This is because, in general, when using Agda for mathematics, the interesting part is usually just the type checking, due to the Curry-Howard correspondence.
 
 If the values defined in the file are correctly typed, Agda will either display no output or just display a message stating that it is checking the file.
-Either way, if there are no errors displayed, this means that the file type checks correctly and, therefore, that the proof it contains is correct.
+Either way, if there are no errors displayed, this means that the file type-checks correctly and, therefore, that the proof it contains is correct.
 
 Agda admits other flags, such as `--without-K`{.sh}, that will later be explained in detail.
 

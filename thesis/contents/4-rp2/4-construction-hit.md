@@ -47,7 +47,8 @@ So, we pose the question: is $X$ equivalent to $\RP^n$?
 
 Following the definition of equivalence, we should find two functions, $\psi : X \rightarrow \RP^2$ and $\varphi : \RP^2 \rightarrow X$, that are mutual quasi-inverses, or, in other words, such that $\psi \circ \varphi \sim \id_{\RP^2}$ and $\varphi \circ \psi \sim \id_{X}$.
 
-We start by defining candidates for $\varphi$ and $\psi$.
+We start by defining a candidate for $\varphi$.
+This in itself posed a considerable challenge, as it required having a very clear understanding of how $2$-paths work that might not be intuitive at first, in particular regarding induction.
 
 As $\RP^1 = \sone$ [@buchholtz_real_2017, Example III.3], the type $\RP^2$ can be seen as the pushout of $\sone \leftarrow \sum_{x : \sone} \cov^1(x) \rightarrow \one$.
 
@@ -69,42 +70,36 @@ We define $\varphi : \RP^2 \rightarrow X$ using the recursion principle of $\RP^
   So, what we are looking for is, for every pair $(x,y)$ of $\sum_{(x : \sone)} \cov^1(x)$, a way to apply $\varphi$ to a path of type $\inl(x) = X_0$, where $\inl(x)$ is the inclusion of $x$ into $X$.
   Notice how, for each $x : \sone$, there are two different pairs $(x,y)$ of type $\sum_{(x : \sone)} \cov^1(x)$, as $\cov^1$ is a double cover of $\sone$.
 
-  So, we have to provide a continuous family of paths from each point in $X_1$ to $X_0$ that takes two turns around $X_1$.
-  The path $X_1$ induces a family of paths from each point on itself to $X_0$.
-  The problem is that, as we reach the end of the first turn, this path family does not seem to be continuous.
-  The first time we visit $X_0$, we have $\refl_{X_0}$, and the second time we have $X_1$.
+  We use the induction principle for $\Sigma$ types, which essentially states that we have to provide a value for each possible pair.
+  Then, we do induction on each component.
+  This leaves us with four values to provide:
 
-  But we remember that we have to take *two* laps because the path family must be continuous on both components of $\sum_{(x : \sone)} \cov^1(x)$, not just the first component \sone{}.
-  Hence, we can take another turn.
-  As we are ending the second loop, we are approaching $X_1 \ct X_1$.
-  Now we actually need this to coincide with $\refl_{X_0}$ for the continuity to be preserved.
-  And here we use the last ingredient of $X$, namely the homotopy $X_2$, from which we can deduce that $X_1 \ct X_1 = \refl_{X_0}$, which makes our construction correct.
+  - $\ap_s(\glue(\sbase,\north)) : X_0 = X_0$,
+  - $\ap_s(\glue(\sbase,\south)) : X_0 = X_0$,
+  - $\ap_s(\ap_{\glue}(\sloop,\north)) : \ap_s(\glue(\sbase,\north)) = \ap_s(\glue(\sbase,\south))$, and
+  - $\ap_s(\ap_{\glue}(\sloop,\south)) : \ap_s(\glue(\sbase,\south)) = \ap_s(\glue(\sbase,\north))$.
+
+  We choose $\ap_s(\glue(\sbase,\north)) := \refl_{X_0}$ and $\ap_s(\glue(\sbase,\north)) := X_1 \ct X_1$, so that the other two have types:
+
+  - $\ap_s(\ap_{\glue}(\sloop,\north)) : \refl_{X_0} = X_1 \ct X_1$, and
+  - $\ap_s(\ap_{\glue}(\sloop,\south)) : X_1 \ct X_1 = \refl_{X_0}$.
+
+  We can then choose $X_2^{-1}$ and $X_2$ for those.
 
 ```\end{definition}```{=latex}
 
-For $\psi : X \rightarrow \RP^2$, it is slightly easier.
-
-```\begin{definition}```{=latex}
-We define $\psi : X \rightarrow \RP^2$ using the recursion principle of $X$.
+For $\psi : X \rightarrow \RP^2$, we try using the recursion principle.
 We have to provide a point $\psi(X_0)$ for $X_0$, a path $\psi(X_0) = \psi(X_0)$ for $X_1$, and a homotopy $\psi(X_1) = \psi(X_1)^{-1}$.
 
 - For $\psi(X_0)$ we choose $\inl(\sbase)$.
 - For $\psi(X_1)$, $\ap_{\inl}(\sloop)$.
-- TODO $\psi(X_2)$
 
-```\end{definition}```{=latex}
+Unfortunately, the construction of $\psi(X_2)$ requires providing a proof that $\ap_\inl(\sloop) \ct \ap_\inl(\sloop) = \refl_{\inl(\sbase)}$, which practically amounts to calculating the fundamental group of $\RP^2$.
 
-Once we have both $\varphi$ and $\psi$, we must see they are mutual quasi-inverses.
-
-For this, we once again use the eliminators of each type, but in a trickier way.
+If we could define $\psi$ like this, then proving they are mutual quasi-inverses amounts to once again use the eliminators of each type, but in a trickier way.
 As the induction principle tells us that a function is determined by a series of parameters, we can prove that $\varphi \circ \psi$ and $\psi \circ \varphi$ are equal to the corresponding identity functions by just showing they agree with them on these parameters alone.
 
-In the case of $\varphi \circ \psi : X \rightarrow X$, we use the elimination principle of $X$.
-We can see the identity function of $X$ as that obtained by assigning $X_0$ to $X_0$, $X_1$ to $X_1$, and $X_2$ to $X_2$.
-If we can show that $\varphi \circ \psi$ agrees with $\id_X$ on these values, then the composition has to be equal to the identity.
+In the case of $\varphi \circ \psi : X \rightarrow X$, we would use the elimination principle of $X$, whereas for $\psi \circ \varphi : \RP^2 \rightarrow \RP^2$, we would use the elimination principle of $\RP^2$.
 
-- $X_0$ is sent to $\inl(\sbase)$, which is then sent to $X_0$.
-- $X_1$ is sent to $\ap_{\inl}(\sloop)$, which is sent to $X_1$.
-- By definition of $\psi$, $X_2$ is taken to a proof of $\ap_{\inl}(\sloop) \ct \ap_{\inl}(\sloop) = \refl_{\inl(\sbase)}$.
-By the way we have defined $\varphi$, we do not immediately see where this homotopy is taken to.
-We need to make sure it corresponds to $X_2$.
+The difficulties in defining the function $\psi$ are a clear display of the complexity of higher inductive types that require a second order eliminator (i.e. that have higher order paths), and explain the reason why these constructions are not thoroughly used.
+Nonetheless, we believe that building them and proving them correct can be useful.

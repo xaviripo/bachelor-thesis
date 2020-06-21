@@ -77,7 +77,7 @@ Think carefully about what this means.
 Ordinary functions give us a value in a type for each value given.
 On the other hand, dependent types give us a whole type, for each value given.
 
-Given a type family $B : A \rightarrow \universe$, the dependent function type (also known as $\prod$-type) $\prod_{(x : A)}B(x)$ comprises the functions whose codomain is a type family depending on the input *value*, i.e., given $f : \prod_{(x : A)} B(x)$ and $a : A$, then $f(a) : B(a)$.
+Given a type family $B : A \rightarrow \universe$, the dependent function type (also known as $\Pi$-type) $\prod_{(x : A)}B(x)$ comprises the functions whose codomain is a type family depending on the input *value*, i.e., given $f : \prod_{(x : A)} B(x)$ and $a : A$, then $f(a) : B(a)$.
 The rules for the dependent types are analogous to those of the non-dependent types.
 
 If we want to build a function with two arguments, its type would be $f : A \rightarrow B \rightarrow C$.
@@ -94,7 +94,7 @@ As with function types, we have a both a non-dependent and a dependent version.
 
 - Formation rule.
 Types $A$ and $B$ can form a type $A \times B$ called the (non-dependent) **product type** of $A$ and $B$.
-If we have types $A$ and $B : A \rightarrow \universe$, then $\prod_{(x : A)} B(x)$ is the dependent product of $A$ and $B$.
+If we have types $A$ and $B : A \rightarrow \universe$, then $\sum_{(x : A)} B(x)$ is the dependent product of $A$ and $B$.
 In the dependent case, $b$ has to belong to the type $B(a)$.
 
 - Introduction rule.
@@ -108,7 +108,7 @@ The dependent eliminator is akin to this one, but with $f$ a dependent function.
 The eliminator tells us there exists a function $g : (A \times B) \rightarrow C$.
 The computation rule tells us how this function acts on the elements created by the introduction rules, namely pairs $(a,b)$.
 Imagine we have $a : A$, $b : B$, and $g : A \rightarrow B \rightarrow C$.
-This rule defines $f((a,b))$ as $g(a,b)$.
+This rule defines $f((a,b))$ as $g(a)(b)$.
 
 
 ### Coproduct types
@@ -166,7 +166,7 @@ The fact that this is the only introduction rule does not mean that there are no
 The elimination rule for path types is one of the most important reasoning tools in homotopy type theory.
 Often described in its dependent form, hence called **path induction**, it allows us to build functions and prove statements about all paths in a path type, by just proving them on a few paths of the type.
 Suppose we have a type family $C$ that assigns a type to every possible path in a type $A$ (i.e. $C : \prod_{(x,y : A)} (x =_A y) \rightarrow \universe$).
-We want to build a dependent function $f$ that, for each path $p : a = b$, gives us a value of $C(a,b,p)$.
+We want to build a dependent function $f$ that, for each path $p : x = y$, gives us a value of $C(x,y,p)$.
 The induction principle for path types states that, in order to obtain $f$, it is only necessary to define it on the paths $\refl$.
 Then, the computation rule says that the $f$ that we obtain in fact respects the values we have given at each $\refl$.
 
@@ -253,6 +253,8 @@ This means we can assume $y \equiv x$ and $p \equiv \refl_x$, and hence $P(x)$ =
 Thus, we can take $p_*$ to be the identity function of $P(x)$.
 \end{proof}
 
+When we need to make explicit the family over which we transport the path, we can write $\transport^{P}(p,x)$ for $p_*(x)$.
+
 \begin{lemma}
 Given types $A$ and $B$, there is a function $\idtoeqv : (A = B) \rightarrow (A \simeq B)$.
 \end{lemma}
@@ -271,3 +273,5 @@ By path induction, we can suppose $p$ is $\refl_A$, and then $p_*$ is $\id_A$, w
 
 The inverse function of \idtoeqv{} is known as \ua{} for "univalence axiom".
 It basically states that, whenever two types are equivalent, we can treat them as equal.
+This axiom is due to Voevodsky and plays a very important role in homotopy type theory.
+Whereas there exist theorems that allow us to exchange two propositionally equal terms in expressions, there is no analogue for equivalent types, thus the axiom is introduced to fill this gap.
