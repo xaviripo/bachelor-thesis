@@ -33,7 +33,7 @@ This is just a set of numbers that, by definition, are all the even natural numb
 We can name this set $E$, then forget about how it was defined, and we would lose the notion that it is the set of even naturals.
 In fact, by writing $\{0,2,4,6,8,...\}$ we could describe that same set without using the notion of evenness.
 
-The second could be expressed as $\forall n \in \naturals \quad n \in E \iff 2 \mid n$.
+The second could be expressed as $\forall n \in \naturals,\, n \in E \iff 2 \mid n$.
 This assertion is expressed using predicative logic, it is not an object in the same sense as $E$.
 
 In type theory, we record the properties we care about of objects in the objects themselves.
