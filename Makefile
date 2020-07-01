@@ -113,3 +113,62 @@ clean:
 # Clean up workspace
 clean-agda:
 	rm -rf $(AGDA)/**/*.agdai $(AGDA)/**/*.agda~ $(AGDA)/**/.deps
+
+
+### Defense
+
+# Pandoc commands
+PANDOC_DEFENSE=pandoc\
+--standalone\
+--pdf-engine=xelatex\
+--from=markdown\
+--to=beamer\
+--slide-level=2\
+
+
+## Input files
+
+# Folder the thesis sources are contained in
+DEFENSE=defense
+
+DEFENSE_FILES_RAW=\
+metadata.md\
+contents/0-intro.md\
+contents/1-covering-spaces.md\
+contents/2-circle.md\
+contents/3-pushouts.md\
+contents/4-rp2.md\
+contents/5-agda.md\
+
+
+DEFENSE_FILES:=$(addprefix ${DEFENSE}/,${DEFENSE_FILES_RAW})
+
+DEFEENSE_IMAGES:=$(DEFENSE)/images
+
+DEFENSE_IMAGES_OUT:=$(OUT)/images
+
+## Output files
+
+# The final PDF file
+OUT_DEFENSE=$(OUT)/defense.pdf
+
+# Intermediate markdown file with all the sources concatenated
+OUT_CONCAT_DEFENSE=$(OUT)/defense.md
+
+# Concatenate all the source files inserting two new lines in between each for proper markdown
+$(OUT_CONCAT_DEFENSE): $(DEFENSE_FILES) $(DEFENSE_IMAGES_OUT) $(OUT)
+	for i in $(DEFENSE_FILES); do cat "$$i"; echo '\n\n'; done > $(OUT_CONCAT_DEFENSE)
+
+$(DEFENSE_IMAGES_OUT):
+	mkdir -p $(DEFENSE_IMAGES_OUT)
+	cp -r $(DEFEENSE_IMAGES)/* $(DEFENSE_IMAGES_OUT)
+
+# Build the defense PDF file
+$(OUT_DEFENSE): $(OUT_CONCAT_DEFENSE) $(OUT)
+	$(PANDOC_DEFENSE) --output=$(OUT_DEFENSE) $(OUT_CONCAT_DEFENSE)
+
+
+## Tasks
+
+# Build the defense
+defense: $(OUT_DEFENSE)
