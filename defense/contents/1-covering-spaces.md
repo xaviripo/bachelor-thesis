@@ -2,7 +2,16 @@
 
 ## Espais topològics
 
+$$p : C \rightarrow X$$
+
 ![](out/images/covering-topology.png)
+
+
+## Espais recobridors com a tipus
+
+$$P : X \rightarrow \universe$$
+
+![](out/images/covering-type.png)
 
 
 ## Espais recobridors com a tipus
@@ -13,11 +22,6 @@
 | Projecció | $p : C \rightarrow X$ | - |
 | Fibra d'$x$ | $p^{-1}(x)$ | $P(x)$ amb $P : X \rightarrow \universe$ |
 | Espai total | $C$ | $\sum_{x:X} P(x)$ |
-
-
-## Espais recobridors com a tipus
-
-![](out/images/covering-type.png)
 
 
 ## Elevació de camins
