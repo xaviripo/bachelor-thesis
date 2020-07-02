@@ -156,6 +156,13 @@
 ![](out/images/type-annotated.png)
 
 
+## Tipus univers
+
+```\begin{center}```{=beamer}
+$A$ és un tipus $\iff$ $A : \universe$
+```\end{center}```{=beamer}
+
+
 ## Teoria homotòpica de tipus
 
 \begin{center}
@@ -201,198 +208,48 @@
 
 ## Constructors de tipus: funcions
 
-**Formació**
+**Funcions**
 : \begin{prooftree}
   \AxiomC{$A : \universe$}
   \AxiomC{$B : \universe$}
   \BinaryInfC{$A \rightarrow B : \universe$}
   \end{prooftree}
 
-**Introducció**
-: \begin{prooftree}
-  \AxiomC{$\lambda (x:A).\Phi$}
-  \UnaryInfC{$f : A \rightarrow B$}
-  \end{prooftree}
-
-**Eliminació**
-: \begin{prooftree}
-  \AxiomC{$f : A \rightarrow B$}
-  \AxiomC{$a : A$}
-  \BinaryInfC{$f(a) : B$}
-  \end{prooftree}
-
-**Computació**
-: \begin{prooftree}
-  \AxiomC{$\lambda (x:A).\Phi$}
-  \AxiomC{$a : A$}
-  \BinaryInfC{$f(a) \equiv \Phi[a/x]$}
-  \end{prooftree}
-
-
-## Constructors de tipus: funcions dependents (tipus $\Pi$)
-
-**Formació**
+**Funcions dependents**
 : \begin{prooftree}
   \AxiomC{$A : \universe$}
   \AxiomC{$B : A \rightarrow \universe$}
-  \BinaryInfC{$\prod_{(x : A)} B : \universe$}
+  \BinaryInfC{$\prod_{(x : A)} B(x) : \universe$}
   \end{prooftree}
 
-**Introducció**
-: \begin{prooftree}
-  \AxiomC{$\lambda (x:A).\Phi$}
-  \UnaryInfC{$f : \prod_{(x : A)} B$}
-  \end{prooftree}
-
-**Eliminació**
-: \begin{prooftree}
-  \AxiomC{$f : \prod_{(x : A)} B$}
-  \AxiomC{$a : A$}
-  \BinaryInfC{$f(a) : B(a)$}
-  \end{prooftree}
-
-**Computació**
-: \begin{prooftree}
-  \AxiomC{$\lambda (x:A).\Phi$}
-  \AxiomC{$a : A$}
-  \BinaryInfC{$f(a) \equiv \Phi[a/x]$}
-  \end{prooftree}
-
-
-## Constructors de tipus: parells
-
-**Formació**
+**Parells**
 : \begin{prooftree}
   \AxiomC{$A : \universe$}
   \AxiomC{$B : \universe$}
   \BinaryInfC{$A \times B : \universe$}
   \end{prooftree}
 
-**Introducció**
-: \begin{prooftree}
-  \AxiomC{$a : A$}
-  \AxiomC{$b : B$}
-  \BinaryInfC{$(a,b) : A \times B$}
-  \end{prooftree}
-
-**Eliminació**
-: \begin{prooftree}
-  \AxiomC{$f : A \rightarrow B \rightarrow C$}
-  \UnaryInfC{$g : A \times B \rightarrow C$}
-  \end{prooftree}
-
-**Computació**
-: \begin{prooftree}
-  \AxiomC{$f : A \rightarrow B \rightarrow C$}
-  \AxiomC{$a : A$}
-  \AxiomC{$b : B$}
-  \TrinaryInfC{$g((a,b)) \equiv f(a)(b)$}
-  \end{prooftree}
-
-
-## Constructors de tipus: parells dependents (tipus $\Sigma$)
-
-**Formació**
+**Parells dependents**
 : \begin{prooftree}
   \AxiomC{$A : \universe$}
   \AxiomC{$B : A \rightarrow \universe$}
-  \BinaryInfC{$\sum_{(a : A)} B(a) : \universe$}
+  \BinaryInfC{$\sum_{(x : A)} B(x) : \universe$}
   \end{prooftree}
 
-**Introducció**
-: \begin{prooftree}
-  \AxiomC{$a : A$}
-  \AxiomC{$b : B(a)$}
-  \BinaryInfC{$(a,b) : \sum_{(a : A)} B(a)$}
-  \end{prooftree}
-
-**Eliminació**
-: \begin{prooftree}
-  \AxiomC{$f : \prod_{(a : A)} B(a) \rightarrow C$}
-  \UnaryInfC{$g : \sum_{(a : A)} B(a) \rightarrow C$}
-  \end{prooftree}
-
-**Computació**
-: \begin{prooftree}
-  \AxiomC{$f : \prod_{(a : A)} B(a) \rightarrow C$}
-  \AxiomC{$a : A$}
-  \AxiomC{$b : B(a)$}
-  \TrinaryInfC{$g((a,b)) \equiv f(a)(b)$}
-  \end{prooftree}
-
-
-## Constructors de tipus: unió disjunta
-
-**Formació**
+**Unió disjunta**
 : \begin{prooftree}
   \AxiomC{$A : \universe$}
   \AxiomC{$B : \universe$}
   \BinaryInfC{$A + B : \universe$}
   \end{prooftree}
 
-**Introducció**
-: \begin{prooftree}
-  \AxiomC{$a : A$}
-  \UnaryInfC{$\inl(a) : A + B$}
-  \end{prooftree}
-: \begin{prooftree}
-  \AxiomC{$b : B$}
-  \UnaryInfC{$\inr(b) : A + B$}
-  \end{prooftree}
-
-**Eliminació**
-: \begin{prooftree}
-  \AxiomC{$f_A : A \rightarrow C$}
-  \AxiomC{$f_B : B \rightarrow C$}
-  \BinaryInfC{$g : A + B \rightarrow C$}
-  \end{prooftree}
-
-**Computació**
-: \begin{prooftree}
-  \AxiomC{$f_A : A \rightarrow C$}
-  \AxiomC{$f_B : B \rightarrow C$}
-  \AxiomC{$a : A$}
-  \TrinaryInfC{$g(\inl(a)) \equiv f_A(a)$}
-  \end{prooftree}
-: \begin{prooftree}
-  \AxiomC{$f_A : A \rightarrow C$}
-  \AxiomC{$f_B : B \rightarrow C$}
-  \AxiomC{$b : B$}
-  \TrinaryInfC{$g(\inr(b)) \equiv f_B(b)$}
-  \end{prooftree}
-
-
-## Constructors de tipus: identitat
-
-**Formació**
+**Identitat**
 : \begin{prooftree}
   \AxiomC{$A : \universe$}
   \AxiomC{$x : A$}
   \AxiomC{$y : A$}
   \TrinaryInfC{$x = y : \universe$}
   \end{prooftree}
-
-**Introducció**
-: \begin{prooftree}
-  \AxiomC{$x : A$}
-  \UnaryInfC{$\refl_x : x = x$}
-  \end{prooftree}
-
-**Eliminació**
-: \begin{prooftree}
-  \AxiomC{$B : \prod_{(x,y : A)} (x = y) \rightarrow \universe$}
-  \AxiomC{$f : \prod_{(x : A)} B(x,x,\refl_x)$}
-  \BinaryInfC{$g : \prod_{(x,y : A)} \prod_{(p:x=y)} B(x,y,p)$}
-  \end{prooftree}
-
-**Computació**
-: &nbsp;
-
-  \AxiomC{$B : \prod_{(x,y : A)} (x = y) \rightarrow \universe$}
-  \AxiomC{$f : \prod_{(x : A)} B(x,x,\refl_x)$}
-  \AxiomC{$x : A$}
-  \TrinaryInfC{$g(x,x,\refl_x) \equiv f(x)$}
-  \DisplayProof
 
 
 ## Teoria homotòpica de tipus
@@ -466,7 +323,7 @@
 | $A \Rightarrow B$                      | $A \rightarrow B$                      |
 | $\neg A$                               | $A \rightarrow \zero$                  |
 | &nbsp;                                 | &nbsp;                                 |
-| Per algun $a$ d'$A$, $P(a)$.           | $\sum_{(a : A)} P(a)$                  |
-| Per tot $a$ d'$A$, $P(a)$.             | $\prod_{(a : A)} P(a)$                 |
+| Per algun $x$ d'$A$, $P(x)$.           | $\sum_{(x : A)} P(x)$                  |
+| Per tot $x$ d'$A$, $P(x)$.             | $\prod_{(x : A)} P(x)$                 |
 | &nbsp;                                 | &nbsp;                                 |
 | $a = b$                                | $a = b$                                |
