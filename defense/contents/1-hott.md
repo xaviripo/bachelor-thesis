@@ -194,7 +194,7 @@
 : \begin{center}$\inl(x)$ amb $x : A$ o $\inr(y)$ amb $y : B$\end{center}
 
 
-## La correspondència Curry-Howard
+## La correspondència de Curry-Howard
 
 | Lògica de primer ordre                 | Teoria de tipus                        |
 |----------------------------------------|---------------------------------------:|
@@ -207,8 +207,8 @@
 | $A \Rightarrow B$                      | $A \rightarrow B$                      |
 | $\neg A$                               | $A \rightarrow \zero$                  |
 | &nbsp;                                 | &nbsp;                                 |
-| Per algun $x$ d'$A$, $P(x)$.           | $\sum_{(x : A)} P(x)$                  |
-| Per tot $x$ d'$A$, $P(x)$.             | $\prod_{(x : A)} P(x)$                 |
+| Per algun $x$ de $A$, $P(x)$.          | $\sum_{(x : A)} P(x)$                  |
+| Per a tot $x$ de $A$, $P(x)$.          | $\prod_{(x : A)} P(x)$                 |
 | &nbsp;                                 | &nbsp;                                 |
 | $a = b$                                | $a = b$                                |
 
