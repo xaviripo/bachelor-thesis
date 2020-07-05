@@ -133,12 +133,12 @@ DEFENSE=defense
 
 DEFENSE_FILES_RAW=\
 metadata.md\
-contents/0-intro.md\
-contents/1-covering-spaces.md\
-contents/2-circle.md\
-contents/3-pushouts.md\
-contents/4-rp2.md\
-contents/5-agda.md\
+contents/1-hott.md\
+contents/2-covering.md\
+contents/3-circle.md\
+contents/4-pushouts.md\
+contents/5-rp2.md\
+contents/6-agda.md\
 
 
 DEFENSE_FILES:=$(addprefix ${DEFENSE}/,${DEFENSE_FILES_RAW})

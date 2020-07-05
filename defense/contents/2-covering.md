@@ -2,7 +2,7 @@
 
 ## Espais topològics
 
-$$p : C \rightarrow X$$
+$$C, p : C \rightarrow X$$
 
 ![](out/images/covering-topology.png)
 
@@ -19,9 +19,9 @@ $$P : X \rightarrow \universe$$
 | Concepte | Topologia | Teoria homotòpica de tipus |
 |---|---|---|
 | Espai base | Espai $X$ | $X : \universe$ |
-| Projecció | $p : C \rightarrow X$ | - |
-| Fibra d'$x$ | $p^{-1}(x)$ | $P(x)$ amb $P : X \rightarrow \universe$ |
 | Espai total | $C$ | $\sum_{x:X} P(x)$ |
+| Projecció | $p : C \rightarrow X$ | $\pr_1 : \sum_{x:X} P(x) \rightarrow X$ |
+| Fibra d'$x$ | $p^{-1}(x)$ | $P(x)$ |
 
 
 ## Elevació de camins

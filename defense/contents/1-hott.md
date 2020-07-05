@@ -1,6 +1,6 @@
-# Introducció
+# Teoria homotòpica de tipus
 
-## Teoria d'homotopies
+## Teoria homotòpica de tipus
 
  <!-- # Math -->
 
@@ -135,85 +135,31 @@
 \newcommand{\reals}{\ensuremath{\mathbb{R}}}
 
 
-**Teoria d'homotopies.** Estudi de propietats invariants per deformacions que preserven camins.
+### Lògica
 
-| Ordre | Nom | Exemple |
-|---|---|---|
-| 0-camins | Punts | $a, b \in X$ |
-| 1-camins | Camins | $p, q : a \rightarrow b$ |
-| 2-camins | Homotopies | $h : p \Rightarrow q$ |
-| ... | ... | ... |
+- No necessita **cap lògica externa**
+- És **constructiva**
+- Es pot interpretar **homotòpicament**
 
+### Elements i tipus
 
+- Cada **element** té assignat exactament un sol **tipus** ($x : A$)
+- $\universe$ és el "tipus que conté tots els tipus" ($A : \universe$)
 
-## Teoria homotòpica de tipus
+### Funcions
 
-![](out/images/type.png)
-
-
-## Teoria homotòpica de tipus
-
-![](out/images/type-annotated.png)
+- $A \rightarrow B$ és el tipus de **funcions** de $A : \universe$ a $B : \universe$
+- $B : A \rightarrow \universe$ és una **família de tipus** parametritzada per $A : \universe$
 
 
-## Tipus univers
+## Tipus identitat
 
-```\begin{center}```{=beamer}
-$A$ és un tipus $\iff$ $A : \universe$
-```\end{center}```{=beamer}
-
-
-## Teoria homotòpica de tipus
-
-\begin{center}
-\begin{tikzpicture}
-\tikzstyle{west}=[anchor=west]
-\node[west] (lft) at (0,-1) {Com creem nous tipus?};
-\node[west] (top) at (6,0) {\begin{tabular}{c} Constructors de tipus \\ \tiny Creem un tipus a partir d'altres \end{tabular}};
-\node[west] (bot) at (6,-2) {\begin{tabular}{c} Tipus inductius \\ \tiny Creem un tipus donant-ne constructors \end{tabular}};
-\draw[->] (lft.east) -- (top.west);
-\draw[->] (lft.east) -- (bot.west);
-\end{tikzpicture}
-\end{center}
-
-
-## Teoria homotòpica de tipus
-
-\begin{center}
-\begin{tikzpicture}
-\tikzstyle{west}=[anchor=west]
-\node[west] (lft) at (0,-1) {Com creem nous tipus?};
-\node[west] (top) at (6,0) {\begin{tabular}{c} {\usebeamercolor[fg]{structure} Constructors de tipus} \\ \tiny Creem un tipus a partir d'altres \end{tabular}};
-\node[west] (bot) at (6,-2) {\begin{tabular}{c} Tipus inductius \\ \tiny Creem un tipus donant-ne constructors \end{tabular}};
-\draw[->] (lft.east) -- (top.west);
-\draw[->] (lft.east) -- (bot.west);
-\end{tikzpicture}
-\end{center}
+- $x = y$ és un tipus
+- Els seus elements es poden interpretar com **igualtats** o com **camins**
+- Tot element $x$ és igual a si mateix: $\refl_x : x = x$
 
 
 ## Constructors de tipus
-
-**Regla de formació**
-: Com es construeix el tipus?
-
-**Regla d'introducció**
-: Com es construeixen elements del tipus?
-
-**Regla d'eliminació**
-: Què es pot fer amb elements del tipus?
-
-**Regla de computació**
-: Com es coordinen les regles d'introducció i d'eliminació?
-
-
-## Constructors de tipus: funcions
-
-**Funcions**
-: \begin{prooftree}
-  \AxiomC{$A : \universe$}
-  \AxiomC{$B : \universe$}
-  \BinaryInfC{$A \rightarrow B : \universe$}
-  \end{prooftree}
 
 **Funcions dependents**
 : \begin{prooftree}
@@ -221,6 +167,7 @@ $A$ és un tipus $\iff$ $A : \universe$
   \AxiomC{$B : A \rightarrow \universe$}
   \BinaryInfC{$\prod_{(x : A)} B(x) : \universe$}
   \end{prooftree}
+: \begin{center}$f(x) : B(x)$\end{center}
 
 **Parells**
 : \begin{prooftree}
@@ -228,6 +175,7 @@ $A$ és un tipus $\iff$ $A : \universe$
   \AxiomC{$B : \universe$}
   \BinaryInfC{$A \times B : \universe$}
   \end{prooftree}
+: \begin{center}$(x,y)$ amb $x : A$ i $y : B$\end{center}
 
 **Parells dependents**
 : \begin{prooftree}
@@ -235,6 +183,7 @@ $A$ és un tipus $\iff$ $A : \universe$
   \AxiomC{$B : A \rightarrow \universe$}
   \BinaryInfC{$\sum_{(x : A)} B(x) : \universe$}
   \end{prooftree}
+: \begin{center}$(x,y)$ amb $x : A$ i $y : B(x)$\end{center}
 
 **Unió disjunta**
 : \begin{prooftree}
@@ -242,81 +191,16 @@ $A$ és un tipus $\iff$ $A : \universe$
   \AxiomC{$B : \universe$}
   \BinaryInfC{$A + B : \universe$}
   \end{prooftree}
-
-**Identitat**
-: \begin{prooftree}
-  \AxiomC{$A : \universe$}
-  \AxiomC{$x : A$}
-  \AxiomC{$y : A$}
-  \TrinaryInfC{$x = y : \universe$}
-  \end{prooftree}
-
-
-## Teoria homotòpica de tipus
-
-\begin{center}
-\begin{tikzpicture}
-\tikzstyle{west}=[anchor=west]
-\node[west] (lft) at (0,-1) {Com creem nous tipus?};
-\node[west] (top) at (6,0) {\begin{tabular}{c} Constructors de tipus \\ \tiny Creem un tipus a partir d'altres \end{tabular}};
-\node[west] (bot) at (6,-2) {\begin{tabular}{c} {\usebeamercolor[fg]{structure} Tipus inductius} \\ \tiny Creem un tipus donant-ne constructors \end{tabular}};
-\draw[->] (lft.east) -- (top.west);
-\draw[->] (lft.east) -- (bot.west);
-\end{tikzpicture}
-\end{center}
-
-
-## Tipus inductius
-
-**Tipus buit**
-: \begin{center}\textit{Cap constructor}\end{center}
-
-**Tipus unitat**
-: \begin{center}$\star : \one$\end{center}
-
-**Tipus booleà**
-: \begin{center}
-  $\left\{\begin{aligned}
-  \zerotwo &: \two \\
-  \onetwo &: \two
-  \end{aligned}\right.$
-  \end{center}
-
-**Naturals**
-: \begin{center}
-  $\left\{\begin{aligned}
-  0 &: \naturals \\
-  \natsucc &: \naturals \rightarrow \naturals
-  \end{aligned}\right.$
-  \end{center}
-
-
-## Tipus inductius d'ordre superior
-
-**Circumferència**
-: \begin{center}
-  $\left\{\begin{aligned}
-  \sbase &: \sone \\
-  \sloop &: \sbase = \sbase
-  \end{aligned}\right.$
-  \end{center}
-
-**Esfera**
-: \begin{center}
-  $\left\{\begin{aligned}
-  \sbase &: \stwo \\
-  \ssurf &: \refl_{\sbase} = \refl_{\sbase}
-  \end{aligned}\right.$
-  \end{center}
+: \begin{center}$\inl(x)$ amb $x : A$ o $\inr(y)$ amb $y : B$\end{center}
 
 
 ## La correspondència Curry-Howard
 
 | Lògica de primer ordre                 | Teoria de tipus                        |
 |----------------------------------------|---------------------------------------:|
-| Una declaració                         | Un tipus                               |
-| Un teorema                             | Un tipus habitat                       |
-| Una demostració                        | Un element d'un tipus                  |
+| Declaració                             | Tipus                                  |
+| Teorema                                | Tipus habitat                          |
+| Demostració                            | Element d'un tipus                     |
 | &nbsp;                                 | &nbsp;                                 |
 | $A \wedge B$                           | $A \times B$                           |
 | $A \vee B$                             | $A + B$                                |
@@ -327,3 +211,56 @@ $A$ és un tipus $\iff$ $A : \universe$
 | Per tot $x$ d'$A$, $P(x)$.             | $\prod_{(x : A)} P(x)$                 |
 | &nbsp;                                 | &nbsp;                                 |
 | $a = b$                                | $a = b$                                |
+
+
+## Tipus inductius
+
+Tipus **buit** ($\zero$)
+: \begin{center}-\end{center}
+
+<br/>
+
+Tipus **unitat** ($\one$)
+: \begin{center}$\star : \one$\end{center}
+
+<br/>
+
+Tipus **booleà** ($\two$)
+: \begin{center}
+  $\left\{\begin{aligned}
+  \zerotwo &: \two \\
+  \onetwo &: \two
+  \end{aligned}\right.$
+  \end{center}
+
+<br/>
+<br/>
+
+**Naturals** ($\naturals$)
+: \begin{center}
+  $\left\{\begin{aligned}
+  0 &: \naturals \\
+  \natsucc &: \naturals \rightarrow \naturals
+  \end{aligned}\right.$
+  \end{center}
+
+
+## Tipus inductius d'ordre superior
+
+<br/>
+
+**Circumferència** ($\sone$)
+: \begin{center}
+  $\left\{\begin{aligned}
+  \sbase &: \sone \\
+  \sloop &: \sbase = \sbase
+  \end{aligned}\right.$
+  \end{center}
+
+<br/>
+
+```\begin{center}```{=beamer}
+
+![](out/images/circle.png){ width=200px }
+
+```\end{center}```{=beamer}

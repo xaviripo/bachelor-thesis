@@ -19,3 +19,10 @@
 
 
 ## Demostració
+
+
+## Futur
+
+- Demostrar $X \simeq \RP^2$
+- Aprofitar millor Agda
+- Abordar problemes més complexos
