@@ -21,8 +21,8 @@
 ## Demostració
 
 
-## Futur
+## Conclusions
 
-- Demostrar $X \simeq \RP^2$
-- Aprofitar millor Agda
-- Abordar problemes més complexos
+- Estudiar $X \simeq \RP^2$
+- *Pushouts* com a eina topològica
+- Verificació de demostracions
